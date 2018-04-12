@@ -33,7 +33,7 @@ local.properties
 # node.js
 #
 node_modules/*
-!node_module/react-native-maps/*
+!node_modules/react-native-maps/
 npm-debug.log
 yarn-error.log
 
