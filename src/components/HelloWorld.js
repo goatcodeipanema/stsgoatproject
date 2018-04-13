@@ -1,11 +1,16 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View } from 'react-native';
+import { Header, Button } from './common';
 
 const HelloWorld = () => {
   return (
-    <Text>
-      Hello HelloWorld
-    </Text>
+
+    <View style={{ flex: 1 }}>
+        <Header headerText="Tech Stack" />
+        <Button onPress={() => { console.log('knapp'); }}>
+          tjaaaa
+        </Button>
+    </View>
   );
 };
 
