@@ -1,16 +1,21 @@
 import React from 'react';
-import { Scene, Router } from 'react-native-router-flux';
+import firebase from 'firebase'
+import { Scene, Router, Actions } from 'react-native-router-flux';
 import HelloWorld from './components/HelloWorld';
 import LoginForm from './components/LoginForm';
+
 import QuestList from './components/QuestList';
 import QuestCreateName from './components/QuestCreateName';
 
 //hideNavBar i scene root för att undvika dubbla bars längst upp /A
+
+import StartScreen from './components/StartScreen';
+
 const RouterComponent = () => {
   return (
     <Router>
       <Scene key="root" hideNavBar>
-        <Scene key="auth">
+        <Scene key="auth" initial>
           <Scene
             key="login"
             title="Goat Quest"
@@ -18,18 +23,18 @@ const RouterComponent = () => {
             component={LoginForm}    //LoginForm
           />
         </Scene>
-        <Scene 
+        <Scene
         key="main"
-        initial
         >
           <Scene
             key="start"
-            component={HelloWorld}    //StartScreen
+            component={StartScreen}    //StartScreen
+            rightTitle="Log off"
+            onRight={() => { firebase.auth().signOut().then(() => { Actions.login(); }); }}
           />
           <Scene
             key="questList"
             component={QuestList}    //QuestList
-            initial
           />
           <Scene
             key="questView"
