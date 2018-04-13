@@ -7,7 +7,6 @@ import ReduxThunk from 'redux-thunk';
 import Reducers from './reducers';
 import RouterComponent from './Router';
 
-
 class App extends Component {
 
   componentWillMount() {
