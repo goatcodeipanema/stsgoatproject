@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import MyReducer from './MyReducer';
 import AuthReducer from './AuthReducer';
+import QuestReducer from './QuestReducer';
 
 export default combineReducers({
-  MyReducer,
-  auth: AuthReducer
+  auth: AuthReducer,
+  selected: QuestReducer
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { Scene, Router } from 'react-native-router-flux';
 import HelloWorld from './components/HelloWorld';
 import LoginForm from './components/LoginForm';
+import QuestList from './components/QuestList';
 
 
 const RouterComponent = () => {
@@ -16,14 +17,18 @@ const RouterComponent = () => {
             component={LoginForm}    //LoginForm
           />
         </Scene>
-        <Scene key="main">
+        <Scene 
+        key="main"
+        initial
+        >
           <Scene
             key="start"
             component={HelloWorld}    //StartScreen
           />
           <Scene
             key="questList"
-            component={HelloWorld}    //QuestList
+            initial
+            component={QuestList}    //QuestList
           />
           <Scene
             key="questView"
