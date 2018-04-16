@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { ListView } from 'react-native';
 import QuestListItem from './QuestListItem';
+import { Spinner } from './common';
 
 
 class QuestList extends Component {
 
-    componentWillMount() {
+    /*Fungerar som listan i tech stack, men eftersom vi använder 
+    didMount istället för willMount har vi även lokal state för att
+    jobba med renderfunktionen. setState triggar renderfunktionen
+    och renderfunktionen tittar på state.dataLoaded. */
+
+    state = { dataLoaded: false }
+
+    componentDidMount() {
         //Våra initiala quests för testning.
         this.createDataSource(
             {
@@ -33,16 +41,14 @@ class QuestList extends Component {
     }
 
     createDataSource(quests) {
-        //Griders standardkod
         const ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2
         });
-    
         this.dataSource = ds.cloneWithRows(quests);
+        this.setState({ dataLoaded: true });
     }
 
     renderRow(questData) {
-        //Griders standardkod
         return (
             <QuestListItem quest={questData} />
         );
@@ -50,13 +56,17 @@ class QuestList extends Component {
 
 
     render() {
-        //Griders standardkod
+        if (this.state.dataLoaded) {
+            return (
+                <ListView
+                    enableEmptySections
+                    dataSource={this.dataSource}
+                    renderRow={this.renderRow}
+                />
+            );
+        }
         return (
-            <ListView
-                enableEmptySections
-                dataSource={this.dataSource}
-                renderRow={this.renderRow}
-            />
+            <Spinner />
         );
     }
 

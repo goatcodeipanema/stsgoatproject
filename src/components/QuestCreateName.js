@@ -6,7 +6,6 @@ import { questUpdate } from '../actions';
 class QuestCreateName extends Component {
 
   onButtonPress() {
-    console.log('knapptryck');
   }
   onDescriptionChange(description) {
     this.props.questUpdate({ prop: 'description', value: description });
@@ -45,9 +44,7 @@ class QuestCreateName extends Component {
 }
 
 const mapStateToProps = ({ createQuest }) => {
-  console.log(createQuest);
   const { name, description } = createQuest;
-  console.log('i mapStateToProps');
   return { name, description };
 };
 

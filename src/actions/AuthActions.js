@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
+import { Keyboard } from 'react-native';
 
 import {
   EMAIL_CHANGED,
@@ -47,6 +48,8 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
-
-  Actions.start();
+  /* Keyboard.dismiss trycker bort tangentbordet när vi navigerar bort från startsidan. 
+  Oklart om tangentbordet fortfarande kan användas för att skriva i textinput */
+  Keyboard.dismiss();
+  Actions.main();
 };
