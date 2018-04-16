@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { CardSection, Button, Input, TextArea, Card } from './common';
 import { questUpdate } from '../actions';
 
 class QuestCreateName extends Component {
 
   onButtonPress() {
-    console.log('knapptryck');
+    Actions.questCreateMarker();
   }
-  onDescriptionChange(description) {
-    this.props.questUpdate({ prop: 'description', value: description });
+
+  renderButton() {
+    const { title, description } = this.props;
+    if (title && description) {
+      //det går inte att gå vidare utan title och description
+      return (
+        <Button onPress={this.onButtonPress.bind(this)} >Press to go to map</Button>
+      );
+    }
+    return (<Text> Add a clue and place your treasure on the map to continue</Text>);
   }
 
   render() {
@@ -20,7 +30,7 @@ class QuestCreateName extends Component {
             label="Quest"
             placeholder="My first goat quest"
             value={this.props.name}
-            onChangeText={value => this.props.questUpdate({ prop: 'name', value })}
+            onChangeText={value => this.props.questUpdate({ prop: 'title', value })}
 
           />
         </CardSection>
@@ -29,7 +39,7 @@ class QuestCreateName extends Component {
           <TextArea
             label="Description"
             placeholder="pelle svanslös blablablabla.."
-            numberOfLines={10}
+            numberOfLines={5}
             value={this.props.description}
             onChangeText={value => this.props.questUpdate({ prop: 'description', value })}
           />
@@ -37,7 +47,7 @@ class QuestCreateName extends Component {
         </CardSection>
 
         <CardSection>
-          <Button onPress={this.onButtonPress.bind(this)} >Press to go to map</Button>
+          {this.renderButton()}
         </CardSection>
       </Card>
     );
@@ -45,9 +55,7 @@ class QuestCreateName extends Component {
 }
 
 const mapStateToProps = ({ createQuest }) => {
-  console.log(createQuest);
   const { name, description } = createQuest;
-  console.log('i mapStateToProps');
   return { name, description };
 };
 

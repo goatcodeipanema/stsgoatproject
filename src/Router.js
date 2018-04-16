@@ -6,20 +6,20 @@ import LoginForm from './components/LoginForm';
 
 import QuestList from './components/QuestList';
 import QuestCreateName from './components/QuestCreateName';
+import QuestCreateMarker from './components/QuestCreateMarker';
 
 //hideNavBar i scene root för att undvika dubbla bars längst upp /A
 
 import StartScreen from './components/StartScreen';
-
+ // root ska vara initial
 const RouterComponent = () => {
   return (
     <Router>
       <Scene key="root" hideNavBar>
-        <Scene key="auth" initial>
+        <Scene key="auth" >
           <Scene
             key="login"
             title="Goat Quest"
-            initial
             component={LoginForm}    //LoginForm
           />
         </Scene>
@@ -46,8 +46,9 @@ const RouterComponent = () => {
             title="Create Quest"
           />
           <Scene
+            title='Press and hold to place marker'
             key="questCreateMarker"
-            component={HelloWorld}    //QuestCreateMarker
+            component={QuestCreateMarker}    //QuestCreateMarker
           />
         </Scene>
 

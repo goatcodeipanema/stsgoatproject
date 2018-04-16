@@ -5,3 +5,5 @@ export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 export const QUEST_UPDATE = 'quest_update';
 export const SELECT_QUEST = 'select_quest';
+export const QUEST_SAVE = 'quest_save';
+export const MARKER_CREATE = 'marker_create';
