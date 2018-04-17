@@ -1,12 +1,12 @@
 import React from 'react';
 import firebase from 'firebase';
 import { Scene, Router, Actions } from 'react-native-router-flux';
-import HelloWorld from './components/HelloWorld';
 import LoginForm from './components/LoginForm';
 
 import QuestList from './components/QuestList';
 import QuestCreateName from './components/QuestCreateName';
 import QuestCreateMarker from './components/QuestCreateMarker';
+import QuestView from './components/QuestView';
 
 //hideNavBar i scene root för att undvika dubbla bars längst upp /A
 
@@ -37,7 +37,7 @@ const RouterComponent = () => {
           />
           <Scene
             key="questView"
-            component={HelloWorld}      //QuestView
+            component={QuestView}      //QuestView
           />
           <Scene
             key="questCreateName"
