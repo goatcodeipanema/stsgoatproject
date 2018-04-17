@@ -22,7 +22,7 @@ export const questSave = ({ id, title, description, marker, clue }) => {
     .push({ id, title, description, marker, clue })
     .then(() => {
         dispatch({ type: QUEST_SAVE });
-        Actions.main({ type: 'reset' });
+        Actions.main();
     });
   };
 };

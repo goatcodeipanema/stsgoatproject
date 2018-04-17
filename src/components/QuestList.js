@@ -1,51 +1,34 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { ListView } from 'react-native';
 import QuestListItem from './QuestListItem';
+import { questsFetch, selectQuest, discardQuests } from '../actions';
 import { Spinner } from './common';
 
 
 class QuestList extends Component {
 
-    /*Fungerar som listan i tech stack, men eftersom vi använder 
-    didMount istället för willMount har vi även lokal state för att
-    jobba med renderfunktionen. setState triggar renderfunktionen
-    och renderfunktionen tittar på state.dataLoaded. */
+    /*Fungerar som listan i tech stack, men eftersom vi använder
+    didMount istället för willMount har vi även redux state för att
+    jobba med renderfunktionen. discardQuests i componentWillUnmount togglar this.props.dataLoaded
+    och renderfunktionen tittar på this.props.dataLoaded. */
 
-    state = { dataLoaded: false }
-
-    componentDidMount() {
-        //Våra initiala quests för testning.
-        this.createDataSource(
-            {
-                quest1: {
-                    id: 123,
-                    title: 'Pelles Vandring',
-                    description: 'Hjälp Pelle hitta sin svans.',
-                    clue: 'Domkyrkan',
-                    marker: {
-                        latitude: 59.8542202,
-                        longitude: 17.6319526
-                    }           
-                },
-                quest2: {
-                    id: 456,
-                    title: 'Patriks utekväll',
-                    description: 'Hjälp Patrik till nästa bar, han är törstig.',
-                    clue: 'ÖG',
-                    marker: {
-                        latitude: 59.8557375,
-                        longitude: 17.6360675
-                    }
-                }
-            });
+    componentWillMount() { //Ev byta till didMount.
+        this.props.discardQuests();
+        this.props.questsFetch();
+        this.createDataSource(this.props);
     }
 
-    createDataSource(quests) {
+    componentWillReceiveProps(nextProps) {
+      this.createDataSource(nextProps);
+    }
+
+    createDataSource({ quests }) {
         const ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2
         });
         this.dataSource = ds.cloneWithRows(quests);
-        this.setState({ dataLoaded: true });
     }
 
     renderRow(questData) {
@@ -56,7 +39,7 @@ class QuestList extends Component {
 
 
     render() {
-        if (this.state.dataLoaded) {
+        if (this.props.dataLoaded) {
             return (
                 <ListView
                     enableEmptySections
@@ -72,5 +55,13 @@ class QuestList extends Component {
 
 }
 
+const mapStateToProps = ({ selected }) => {
+  const { dataLoaded } = selected;
+  const quests = _.map(selected.quests, (val) => {
+    return { ...val };
+  });
+  return { quests, dataLoaded };
+};
 
-export default QuestList;
+
+export default connect(mapStateToProps, { questsFetch, selectQuest, discardQuests })(QuestList);

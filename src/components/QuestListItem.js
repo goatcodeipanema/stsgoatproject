@@ -3,7 +3,7 @@ import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { CardSection, Button } from './common';
-import { selectQuest } from '../actions';
+import { selectQuest, questsFetch } from '../actions';
 
 class QuestListItem extends Component {
 
@@ -68,11 +68,10 @@ const styles = {
 
 const mapStateToProps = ({ selected }, ownProps) => {
   //Samma som techstack
-  const expanded = selected.selectedQuest.id === ownProps.quest.id;
+  const expanded = selected.selectedQuest.title === ownProps.quest.title;
   return { expanded };
 };
 
 export default connect(mapStateToProps, {
-  selectQuest
+  selectQuest, questsFetch
  })(QuestListItem);
-

@@ -7,3 +7,5 @@ export const QUEST_UPDATE = 'quest_update';
 export const SELECT_QUEST = 'select_quest';
 export const QUEST_SAVE = 'quest_save';
 export const MARKER_CREATE = 'marker_create';
+export const QUESTS_FETCH_SUCCESS = 'quests_fetch_success';
+export const DISCARD_QUESTS = ' discard_quests';
