@@ -7,8 +7,17 @@ import { questUpdate } from '../actions';
 
 class QuestCreateName extends Component {
 
+//genererar ett id. Vet ej om detta är ett bra ställe att göra det
+  componentDidMount() {
+    this.generateId();
+  }
+
   onButtonPress() {
     Actions.questCreateMarker();
+  }
+  //Det här genererar ett id med 7 tecken, blandade bokstäver & siffror
+  generateId() {
+    this.props.questUpdate({ prop: 'id', value: Math.random().toString(36).substring(2, 9) });
   }
 
   renderButton() {
@@ -19,7 +28,7 @@ class QuestCreateName extends Component {
         <Button onPress={this.onButtonPress.bind(this)} >Press to go to map</Button>
       );
     }
-    return (<Text> Add a clue and place your treasure on the map to continue</Text>);
+    return (<Text> Give your quest a name and add a description to continue</Text>);
   }
 
   render() {
@@ -55,8 +64,8 @@ class QuestCreateName extends Component {
 }
 
 const mapStateToProps = ({ createQuest }) => {
-  const { name, description } = createQuest;
-  return { name, description };
+  const { name, description, id } = createQuest;
+  return { name, description, id };
 };
 
 export default connect(mapStateToProps, { questUpdate })(QuestCreateName);

@@ -3,19 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ListView } from 'react-native';
 import QuestListItem from './QuestListItem';
-import { questsFetch, selectQuest, discardQuests } from '../actions';
+import { questsFetch, selectQuest } from '../actions';
 import { Spinner } from './common';
 
 
 class QuestList extends Component {
+//Här fär vi ev byta till componentDidMount() senare
 
-    /*Fungerar som listan i tech stack, men eftersom vi använder
-    didMount istället för willMount har vi även redux state för att
-    jobba med renderfunktionen. discardQuests i componentWillUnmount togglar this.props.dataLoaded
-    och renderfunktionen tittar på this.props.dataLoaded. */
-
-    componentWillMount() { //Ev byta till didMount.
-        this.props.discardQuests();
+    componentWillMount() {
         this.props.questsFetch();
         this.createDataSource(this.props);
     }
@@ -37,7 +32,6 @@ class QuestList extends Component {
         );
     }
 
-
     render() {
         if (this.props.dataLoaded) {
             return (
@@ -52,16 +46,19 @@ class QuestList extends Component {
             <Spinner />
         );
     }
-
 }
+/*
+Ev att vi vill byta namn på selected. det kommer från index.js i reducers. _.map kommer från
+lodash och lägger in all quest-objekt i quests som är en array av objekt
+*/
 
 const mapStateToProps = ({ selected }) => {
   const { dataLoaded } = selected;
-  const quests = _.map(selected.quests, (val) => {
-    return { ...val };
+  const quests = _.map(selected.quests, (quest) => {
+    return { ...quest };
   });
   return { quests, dataLoaded };
 };
 
 
-export default connect(mapStateToProps, { questsFetch, selectQuest, discardQuests })(QuestList);
+export default connect(mapStateToProps, { questsFetch, selectQuest })(QuestList);

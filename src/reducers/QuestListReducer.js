@@ -8,8 +8,8 @@ import {
 //Se till att matcha detta utseende med det vi gör i create quest.
 const INITIAL_STATE = {
     selectedQuest: {
-        id: 1,
-        title: 'hej',
+        id: '',  // typ 7bd5gr4
+        title: '',
         description: '',
         clue: '',
         marker: {
@@ -17,15 +17,14 @@ const INITIAL_STATE = {
             longitude: null
         }
     },
-    quests: [],
-    dataLoaded: false
+    quests: [], // här kommer quests från databasen publicQuests laddas in
+    dataLoaded: false // så att spinner renderas istället för lista när data laddas
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SELECT_QUEST:
             return { ...state, selectedQuest: action.payload };
-//dataLoaded måste kanske sättas till falsk någon gång
         case QUESTS_FETCH_SUCCESS:
           return { ...state, quests: action.payload, dataLoaded: true };
         case QUEST_SAVE:
