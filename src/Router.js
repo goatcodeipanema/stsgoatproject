@@ -32,6 +32,7 @@ const RouterComponent = () => {
             onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
           />
           <Scene
+
             key="questList"
             component={QuestList}    //QuestList
           />

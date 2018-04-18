@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button, Card, CardSection } from './common';
+import { Button, Card, CardSection, MyAppText } from './common';
 
 
 const StartScreen = () => {
@@ -20,9 +20,9 @@ const StartScreen = () => {
       </CardSection>
 
       <CardSection>
-          <Text>
+          <MyAppText>
             OR
-          </Text>
+          </MyAppText>
       </CardSection>
       <CardSection>
           <Button onPress={() => { Actions.questList(); }}>
