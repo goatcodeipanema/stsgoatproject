@@ -10,6 +10,7 @@ class QuestCreateMarker extends Component {
 
   onButtonPress() {
     const { id, title, description, marker, clue } = this.props;
+    console.log(this.props.id);
     this.props.questSave({ id, title, description, marker, clue });
   }
 

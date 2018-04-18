@@ -46,7 +46,6 @@ class QuestList extends Component {
             <Spinner />
         );
     }
-
 }
 /*
 Ev att vi vill byta namn på selected. det kommer från index.js i reducers. _.map kommer från

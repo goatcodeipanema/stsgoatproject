@@ -8,8 +8,8 @@ import {
 //Se till att matcha detta utseende med det vi gör i create quest.
 const INITIAL_STATE = {
     selectedQuest: {
-        id: 1,
-        title: 'hej',
+        id: '',  // typ 7bd5gr4
+        title: '',
         description: '',
         clue: '',
         marker: {
@@ -17,8 +17,8 @@ const INITIAL_STATE = {
             longitude: null
         }
     },
-    quests: [], // här kommer quests från atabasen publicQuests laddas in
-    dataLoaded: false // så att spinner visas när data laddas
+    quests: [], // här kommer quests från databasen publicQuests laddas in
+    dataLoaded: false // så att spinner renderas istället för lista när data laddas
 };
 
 export default (state = INITIAL_STATE, action) => {

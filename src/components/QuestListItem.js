@@ -68,7 +68,7 @@ const styles = {
 
 const mapStateToProps = ({ selected }, ownProps) => {
   //Här vill vi egentligen jämföra id eller liknande
-  const expanded = selected.selectedQuest.title === ownProps.quest.title;
+  const expanded = selected.selectedQuest.id === ownProps.quest.id;
   return { expanded };
 };
 
