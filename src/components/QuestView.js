@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import geolib from 'geolib';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -18,75 +18,60 @@ class QuestView extends Component {
         longitude: 0.0
     },
     distance: 0,
-    containerStyle: {
-      height: 100,
-      width: 100,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-    },
+    containerStyle: {},
     mapStyle: {}
   };
 
   componentDidMount() {
-    //Det är lite oklart men det här funkar alltså.
-    this.press();
-    setTimeout(() => this.updateStyle(), 50);
+    this._mounted = true;
+    this.getLocation();
+
+    //Det är lite oklart men det här funkar alltså för att rendera knappen.
+    //Om den inte dyker upp direkt, prova att öka fördröjningen i timern.
+    setTimeout(() => this.updateStyle(), 1);
   }
 
-  press() {
-    Geolocation.getCurrentPosition(
-      (success) => {
-        this.setState({
-          position: {
-            latitude: success.coords.latitude,
-            longitude: success.coords.longitude
-          },
-          distance: geolib.getDistance(this.state.position, this.props.quest.marker)
-        });
-      },
-      (error) => {
-          console.log(error.code, error.message);
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
-    );
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
+
+  getLocation() {
+    if (this._mounted) {
+      console.log('getLocation');
+      Geolocation.getCurrentPosition(
+        (success) => {
+          this.setState({
+            position: {
+              latitude: success.coords.latitude,
+              longitude: success.coords.longitude
+            },
+            distance: geolib.getDistance(this.state.position, this.props.quest.marker)
+          });
+        },
+        (error) => {
+            console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
+      );
+      setTimeout(() => this.getLocation(), 1000);
+    }
   }
 
   updateStyle() {
     this.setState({ containerStyle: {
-      height: 300,
-      width: 300,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
+        flex: 3,
       },
       mapStyle: {
-        ...StyleSheet.absoluteFillObject
+      ...StyleSheet.absoluteFillObject
       } 
     });
-    this.press();
   }
 
   render() {
-    console.log('render');
     const { title, description, clue, marker } = this.props.quest;
     return (
-      <View>
-          <View stlye={styles.container}>
-            <TouchableHighlight
-            onPress={this.press.bind(this)}
-            >
-              <View>
-                <Text>title: {title}</Text>
-                <Text>description: {description}</Text>
-                <Text>clue: {clue}</Text>
-                <Text>position: 
-                {this.state.position.latitude}, 
-                {this.state.position.longitude}
-                </Text>
-                <Text>distance: {this.state.distance}</Text>
-
-              </View>
-            </TouchableHighlight>
-          </View>
+      <View style={{ flex: 1 }}>
           <View style={this.state.containerStyle}>
             <MapView 
             showsUserLocation
@@ -101,21 +86,21 @@ class QuestView extends Component {
               />
             </MapView>
           </View>
+          <View style={{ flex: 1, justifyContent: 'space-around' }}>
+            <Text style={styles.textStyle}>title: {title}</Text>
+            <Text style={styles.textStyle}>description: {description}</Text>
+            <Text style={styles.textStyle}>clue: {clue}</Text>
+            <Text style={styles.textStyle}>distance to marker: {this.state.distance}</Text>
+          </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-      height: 300,
-      width: 300,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-    },
-  map: {
-      ...StyleSheet.absoluteFillObject
-  }
+    textStyle: {
+      fontSize: 18
+    }
 });
 
 export default QuestView;
