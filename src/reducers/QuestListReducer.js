@@ -17,15 +17,14 @@ const INITIAL_STATE = {
             longitude: null
         }
     },
-    quests: [],
-    dataLoaded: false
+    quests: [], // här kommer quests från atabasen publicQuests laddas in
+    dataLoaded: false // så att spinner visas när data laddas
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SELECT_QUEST:
             return { ...state, selectedQuest: action.payload };
-//dataLoaded måste kanske sättas till falsk någon gång
         case QUESTS_FETCH_SUCCESS:
           return { ...state, quests: action.payload, dataLoaded: true };
         case QUEST_SAVE:

@@ -1,8 +1,7 @@
 import firebase from 'firebase';
 import {
   SELECT_QUEST,
-  QUESTS_FETCH_SUCCESS,
-  DISCARD_QUESTS
+  QUESTS_FETCH_SUCCESS
  } from './types';
 
 // Här skickas just nu hela questobjectet som payload.
@@ -19,11 +18,5 @@ export const questsFetch = () => {
     .on('value', snapshot => {
       dispatch({ type: QUESTS_FETCH_SUCCESS, payload: snapshot.val() });
     });
-  };
-};
-
-export const discardQuests = () => {
-  return {
-    type: DISCARD_QUESTS
   };
 };

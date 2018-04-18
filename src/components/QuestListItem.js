@@ -67,7 +67,7 @@ const styles = {
 };
 
 const mapStateToProps = ({ selected }, ownProps) => {
-  //Samma som techstack
+  //Här vill vi egentligen jämföra id eller liknande
   const expanded = selected.selectedQuest.title === ownProps.quest.title;
   return { expanded };
 };
