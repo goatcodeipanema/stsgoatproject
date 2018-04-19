@@ -33,7 +33,7 @@ class QuestCreateName extends Component {
 
   render() {
     return (
-      <Card>
+      <Card style={styles.cardStyle}>
         <CardSection>
           <Input
             label="Quest"
@@ -62,6 +62,14 @@ class QuestCreateName extends Component {
     );
   }
 }
+
+const styles = {
+  cardStyle: {
+    flex: 1,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+  }
+};
 
 const mapStateToProps = ({ createQuest }) => {
   const { name, description, id } = createQuest;
