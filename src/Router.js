@@ -32,7 +32,7 @@ const RouterComponent = () => {
             initial
           />
           <Scene
-
+            title="Pick a quest"
             key="questList"
             component={QuestList}    //QuestList
           />

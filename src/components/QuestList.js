@@ -1,14 +1,17 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView } from 'react-native';
+import { ListView, View } from 'react-native';
 import QuestListItem from './QuestListItem';
-import { questsFetch, selectQuest } from '../actions';
-import { Spinner } from './common';
+import { questsFetch, selectQuest, searchChange } from '../actions';
+import { Spinner, SearchBar, Card, CardSection } from './common';
 
 
 class QuestList extends Component {
-//Här fär vi ev byta till componentDidMount() senare
+
+  /*Sökfunktioen är ful men verkar funkar. Borde lägga till respons om
+    sökningen inte gav några resultat.
+   */
 
     componentWillMount() {
         this.props.questsFetch();
@@ -17,6 +20,28 @@ class QuestList extends Component {
 
     componentWillReceiveProps(nextProps) {
       this.createDataSource(nextProps);
+    }
+
+    onSearchChange(text) {
+      this.props.searchChange(this.searchFilter(text));
+    }
+    //om sökningen har gett resultat sätts datasource till searcharrayen.
+    //annars är datasource samma som skapas i createdatasource
+    getDataSource() {
+      if (this.props.search.length !== 0) {
+        return this.dataSource.cloneWithRows(this.props.search);
+      }
+        return this.dataSource;
+    }
+    //filtrerar sökningen och returnerar de quests där title/id matchar
+    searchFilter(input) {
+        const searchResult = this.props.quests.filter((item) => {
+        const upperCaseTitle = item.title.toUpperCase();
+        const textData = input.toUpperCase();
+        const upperCaseId = item.id.toUpperCase();
+        return (upperCaseTitle.indexOf(textData) > -1 || upperCaseId.indexOf(textData) > -1);
+      });
+        return searchResult;
     }
 
     createDataSource({ quests }) {
@@ -31,15 +56,30 @@ class QuestList extends Component {
             <QuestListItem quest={questData} />
         );
     }
-
+    //renderSeparator ger streck mellan listItems
     render() {
         if (this.props.dataLoaded) {
             return (
+              <Card>
+                <CardSection>
+                   <SearchBar
+                    onChangeText={this.onSearchChange.bind(this)}
+                    placeholder='Search for a goaty quest'
+                   />
+                </CardSection>
+
                 <ListView
                     enableEmptySections
-                    dataSource={this.dataSource}
+                    dataSource={this.getDataSource()}
                     renderRow={this.renderRow}
+                    renderSeparator={(sectionId, rowId) =>
+                      <View
+                      key={rowId}
+                      style={styles.separator}
+                      />
+                    }
                 />
+              </Card>
             );
         }
         return (
@@ -47,18 +87,25 @@ class QuestList extends Component {
         );
     }
 }
+const styles = {
+  separator: {
+    backgroundColor: 'lightblue',
+    height: 2,
+    marginTop: 5
+  }
+};
 /*
 Ev att vi vill byta namn på selected. det kommer från index.js i reducers. _.map kommer från
 lodash och lägger in all quest-objekt i quests som är en array av objekt
 */
 
 const mapStateToProps = ({ selected }) => {
-  const { dataLoaded } = selected;
+  const { dataLoaded, search } = selected;
   const quests = _.map(selected.quests, (quest) => {
     return { ...quest };
   });
-  return { quests, dataLoaded };
+  return { quests, dataLoaded, search };
 };
 
 
-export default connect(mapStateToProps, { questsFetch, selectQuest })(QuestList);
+export default connect(mapStateToProps, { questsFetch, selectQuest, searchChange })(QuestList);
