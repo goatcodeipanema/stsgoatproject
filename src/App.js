@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, YellowBox } from 'react-native';
+import _ from 'lodash';
 import firebase from 'firebase';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -22,6 +23,19 @@ class App extends Component {
     messagingSenderId: '917831941462'
     };
     firebase.initializeApp(config);
+    this.ignoreLongTimerWarnings();
+  }
+
+  //Ska lösa problemet med gula varningar om långa timeouts 
+  //(som fö beror på ett problem i firebase)  
+  ignoreLongTimerWarnings() {
+    YellowBox.ignoreWarnings(['Setting a timer']);
+    const _console = _.clone(console);
+    console.warn = message => {
+    if (message.indexOf('Setting a timer') <= -1) {
+      _console.warn(message);
+      }
+    };
   }
 
   async requestLocationPermission() {
