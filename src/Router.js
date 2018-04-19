@@ -26,13 +26,12 @@ const RouterComponent = () => {
         <Scene key="main">
           <Scene
             key="start"
-            initial
             component={StartScreen}    //StartScreen
             rightTitle="Log off"
             onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
           />
           <Scene
-
+            title="Pick a quest"
             key="questList"
             component={QuestList}    //QuestList
           />
