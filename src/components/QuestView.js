@@ -59,8 +59,96 @@ class QuestView extends Component {
     if (this._mounted) {
       this.props.locationUpdate();
       this.props.distanceUpdate(this.props.quest.marker);
-      setTimeout(() => this.updateQuestProgress(), 1000);
+      this.checkRules();
+      setTimeout(() => this.updateQuestProgress(), 500);
     }
+  }
+
+  checkRules() {
+    if (!this.state.rule1.found) {
+      //25 meter, 5 sek
+      this.checkRule1();
+    }
+    if (!this.state.rule2.found) {
+      //15 meter, 3 sek
+      this.checkRule2();
+    }
+    if (!this.state.rule3.found) {
+      //5 meter, 1,5 sek
+      this.checkRule3();
+    }
+  }
+
+  checkRule1() {
+    let distanceToMarker = this.props.distanceToMarker;
+    if (distanceToMarker <= 25 && distanceToMarker > 0) {
+      setTimeout(
+        () => {
+          if (!this.state.rule1.found) {
+            distanceToMarker = this.props.distanceToMarker;
+            if (distanceToMarker <= 25 && distanceToMarker > 0) {
+              this.setState({
+                rule1: {
+                  found: true,
+                  style: {
+                    color: 'red'
+                  }
+                }
+              });
+            }
+          }
+        },
+        5000
+      );
+    }
+  }
+
+  checkRule2() {
+    let distanceToMarker = this.props.distanceToMarker;
+    if (distanceToMarker <= 15 && distanceToMarker > 0) {
+      setTimeout(
+        () => {
+          if (!this.state.rule2.found) {
+            distanceToMarker = this.props.distanceToMarker;
+            if (distanceToMarker <= 15 && distanceToMarker > 0) {
+              this.setState({
+                rule2: {
+                  found: true,
+                  style: {
+                    color: 'red'
+                  }
+                }
+              });
+            }
+          }
+        },
+        3000
+      );
+    } 
+  }
+
+  checkRule3() {
+    let distanceToMarker = this.props.distanceToMarker;
+    if (distanceToMarker <= 5 && distanceToMarker > 0) {
+      setTimeout(
+        () => {
+          if (!this.state.rule3.found) {
+            distanceToMarker = this.props.distanceToMarker;
+            if (distanceToMarker <= 5 && distanceToMarker > 0) {
+              this.setState({
+                rule3: {
+                  found: true,
+                  style: {
+                    color: 'red'
+                  }
+                }
+              });
+            }
+          }
+        },
+        1500
+      );
+    } 
   }
 
 
