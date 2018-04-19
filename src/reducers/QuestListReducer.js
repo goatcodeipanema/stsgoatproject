@@ -1,7 +1,9 @@
 import {
   SELECT_QUEST,
   QUESTS_FETCH_SUCCESS,
-  QUEST_SAVE
+  QUEST_SAVE,
+  DESELECT_QUEST,
+  SEARCH_CHANGE
  } from '../actions/types';
 
 //Initial state här är bara ett förslag på hur en quest kan se ut.
@@ -18,17 +20,22 @@ const INITIAL_STATE = {
         }
     },
     quests: [], // här kommer quests från databasen publicQuests laddas in
-    dataLoaded: false // så att spinner renderas istället för lista när data laddas
+    dataLoaded: false, // så att spinner renderas istället för lista när data laddas
+    search: []
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SELECT_QUEST:
             return { ...state, selectedQuest: action.payload };
+        case DESELECT_QUEST:
+            return { ...state, selectedQuest: '' };
         case QUESTS_FETCH_SUCCESS:
-          return { ...state, quests: action.payload, dataLoaded: true };
+          return { ...state, quests: action.payload, search: [], dataLoaded: true };
         case QUEST_SAVE:
           return INITIAL_STATE;
+        case SEARCH_CHANGE:
+          return { ...state, search: action.payload };
         default:
             return state;
     }

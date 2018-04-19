@@ -7,3 +7,4 @@ export * from './Spinner';
 export * from './Confirm';
 export * from './TextArea';
 export * from './MyAppText';
+export * from './SearchBar';
