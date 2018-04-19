@@ -23,12 +23,13 @@ const RouterComponent = () => {
             component={LoginForm}    //LoginForm
           />
         </Scene>
-        <Scene key="main">
+        <Scene key="main" initial>
           <Scene
             key="start"
             component={StartScreen}    //StartScreen
             rightTitle="Log off"
             onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
+            initial
           />
           <Scene
             title="Pick a quest"

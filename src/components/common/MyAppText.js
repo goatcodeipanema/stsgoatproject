@@ -11,7 +11,7 @@ const MyAppText = ({ children }) => {
 
 const styles = {
   textStyle: {
-    color: 'red'
+    color: 'black'
   }
 };
 

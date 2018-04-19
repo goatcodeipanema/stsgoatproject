@@ -41,7 +41,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <Card>
+      <Card style={styles.cardStyle}>
         <CardSection>
           <Input
             label="Email"
@@ -51,7 +51,7 @@ class LoginForm extends Component {
           />
         </CardSection>
 
-        <CardSection>
+        <CardSection style={styles.cardSectionStyle}>
           <Input
             secureTextEntry
             label="Password"
@@ -73,9 +73,19 @@ class LoginForm extends Component {
 
 const styles = {
   errorTextStyle: {
+    fontFamily: 'Times new roman',
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
+  },
+  cardStyle: {
+    flex: 1,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardSectionStyle: {
+    marginBottom: 80
   }
 };
 
