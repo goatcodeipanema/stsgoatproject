@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Button, Card, CardSection, MyAppText } from './common';
 
@@ -11,7 +11,7 @@ const StartScreen = () => {
       <CardSection style={styles.cardStyle}>
         <View>
           <Image
-            style={{width: 350, height:350}}
+            style={{ width: 350, height: 350 }}
             source={require('../goatPic/bigGoat.png')}
           />
         </View>
