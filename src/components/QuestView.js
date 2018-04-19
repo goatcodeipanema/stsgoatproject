@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
-import geolib from 'geolib';
-import Geolocation from 'react-native-geolocation-service';
 import { locationUpdate, distanceUpdate } from '../actions';
 
 class QuestView extends Component {
@@ -21,12 +19,30 @@ class QuestView extends Component {
 
   state = {
     containerStyle: {},
-    mapStyle: {}
+    mapStyle: {},
+    rule1: {
+      found: false,
+      style: {
+        color: 'black'
+      }
+    },
+    rule2: {
+      found: false,
+      style: {
+        color: 'black'
+      }
+    },
+    rule3: {
+      found: false,
+      style: {
+        color: 'black'
+      }
+    }
   };
 
   componentDidMount() {
     this._mounted = true;
-    this.getLocation();
+    this.updateQuestProgress();
 
     //Det är lite oklart men det här funkar alltså för att rendera knappen.
     //Om den inte dyker upp direkt, prova att öka fördröjningen i timern.
@@ -38,28 +54,15 @@ class QuestView extends Component {
   }
 
 
-  getLocation() {
+  updateQuestProgress() {
+    //Uppdaterar location och distance varannan sekund.
     if (this._mounted) {
-      Geolocation.getCurrentPosition(
-        (success) => {
-          this.props.locationUpdate({
-            latitude: success.coords.latitude,
-            longitude: success.coords.longitude
-          });
-          this.props.distanceUpdate(
-            geolib.getDistance(this.props.userLocation, this.props.quest.marker)
-          );
-        },
-        (error) => {
-            console.log(error.code, error.message);
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
-      );
-      //Location hämtas löpande genom att funktionen körs igen efter 2 sek. 
-      //Det ser dumt ut men setTimeout verkar vara rekommenderat för detta. 
-      setTimeout(() => this.getLocation(), 2000);
+      this.props.locationUpdate();
+      this.props.distanceUpdate(this.props.quest.marker);
+      setTimeout(() => this.updateQuestProgress(), 1000);
     }
   }
+
 
   updateStyle() {
     if (this._mounted) {
@@ -74,7 +77,8 @@ class QuestView extends Component {
   }
 
   render() {
-    const { title, description, clue, marker } = this.props.quest;
+    const { marker } = this.props.quest;
+    const { rule1, rule2, rule3 } = this.state;
     return (
       <View style={{ flex: 1 }}>
           <View style={this.state.containerStyle}>
@@ -92,10 +96,11 @@ class QuestView extends Component {
             </MapView>
           </View>
           <View style={{ flex: 1, justifyContent: 'space-around' }}>
-            <Text style={styles.textStyle}>title: {title}</Text>
-            <Text style={styles.textStyle}>description: {description}</Text>
-            <Text style={styles.textStyle}>clue: {clue}</Text>
             <Text style={styles.textStyle}>distance to marker: {this.props.distanceToMarker}</Text>
+            <Text style={styles.textStyle}>User found marker?</Text>
+            <Text style={rule1.style}>Rule 1: {rule1.found.toString()}</Text>
+            <Text style={rule2.style}>Rule 2: {rule2.found.toString()}</Text>
+            <Text style={rule3.style}>Rule 3: {rule3.found.toString()}</Text>
           </View>
       </View>
     );

@@ -1,19 +1,37 @@
+import Geolocation from 'react-native-geolocation-service';
+
 import {
     LOCATION_UPDATE, 
-    DISTANCE_UPDATE
+    DISTANCE_UPDATE,
+    LOCATION_FAIL
 } from '../actions/types';
 
-export const locationUpdate = (coords) => {
-    return {
-      type: LOCATION_UPDATE,
-      payload: coords
+export const locationUpdate = () => {
+    return (dispatch) => {
+        Geolocation.getCurrentPosition(
+            (success) => {
+                const { latitude, longitude } = success.coords;
+                const userLocation = { latitude, longitude };
+                dispatch({
+                    type: LOCATION_UPDATE,
+                    payload: userLocation
+                });
+            },
+            (error) => {
+                console.log(error.code, error.message);
+                dispatch({
+                    type: LOCATION_FAIL
+                });
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
+        );
     };
 };
 
-export const distanceUpdate = (meters) => {
+export const distanceUpdate = (marker) => {
     return {
       type: DISTANCE_UPDATE,
-      payload: meters
+      payload: marker
     };
 };
 

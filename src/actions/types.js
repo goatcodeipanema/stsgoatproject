@@ -10,4 +10,5 @@ export const MARKER_CREATE = 'marker_create';
 export const QUESTS_FETCH_SUCCESS = 'quests_fetch_success';
 export const DISCARD_QUESTS = ' discard_quests';
 export const LOCATION_UPDATE = 'location_update';
+export const LOCATION_FAIL = 'location_fail';
 export const DISTANCE_UPDATE = 'distance_update';
