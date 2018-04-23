@@ -9,7 +9,7 @@ import { Spinner, SearchBar, Card, CardSection } from './common';
 
 class QuestList extends Component {
 
-  /*Sökfunktioen är ful men verkar funkar. Borde lägga till respons om
+  /*Sökfunktioen är ful men verkar funka. Borde lägga till respons om
     sökningen inte gav några resultat.
    */
 
@@ -23,21 +23,29 @@ class QuestList extends Component {
     }
 
     onSearchChange(text) {
-      this.props.searchChange(this.searchFilter(text));
+      this.props.searchChange(text, this.searchFilter(text));
     }
     //om sökningen har gett resultat sätts datasource till searcharrayen.
+    //om sökningen inte gav något resultat visas en tom lista
     //annars är datasource samma som skapas i createdatasource
     getDataSource() {
-      if (this.props.search.length !== 0) {
-        return this.dataSource.cloneWithRows(this.props.search);
+      console.log(this.props);
+      if (this.props.searchResult.length > 0) {
+        return this.dataSource.cloneWithRows(this.props.searchResult);
+      } else if (this.props.searchResult.length === 0 && this.props.search !== '') {
+        console.log('no quests matched your search');
+        //det här vill vi kanske skriva ut i appen istället
+        return this.dataSource.cloneWithRows([]);
       }
         return this.dataSource;
     }
     //filtrerar sökningen och returnerar de quests där title/id matchar
-    searchFilter(input) {
+
+    searchFilter(text) {
         const searchResult = this.props.quests.filter((item) => {
+        console.log(item);
         const upperCaseTitle = item.title.toUpperCase();
-        const textData = input.toUpperCase();
+        const textData = text.toUpperCase();
         const upperCaseId = item.id.toUpperCase();
         return (upperCaseTitle.indexOf(textData) > -1 || upperCaseId.indexOf(textData) > -1);
       });
@@ -100,11 +108,11 @@ lodash och lägger in all quest-objekt i quests som är en array av objekt
 */
 
 const mapStateToProps = ({ selected }) => {
-  const { dataLoaded, search } = selected;
+  const { dataLoaded, searchResult, search } = selected;
   const quests = _.map(selected.quests, (quest) => {
     return { ...quest };
   });
-  return { quests, dataLoaded, search };
+  return { quests, dataLoaded, searchResult, search };
 };
 
 

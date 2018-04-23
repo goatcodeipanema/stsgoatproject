@@ -21,7 +21,8 @@ const INITIAL_STATE = {
     },
     quests: [], // här kommer quests från databasen publicQuests laddas in
     dataLoaded: false, // så att spinner renderas istället för lista när data laddas
-    search: []
+    searchResult: [],
+    search: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -31,11 +32,15 @@ export default (state = INITIAL_STATE, action) => {
         case DESELECT_QUEST:
             return { ...state, selectedQuest: '' };
         case QUESTS_FETCH_SUCCESS:
-          return { ...state, quests: action.payload, search: [], dataLoaded: true };
+          return { ...state, quests: action.payload, searchResult: [], dataLoaded: true };
         case QUEST_SAVE:
           return INITIAL_STATE;
         case SEARCH_CHANGE:
-          return { ...state, search: action.payload };
+          return {
+            ...state,
+             searchResult: action.payload.newData,
+             search: action.payload.input
+           };
         default:
             return state;
     }

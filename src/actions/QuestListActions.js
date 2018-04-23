@@ -29,9 +29,9 @@ export const questsFetch = () => {
   };
 };
 
-export const searchChange = (newData) => {
+export const searchChange = (input, newData) => {
   return {
     type: SEARCH_CHANGE,
-    payload: newData
+    payload: { input, newData }
   };
 };

@@ -53,6 +53,21 @@ renderButton() {
  render() {
    return (
      <Card>
+
+     <CardSection>
+       <Input
+         label="Add clue"
+         placeholder="Här brukar Pelle svanslös äta surströmming"
+         value={this.props.clue}
+         onChangeText={value => this.props.questUpdate({ prop: 'clue', value })}
+       />
+
+     </CardSection>
+
+     <CardSection>
+       {this.renderButton()}
+     </CardSection>
+
        <CardSection>
              <MapView
                style={styles.map}
@@ -70,19 +85,6 @@ renderButton() {
              </MapView>
         </CardSection>
 
-         <CardSection>
-           <Input
-             label="Add clue"
-             placeholder="Här brukar Pelle svanslös äta surströmming"
-             value={this.props.clue}
-             onChangeText={value => this.props.questUpdate({ prop: 'clue', value })}
-           />
-
-         </CardSection>
-
-         <CardSection>
-           {this.renderButton()}
-         </CardSection>
      </Card>
    );
  }
