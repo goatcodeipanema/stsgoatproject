@@ -6,22 +6,33 @@ import { Button, Card, CardSection } from './common';
 
 const StartScreen = () => {
   return (
-
     <Card style={styles.cardStyle}>
 
       <CardSection style={styles.buttonStyle}>
-          <Button onPress={() => { Actions.questCreateName(); }}>
-            CREATE QUEST
-          </Button>
+        <Button 
+          onPress={() => { 
+            if (Actions.currentScene === 'start') {
+              Actions.questCreateName(); 
+            }
+          }}
+        >
+          CREATE QUEST
+        </Button>
       </CardSection>
 
       <CardSection>
           <Text style={styles.textStyle}> OR </Text>
       </CardSection>
       <CardSection style={styles.buttonStyle}>
-          <Button onPress={() => { Actions.questList(); }}>
-            JOIN QUEST
-          </Button>
+        <Button 
+          onPress={() => { 
+            if (Actions.currentScene === 'start') {
+              Actions.questList(); 
+            }
+          }}
+        >
+          JOIN QUEST
+        </Button>
       </CardSection>
     </Card>
   );

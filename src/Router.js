@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import firebase from 'firebase';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
@@ -7,12 +8,27 @@ import QuestList from './components/QuestList';
 import QuestCreateName from './components/QuestCreateName';
 import QuestCreateMarker from './components/QuestCreateMarker';
 import QuestView from './components/QuestView';
+import { locationUpdate } from './actions';
 
 //hideNavBar i scene root för att undvika dubbla bars längst upp /A
 
 import StartScreen from './components/StartScreen';
  // root ska vara initial
-const RouterComponent = () => {
+class RouterComponent extends Component {
+
+  componentDidMount() {
+    this.backgroundLocation();
+  }
+
+  backgroundLocation() {
+    this.props.locationUpdate();
+    setTimeout(() => {
+      this.props.locationUpdate();
+    }, 10000
+    );
+  }
+
+  render() {
   return (
     <Router>
       <Scene key="root" hideNavBar>
@@ -23,7 +39,7 @@ const RouterComponent = () => {
             component={LoginForm}    //LoginForm
           />
         </Scene>
-        <Scene key="main">
+        <Scene key="main" initial>
           <Scene
             key="start"
             component={StartScreen}    //StartScreen
@@ -54,6 +70,11 @@ const RouterComponent = () => {
       </Scene>
     </Router>
   );
-};
+  }
+}
 
-export default RouterComponent;
+const mapStateToProps = () => { return ({}); };
+
+export default connect(mapStateToProps, {
+  locationUpdate
+})(RouterComponent);

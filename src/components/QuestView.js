@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, StyleSheet, Text } from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  Text
+} from 'react-native';
 import { connect } from 'react-redux';
 import { locationUpdate, distanceUpdate } from '../actions';
+import { Card, FadeOverlay } from './common';
 
 class QuestView extends Component {
 
@@ -17,28 +22,25 @@ class QuestView extends Component {
     är ju inte lodash och vi kanske ska döpa om det om det blir förvirrande?
   */
 
-  state = {
-    containerStyle: {},
-    mapStyle: {},
-    rule1: {
-      found: false,
-      style: {
-        color: 'black'
+  constructor() {
+    super();
+    this.state = {
+      containerStyle: {},
+      mapStyle: {},
+      rule1: {
+        found: false,
+        style: {
+          color: 'black'
+        }
+      },
+      rule2: {
+        found: false,
+        style: {
+          color: 'black'
+        }
       }
-    },
-    rule2: {
-      found: false,
-      style: {
-        color: 'black'
-      }
-    },
-    rule3: {
-      found: false,
-      style: {
-        color: 'black'
-      }
-    }
-  };
+    };
+  }
 
   componentDidMount() {
     this._mounted = true;
@@ -53,40 +55,51 @@ class QuestView extends Component {
     this._mounted = false;
   }
 
+  updateStyle() {
+    if (this._mounted) {
+      this.setState({ containerStyle: {
+          flex: 3,
+        },
+        mapStyle: {
+        ...StyleSheet.absoluteFillObject
+        },
+        region: {
+          latitude: this.props.userLocation.latitude,
+          longitude: this.props.userLocation.longitude,
+          latitudeDelta: 0.5,
+          longitudeDelta: 0.5
+        } 
+      });
+    }
+  }
 
   updateQuestProgress() {
-    //Uppdaterar location och distance varannan sekund.
+    //Uppdaterar location och distance.
     if (this._mounted) {
       this.props.locationUpdate();
       this.props.distanceUpdate(this.props.quest.marker);
       this.checkRules();
-      setTimeout(() => this.updateQuestProgress(), 500);
+      setTimeout(() => this.updateQuestProgress(), 300);
     }
   }
 
   checkRules() {
     if (!this.state.rule1.found) {
-      //25 meter, 5 sek
       this.checkRule1();
     }
     if (!this.state.rule2.found) {
-      //15 meter, 3 sek
       this.checkRule2();
-    }
-    if (!this.state.rule3.found) {
-      //5 meter, 1,5 sek
-      this.checkRule3();
     }
   }
 
   checkRule1() {
     let distanceToMarker = this.props.distanceToMarker;
-    if (distanceToMarker <= 25 && distanceToMarker > 0) {
+    if (distanceToMarker <= 15 && distanceToMarker > 0) {
       setTimeout(
         () => {
           if (!this.state.rule1.found) {
             distanceToMarker = this.props.distanceToMarker;
-            if (distanceToMarker <= 25 && distanceToMarker > 0) {
+            if (distanceToMarker <= 15 && distanceToMarker > 0) {
               this.setState({
                 rule1: {
                   found: true,
@@ -98,19 +111,19 @@ class QuestView extends Component {
             }
           }
         },
-        5000
+        8000
       );
     }
   }
 
   checkRule2() {
     let distanceToMarker = this.props.distanceToMarker;
-    if (distanceToMarker <= 15 && distanceToMarker > 0) {
+    if (distanceToMarker <= 10 && distanceToMarker > 0) {
       setTimeout(
         () => {
           if (!this.state.rule2.found) {
             distanceToMarker = this.props.distanceToMarker;
-            if (distanceToMarker <= 15 && distanceToMarker > 0) {
+            if (distanceToMarker <= 10 && distanceToMarker > 0) {
               this.setState({
                 rule2: {
                   found: true,
@@ -122,75 +135,41 @@ class QuestView extends Component {
             }
           }
         },
-        3000
+        5000
       );
     } 
-  }
-
-  checkRule3() {
-    let distanceToMarker = this.props.distanceToMarker;
-    if (distanceToMarker <= 5 && distanceToMarker > 0) {
-      setTimeout(
-        () => {
-          if (!this.state.rule3.found) {
-            distanceToMarker = this.props.distanceToMarker;
-            if (distanceToMarker <= 5 && distanceToMarker > 0) {
-              this.setState({
-                rule3: {
-                  found: true,
-                  style: {
-                    color: 'red'
-                  }
-                }
-              });
-            }
-          }
-        },
-        1500
-      );
-    } 
-  }
-
-
-  updateStyle() {
-    if (this._mounted) {
-      this.setState({ containerStyle: {
-          flex: 3,
-        },
-        mapStyle: {
-        ...StyleSheet.absoluteFillObject
-        } 
-      });
-    }
   }
 
   render() {
     const { marker } = this.props.quest;
-    const { rule1, rule2, rule3 } = this.state;
+    const { rule1, rule2 } = this.state;
+    const { textStyle } = styles;
     return (
       <View style={{ flex: 1 }}>
-          <View style={this.state.containerStyle}>
-            <MapView 
-            showsUserLocation
-            showsMyLocationButton
-            // initialRegion = {this.state.region}
-            style={this.state.mapStyle}
-            >
-              <Marker
-                coordinate={marker}
-                draggable={false}
-                pinColor='blue'
-              />
-            </MapView>
-          </View>
-          <View style={{ flex: 1, justifyContent: 'space-around' }}>
-            <Text style={styles.textStyle}>distance to marker: {this.props.distanceToMarker}</Text>
-            <Text style={styles.textStyle}>User found marker?</Text>
-            <Text style={rule1.style}>Rule 1: {rule1.found.toString()}</Text>
-            <Text style={rule2.style}>Rule 2: {rule2.found.toString()}</Text>
-            <Text style={rule3.style}>Rule 3: {rule3.found.toString()}</Text>
-          </View>
+        <FadeOverlay />
+        <Card>
+            <View style={this.state.containerStyle}>
+              <MapView 
+              showsUserLocation
+              initialRegion={this.state.region}
+              style={this.state.mapStyle}
+              >
+                <Marker
+                  coordinate={marker}
+                  draggable={false}
+                  pinColor='blue'
+                />
+              </MapView>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'space-around' }}>
+              <Text style={textStyle}>distance to marker: {this.props.distanceToMarker}</Text>
+              <Text style={textStyle}>User found marker?</Text>
+              <Text style={rule1.style}>Rule 1: {rule1.found.toString()}</Text>
+              <Text style={rule2.style}>Rule 2: {rule2.found.toString()}</Text>
+            </View>
+        </Card>
       </View>
+      
     );
   }
 }
