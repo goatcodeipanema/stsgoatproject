@@ -65,10 +65,10 @@ class QuestCreateName extends Component {
 
 const styles = {
   cardStyle: {
-    flex: 1,
-    backgroundColor: 'pink',
     alignItems: 'center',
+    justifyContent: 'center'
   }
+
 };
 
 const mapStateToProps = ({ createQuest }) => {

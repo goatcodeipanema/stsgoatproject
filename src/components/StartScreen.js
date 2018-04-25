@@ -1,21 +1,13 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button, Card, CardSection, MyAppText } from './common';
+import { Button, Card, CardSection } from './common';
 
 
 const StartScreen = () => {
   return (
 
     <Card style={styles.cardStyle}>
-      <CardSection style={styles.cardStyle}>
-        <View>
-          <Image
-            style={{ width: 350, height: 350 }}
-            source={require('../goatPic/bigGoat.png')}
-          />
-        </View>
-      </CardSection>
 
       <CardSection style={styles.buttonStyle}>
           <Button onPress={() => { Actions.questCreateName(); }}>
@@ -24,9 +16,7 @@ const StartScreen = () => {
       </CardSection>
 
       <CardSection>
-          <MyAppText>
-            OR
-          </MyAppText>
+          <Text style={styles.textStyle}> OR </Text>
       </CardSection>
       <CardSection style={styles.buttonStyle}>
           <Button onPress={() => { Actions.questList(); }}>
@@ -38,16 +28,20 @@ const StartScreen = () => {
 };
 const styles = {
   buttonStyle: {
-    //marginTop: 10,
+    marginTop: 20,
     marginBottom: 20,
     alignSelf: 'center'
   },
+
   cardStyle: {
-    flex: 1,
-    backgroundColor: 'pink',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+
+    textStyle: {
+      fontFamily: 'Cake n Truffles',
+      fontSize: 40
+    }
 };
 
 export default StartScreen;

@@ -13,10 +13,10 @@ const styles = {
   containerStyle: {
     // borderBottomWidth: 10,
     padding: 5,
-    backgroundColor: 'pink',
+    backgroundColor: '#ADD8E6',
     justifyContent: 'flex-start',
     flexDirection: 'row',
-    borderColor: '#ddd',
+    //borderColor: '#ddd',
     position: 'relative'
   }
 };

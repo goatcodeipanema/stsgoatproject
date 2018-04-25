@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Text, TouchableWithoutFeedback, View, Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { CardSection, Button } from './common';
@@ -13,6 +13,7 @@ class QuestListItem extends Component {
    selectedQuest till this.props.quest
   */
   onRowPress() {
+    Keyboard.dismiss();
     if (this.props.quest.id === this.props.selectedQuest.id) {
       this.props.deselectQuest();
     } else {
@@ -47,7 +48,7 @@ class QuestListItem extends Component {
              {quest.id}
             </Text>
         </View>
-        <View style={{ flex: 1, height: 40, alignSelf: 'flex-end' }}>
+        <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
           <Button onPress={this.goToQuest.bind(this)}>
             Start Quest
           </Button>
@@ -82,8 +83,9 @@ class QuestListItem extends Component {
 
 const styles = {
   titleStyle: {
-    fontSize: 30,
+    fontSize: 45,
     paddingLeft: 20,
+    fontFamily: 'Cake n Truffles'
   },
 };
 

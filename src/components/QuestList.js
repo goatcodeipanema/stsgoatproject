@@ -29,7 +29,6 @@ class QuestList extends Component {
     //om sökningen inte gav något resultat visas en tom lista
     //annars är datasource samma som skapas i createdatasource
     getDataSource() {
-      console.log(this.props);
       if (this.props.searchResult.length > 0) {
         return this.dataSource.cloneWithRows(this.props.searchResult);
       } else if (this.props.searchResult.length === 0 && this.props.search !== '') {
@@ -43,7 +42,6 @@ class QuestList extends Component {
 
     searchFilter(text) {
         const searchResult = this.props.quests.filter((item) => {
-        console.log(item);
         const upperCaseTitle = item.title.toUpperCase();
         const textData = text.toUpperCase();
         const upperCaseId = item.id.toUpperCase();
@@ -97,9 +95,9 @@ class QuestList extends Component {
 }
 const styles = {
   separator: {
-    backgroundColor: 'lightblue',
-    height: 2,
-    marginTop: 5
+    backgroundColor: '#87cefa',
+    height: 5,
+    marginTop: 10
   }
 };
 /*

@@ -8,3 +8,4 @@ export * from './Confirm';
 export * from './TextArea';
 export * from './MyAppText';
 export * from './SearchBar';
+export * from './InputModal';

@@ -1,37 +1,65 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, Keyboard, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
-import { CardSection, Button, Card, Input } from './common';
+import { CardSection, Button, Card, InputModal } from './common';
 import { questUpdate, questSave, markerCreate } from '../actions';
 // Det är ganska mycket i den här filen, möjligt att
 //det är snyggare att dela upp det i olika componenter.
 class QuestCreateMarker extends Component {
 
+  state = { showModal: false }
+
   onButtonPress() {
     const { id, title, description, marker, clue } = this.props;
-    console.log(this.props.id);
     this.props.questSave({ id, title, description, marker, clue });
   }
 
-  onDescriptionChange(description) {
-    this.props.questUpdate({ prop: 'description', value: description });
+  onMarkerPress() {
+    this.setState({ showModal: !this.state.showModal });
   }
   onMapLongPress(e) {
     this.props.markerCreate();
     this.props.questUpdate({ prop: 'marker', value: e.nativeEvent.coordinate });
   }
-
-renderButton() {
-  const { clue, marker } = this.props;
-  if (clue && marker) {
-    //det går inte att skapa en quest utan en clue och att sätta ut markering
-    return (
-      <Button onPress={this.onButtonPress.bind(this)} >Done</Button>
-    );
+  onMapPress() {
+    Keyboard.dismiss();
   }
-  return (<Text> Add a clue and place your treasure on the map to continue</Text>);
-}
+  onAccept() {
+  this.setState({ showModal: false });
+  }
+  onDecline() {
+    this.props.questUpdate({ prop: 'clue', value: '' });
+    this.setState({ showModal: false });
+  }
+  onDragEnd(e) {
+    this.props.questUpdate({ prop: 'marker', value: e.nativeEvent.coordinate });
+  }
+
+  renderButton() {
+    const { clue, marker } = this.props;
+    if (clue && marker) {
+      //det går inte att skapa en quest utan en clue och att sätta ut markering
+      return (
+        <View>
+        <Text> Clue: {clue} </Text>
+        <Text> Longitude: {marker.longitude}</Text>
+        <Text> Latitude: {marker.latitude}</Text>
+        <Button onPress={this.onButtonPress.bind(this)} >Submit quest</Button>
+        </View>
+      );
+    } else if (marker) {
+      return (
+        <View>
+        <Text> Longitude: {marker.longitude}</Text>
+        <Text> Latitude: {marker.latitude}</Text>
+        <Text> Press your marker to add a clue </Text>
+        </View>
+      );
+    }
+
+    return (<Text> Place your treasure on the map and add a clue to continue</Text>);
+  }
 
   renderMarkers() {
     const { id, title, marker } = this.props;
@@ -42,68 +70,68 @@ renderButton() {
                coordinate={marker}
                title={title}
                draggable
-               onDragEnd={(e) => this.props.questUpdate({
-                 prop: marker,
-                 value: e.nativeEvent.coordinate
-               })}
+               showCallout
             />
           );
     }
- }
- render() {
-   return (
-     <Card>
+  }
+   render() {
+     return (
+       <Card style={styles.cardStyle}>
 
-     <CardSection>
-       <Input
-         label="Add clue"
-         placeholder="Här brukar Pelle svanslös äta surströmming"
-         value={this.props.clue}
-         onChangeText={value => this.props.questUpdate({ prop: 'clue', value })}
-       />
+         <CardSection>
+               <MapView
+                 style={styles.map}
+                 showsUserLocation
+                 showsMyLocationButton
+                 onLongPress={this.onMapLongPress.bind(this)}
+                 onPress={this.onMapPress.bind(this)}
+                 onMarkerPress={this.onMarkerPress.bind(this)}
+                 onMarkerDragEnd={this.onDragEnd.bind(this)}
+               >
+               {this.renderMarkers()}
+               </MapView>
 
-     </CardSection>
+          </CardSection>
 
-     <CardSection>
-       {this.renderButton()}
-     </CardSection>
+         <CardSection>
+           {this.renderButton()}
+         </CardSection>
 
-       <CardSection>
-             <MapView
-               style={styles.map}
-               showsUserLocation
-               showsMyLocationButton
-               region={{
-                 latitude: 59.841411,
-                 longitude: 17.647855,
-                 latitudeDelta: 0.015,
-                 longitudeDelta: 0.0121,
-               }}
-               onLongPress={this.onMapLongPress.bind(this)}
-             >
-             {this.renderMarkers()}
-             </MapView>
-        </CardSection>
+          <InputModal
+            label='Clue: '
+            visible={this.state.showModal}
+            onAccept={this.onAccept.bind(this)}
+            onDecline={this.onDecline.bind(this)}
+            placeholder='This is Goat McFly:s favourite bar'
+            value={this.props.clue}
+            onChangeText={value => this.props.questUpdate({ prop: 'clue', value })}
+          >
+            Bäh! Add a clue to help your friends
+          </InputModal>
 
-     </Card>
-   );
- }
-}
+       </Card>
+     );
+   }
+  }
 
-const styles = {
-  map: {
-    height: 400,
-    flex: 1
-  },
-};
+  const styles = {
+    map: {
+      height: 400,
+      flex: 1
+    },
+      cardStyle: {
+        alignItems: 'center',
+      }
+    };
 
-const mapStateToProps = ({ createQuest }) => {
-  const { title, id, description, marker, clue } = createQuest;
-  return { title, id, description, marker, clue };
-};
+  const mapStateToProps = ({ createQuest }) => {
+    const { title, id, description, marker, clue } = createQuest;
+    return { title, id, description, marker, clue };
+  };
 
-export default connect(mapStateToProps, {
-  questUpdate,
-  questSave,
-  markerCreate
- })(QuestCreateMarker);
+  export default connect(mapStateToProps, {
+    questUpdate,
+    questSave,
+    markerCreate
+   })(QuestCreateMarker);

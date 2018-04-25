@@ -16,20 +16,19 @@ const RouterComponent = () => {
   return (
     <Router>
       <Scene key="root" hideNavBar>
-        <Scene key="auth" >
+        <Scene key="auth" hideNavBar>
           <Scene
             key="login"
-            title="Goat Quest"
+            //title="Goat Quest"
             component={LoginForm}    //LoginForm
           />
         </Scene>
-        <Scene key="main" initial>
+        <Scene key="main">
           <Scene
             key="start"
             component={StartScreen}    //StartScreen
             rightTitle="Log off"
             onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
-            initial
           />
           <Scene
             title="Pick a quest"

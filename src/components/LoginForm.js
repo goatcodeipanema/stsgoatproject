@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
+
+const goatImage = require('../goatPic/goat2.png');
 
 class LoginForm extends Component {
 
@@ -23,7 +25,7 @@ class LoginForm extends Component {
     }
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
-        Login
+        Sign in/ Sign up
       </Button>
     );
   }
@@ -43,6 +45,17 @@ class LoginForm extends Component {
     return (
       <Card style={styles.cardStyle}>
         <CardSection>
+          <View>
+            <Image
+              style={{ height: 240, width: 240 }}
+              source={goatImage}
+            />
+            <Text style={styles.titleStyle}>
+            Goat Quest
+            </Text>
+          </View>
+        </CardSection>
+        <CardSection>
           <Input
             label="Email"
             placeholder="email@gmail.com"
@@ -51,7 +64,7 @@ class LoginForm extends Component {
           />
         </CardSection>
 
-        <CardSection style={styles.cardSectionStyle}>
+        <CardSection>
           <Input
             secureTextEntry
             label="Password"
@@ -73,19 +86,22 @@ class LoginForm extends Component {
 
 const styles = {
   errorTextStyle: {
-    fontFamily: 'Times new roman',
     fontSize: 20,
     alignSelf: 'center',
-    color: 'red'
+    color: 'red',
+    backgroundColor: '#ADD8E6'
   },
+
   cardStyle: {
     flex: 1,
-    backgroundColor: 'pink',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
-  cardSectionStyle: {
-    marginBottom: 80
+
+  titleStyle: {
+    fontFamily: 'Cake n Truffles',
+    fontSize: 40,
+
   }
 };
 
