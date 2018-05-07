@@ -27,6 +27,7 @@ class App extends Component {
   //(som fö beror på ett problem i firebase)  
   ignoreLongTimerWarnings() {
     YellowBox.ignoreWarnings(['Setting a timer']);
+    YellowBox.ignoreWarnings(['Remote debugger is in a background tab']);
     const _console = _.clone(console);
     console.warn = message => {
     if (message.indexOf('Setting a timer') <= -1) {

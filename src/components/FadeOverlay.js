@@ -48,4 +48,4 @@ class FadeOverlay extends Component {
         return (<View />); 
     }
 }
-export { FadeOverlay };
+export default FadeOverlay;

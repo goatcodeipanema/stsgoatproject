@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { 
   View, 
-  StyleSheet, 
+  StyleSheet,
   Text
 } from 'react-native';
 import { connect } from 'react-redux';
 import { locationUpdate, distanceUpdate } from '../actions';
-import { Card, FadeOverlay } from './common';
+import { Card, CardSection } from './common';
+import FadeOverlay from './FadeOverlay';
+import WindowedModal from './WindowedModal';
 
 class QuestView extends Component {
 
@@ -18,6 +20,8 @@ class QuestView extends Component {
     typ ingen best practice så vi får väl välja själva hur vi vill ha det.
     Nackdelen med state är att this._mounted måste användas för att inte råka
     kalla setState när komponenten är omountad.
+  -...absoluteFillObject är samma som att sätta position: absolute och
+    top: 0, bottom: 0, left: 0, right: 0. Alla borders och paddings försvinner alltså.
   -Understrecket i this._mounted vet jag inte om det betyder något, men det 
     är ju inte lodash och vi kanske ska döpa om det om det blir förvirrande?
   */
@@ -58,7 +62,7 @@ class QuestView extends Component {
   updateStyle() {
     if (this._mounted) {
       this.setState({ containerStyle: {
-          flex: 3,
+          flex: 1,
         },
         mapStyle: {
         ...StyleSheet.absoluteFillObject
@@ -142,13 +146,12 @@ class QuestView extends Component {
 
   render() {
     const { marker } = this.props.quest;
-    const { rule1, rule2 } = this.state;
-    const { textStyle } = styles;
+    const { progressStyle, titleStyle, boxStyle } = styles;
     return (
       <View style={{ flex: 1 }}>
         <FadeOverlay />
         <Card>
-            <View style={this.state.containerStyle}>
+            <CardSection style={this.state.containerStyle}>
               <MapView 
               showsUserLocation
               initialRegion={this.state.region}
@@ -160,13 +163,19 @@ class QuestView extends Component {
                   pinColor='blue'
                 />
               </MapView>
-            </View>
-            <View style={{ flex: 1, justifyContent: 'space-around' }}>
-              <Text style={textStyle}>distance to marker: {this.props.distanceToMarker}</Text>
-              <Text style={textStyle}>User found marker?</Text>
-              <Text style={rule1.style}>Rule 1: {rule1.found.toString()}</Text>
-              <Text style={rule2.style}>Rule 2: {rule2.found.toString()}</Text>
-            </View>
+            </CardSection>
+            <CardSection style={progressStyle}>
+              {//Här går det att ploppa in progressgrejer istället för viewsen
+              }
+              <View style={{ width: 80, height: 50, backgroundColor: 'powderblue' }} />
+              <View style={{ width: 50, height: 50, backgroundColor: 'skyblue' }} />
+              <WindowedModal modalStyle={{ marginTop: 100 }}>
+              <Text style={titleStyle}>Clue</Text>
+                <View style={boxStyle}>
+                  <Text>{this.props.quest.clue}</Text>
+                </View>
+              </WindowedModal>
+            </CardSection>
         </Card>
       </View>
       
@@ -177,6 +186,24 @@ class QuestView extends Component {
 const styles = {
   textStyle: {
     fontSize: 18
+  },
+  progressStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  titleStyle: {
+    fontSize: 45,
+    fontFamily: 'Cake n Truffles',
+    marginTop: 5,
+    marginLeft: 10
+  },
+  boxStyle: {
+    borderColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: 20,
+    borderWidth: 8,
+    padding: 5,
+    margin: 10,
+    marginTop: 0
   }
 };
 
