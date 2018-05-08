@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import Modal from 'react-native-modal';
-import { Button } from './common';
 
 class WindowedModal extends Component {
   /* 
@@ -10,39 +9,24 @@ class WindowedModal extends Component {
     genom att klicka på backdrop.
   -justifyContent: undefined hittar jag inte ens någon förklaring
     till när jag googlar men fråga Patrik om ni undrar vad den gör.
+  -toggleModal ska ha funktionen som togglar modalen i parentkomponenten
   */
 
-  state = {
-    modalVisible: false,
-  };
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
+  state
 
   render() {
-   const { modalStyle, containerStyle } = this.props;
+   const { visible, modalStyle, containerStyle, toggleModal } = this.props;
     return (
-      <View>
-        <Modal
-          style={[styles.modalStyle, modalStyle]}
-          isVisible={this.state.modalVisible}
-          onBackdropPress={() => this.setModalVisible(false)}
-          useNativeDriver
-        >
-          <View style={[styles.containerStyle, containerStyle]}>
-            {this.props.children}
-          </View>
-        </Modal>
-
-        <Button
-          onPress={() => {
-            this.setModalVisible(true);
-          }}
-        >
-          Clue
-        </Button>
-      </View>
+      <Modal
+        style={[styles.modalStyle, modalStyle]}
+        isVisible={visible}
+        onBackdropPress={toggleModal}
+        useNativeDriver
+      >
+        <View style={[styles.containerStyle, containerStyle]}>
+          {this.props.children}
+        </View>
+      </Modal>
     );
   }
 }

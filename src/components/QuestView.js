@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { locationUpdate, distanceUpdate } from '../actions';
-import { Card, CardSection } from './common';
+import { Card, CardSection, Button } from './common';
 import FadeOverlay from './FadeOverlay';
 import WindowedModal from './WindowedModal';
 
@@ -31,6 +31,7 @@ class QuestView extends Component {
     this.state = {
       containerStyle: {},
       mapStyle: {},
+      modalVisible: false,
       rule1: {
         found: false,
         style: {
@@ -144,6 +145,12 @@ class QuestView extends Component {
     } 
   }
 
+  toggleModal() {
+    this.setState({
+      modalVisible: !this.state.modalVisible
+    });
+  }
+
   render() {
     const { marker } = this.props.quest;
     const { progressStyle, titleStyle, boxStyle } = styles;
@@ -169,14 +176,21 @@ class QuestView extends Component {
               }
               <View style={{ width: 80, height: 50, backgroundColor: 'powderblue' }} />
               <View style={{ width: 50, height: 50, backgroundColor: 'skyblue' }} />
-              <WindowedModal modalStyle={{ marginTop: 100 }}>
-              <Text style={titleStyle}>Clue</Text>
-                <View style={boxStyle}>
-                  <Text>{this.props.quest.clue}</Text>
-                </View>
-              </WindowedModal>
+              <Button onPress={this.toggleModal.bind(this)}>
+                Clue
+              </Button>
             </CardSection>
         </Card>
+        <WindowedModal 
+        visible={this.state.modalVisible} 
+        toggleModal={this.toggleModal.bind(this)} 
+        modalStyle={{ marginTop: 100 }}
+        >
+          <Text style={titleStyle}>Clue</Text>
+          <View style={boxStyle}>
+            <Text>{this.props.quest.clue}</Text>
+          </View>
+        </WindowedModal>
       </View>
       
     );
