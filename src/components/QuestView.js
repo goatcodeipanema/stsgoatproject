@@ -31,19 +31,10 @@ class QuestView extends Component {
     this.state = {
       containerStyle: {},
       mapStyle: {},
-      modalVisible: false,
-      rule1: {
-        found: false,
-        style: {
-          color: 'black'
-        }
-      },
-      rule2: {
-        found: false,
-        style: {
-          color: 'black'
-        }
-      }
+      clueModalVisible: false,
+      foundModalVisible: false,
+      sureModalVisible: false,
+      markerFound: false
     };
   }
 
@@ -83,36 +74,25 @@ class QuestView extends Component {
     if (this._mounted) {
       this.props.locationUpdate();
       this.props.distanceUpdate(this.props.quest.marker);
-      this.checkRules();
+      if (!this.state.markerFound) {
+        this.checkFound();
+      }
       setTimeout(() => this.updateQuestProgress(), 300);
     }
   }
 
-  checkRules() {
-    if (!this.state.rule1.found) {
-      this.checkRule1();
-    }
-    if (!this.state.rule2.found) {
-      this.checkRule2();
-    }
-  }
-
-  checkRule1() {
+  checkFound() {
     let distanceToMarker = this.props.distanceToMarker;
     if (distanceToMarker <= 15 && distanceToMarker > 0) {
       setTimeout(
         () => {
-          if (!this.state.rule1.found) {
+          if (!this.state.markerFound) {
             distanceToMarker = this.props.distanceToMarker;
             if (distanceToMarker <= 15 && distanceToMarker > 0) {
               this.setState({
-                rule1: {
-                  found: true,
-                  style: {
-                    color: 'red'
-                  }
-                }
+                markerFound: true
               });
+              this.toggleFoundModal();
             }
           }
         },
@@ -121,38 +101,50 @@ class QuestView extends Component {
     }
   }
 
-  checkRule2() {
-    let distanceToMarker = this.props.distanceToMarker;
-    if (distanceToMarker <= 10 && distanceToMarker > 0) {
-      setTimeout(
-        () => {
-          if (!this.state.rule2.found) {
-            distanceToMarker = this.props.distanceToMarker;
-            if (distanceToMarker <= 10 && distanceToMarker > 0) {
-              this.setState({
-                rule2: {
-                  found: true,
-                  style: {
-                    color: 'red'
-                  }
-                }
-              });
-            }
-          }
-        },
-        5000
-      );
-    } 
-  }
-
-  toggleModal() {
+  toggleClueModal() {
     this.setState({
-      modalVisible: !this.state.modalVisible
+      clueModalVisible: !this.state.clueModalVisible
     });
   }
 
-  render() {
+  toggleFoundModal() {
+    this.setState({
+      foundModalVisible: !this.state.foundModalVisible
+    });
+  }
+
+  toggleSureModal() {
+    this.setState({
+      sureModalVisible: !this.state.sureModalVisible
+    });
+  }
+
+  giveUp() {
+    this.toggleSureModal();
+    /*Väntar lite innan den stänger andra fönstret,
+    annars är den för snabb för sitt eget bästa... */
+    setTimeout(() => {
+      this.toggleClueModal();
+    }, 10);
+    this.setState({
+      markerFound: true
+    });
+  }
+
+  renderMarker() {
     const { marker } = this.props.quest;
+    if (this.state.markerFound) {
+      return (
+        <Marker
+        coordinate={marker}
+        draggable={false}
+        pinColor='blue'
+        />
+      );
+    }
+  }
+
+  render() {
     const { progressStyle, titleStyle, boxStyle } = styles;
     return (
       <View style={{ flex: 1 }}>
@@ -164,11 +156,7 @@ class QuestView extends Component {
               initialRegion={this.state.region}
               style={this.state.mapStyle}
               >
-                <Marker
-                  coordinate={marker}
-                  draggable={false}
-                  pinColor='blue'
-                />
+                {this.renderMarker()}
               </MapView>
             </CardSection>
             <CardSection style={progressStyle}>
@@ -176,21 +164,59 @@ class QuestView extends Component {
               }
               <View style={{ width: 80, height: 50, backgroundColor: 'powderblue' }} />
               <View style={{ width: 50, height: 50, backgroundColor: 'skyblue' }} />
-              <Button onPress={this.toggleModal.bind(this)}>
+              <Button onPress={this.toggleClueModal.bind(this)}>
                 Clue
               </Button>
             </CardSection>
         </Card>
+
+        {/* Clue Modal */}
         <WindowedModal 
-        visible={this.state.modalVisible} 
-        toggleModal={this.toggleModal.bind(this)} 
+        visible={this.state.clueModalVisible} 
+        toggleModal={this.toggleClueModal.bind(this)} 
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>Clue</Text>
           <View style={boxStyle}>
             <Text>{this.props.quest.clue}</Text>
           </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <Button onPress={this.toggleSureModal.bind(this)}>
+              Give up?
+            </Button>
+          </View>
+
+          {/* areYouSure Modal */}
+          <WindowedModal 
+          visible={this.state.sureModalVisible} 
+          toggleModal={this.toggleSureModal.bind(this)} 
+          modalStyle={styles.sureModalStyle}
+          >
+            <Text style={titleStyle}>Are you sure?</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Button onPress={this.giveUp.bind(this)}>
+                Yes
+              </Button>
+              <Button onPress={this.toggleSureModal.bind(this)}>
+                No
+              </Button>
+            </View>
+          </WindowedModal>
+
         </WindowedModal>
+
+        {/* Found Modal*/}
+        <WindowedModal 
+        visible={this.state.foundModalVisible} 
+        toggleModal={this.toggleFoundModal.bind(this)} 
+        modalStyle={{ marginTop: 100 }}
+        >
+          <Text style={titleStyle}>Found!</Text>
+          <View style={boxStyle}>
+            <Text>Egg found, gratz</Text>
+          </View>
+        </WindowedModal>
+
       </View>
       
     );
@@ -212,12 +238,18 @@ const styles = {
     marginLeft: 10
   },
   boxStyle: {
+    flexDirection: 'row',
     borderColor: 'rgba(0, 0, 0, 0.3)',
     borderRadius: 20,
     borderWidth: 8,
     padding: 5,
     margin: 10,
     marginTop: 0
+  },
+  sureModalStyle: {
+    justifyContent: 'center',
+    borderRadius: 0,
+    borderColor: 'red'
   }
 };
 

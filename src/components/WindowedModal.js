@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback, Text } from 'react-native';
 import Modal from 'react-native-modal';
 
 class WindowedModal extends Component {
@@ -10,6 +10,7 @@ class WindowedModal extends Component {
   -justifyContent: undefined hittar jag inte ens någon förklaring
     till när jag googlar men fråga Patrik om ni undrar vad den gör.
   -toggleModal ska ha funktionen som togglar modalen i parentkomponenten
+  -stängningskrysset kan i framtiden se lite roligare ut kanske 
   */
 
   state
@@ -24,6 +25,11 @@ class WindowedModal extends Component {
         useNativeDriver
       >
         <View style={[styles.containerStyle, containerStyle]}>
+          <TouchableWithoutFeedback onPress={toggleModal}>
+            <View style={styles.closeStyle}>
+              <Text style={{ fontSize: 20 }}>X</Text>
+            </View>
+          </TouchableWithoutFeedback>
           {this.props.children}
         </View>
       </Modal>
@@ -41,6 +47,14 @@ const styles = {
     borderWidth: 4,
     backgroundColor: 'white',
     padding: 5
+  },
+  closeStyle: {
+    position: 'absolute',
+    top: -5,
+    right: 0,
+    zIndex: 15,
+    padding: 10
+  
   }
 };
 

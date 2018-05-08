@@ -25,11 +25,11 @@ const styles = {
   buttonStyle: {
     //flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: 'yellow',
+    backgroundColor: 'rgba(143, 255, 163, 1)',
     borderRadius: 15,
     borderWidth: 3,
     borderColor: 'black',
-    width: 200,
+    width: 150,
     marginLeft: 5,
     marginRight: 5
   }
