@@ -14,8 +14,10 @@ class QuestList extends Component {
    */
 
     componentWillMount() {
+      if (!this.props.dataLoaded) {
         this.props.questsFetch();
-        this.createDataSource(this.props);
+      }
+      this.createDataSource(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,7 +53,6 @@ class QuestList extends Component {
     }
 
     reloadList() {
-      console.log(this.props.dataLoaded);
       this.props.questsDiscard();
       //Älskar trubbiga timeouts
       setTimeout(() => {

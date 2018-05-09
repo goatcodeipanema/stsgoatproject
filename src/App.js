@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import { PermissionsAndroid, YellowBox } from 'react-native';
 import _ from 'lodash';
 import firebase from 'firebase';
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import RouterComponent from './Router';
+import { locationUpdate, questsFetch } from './actions';
 
 class App extends Component {
 
@@ -21,6 +22,19 @@ class App extends Component {
     };
     firebase.initializeApp(config);
     this.ignoreLongTimerWarnings();
+  }
+
+  componentDidMount() {
+    this.props.questsFetch();
+    this.backgroundLocation();
+  }
+
+  backgroundLocation() {
+    this.props.locationUpdate();
+    setTimeout(() => {
+      this.backgroundLocation();
+    }, 10000
+    );
   }
 
   //Ska lösa problemet med gula varningar om långa timeouts 
@@ -59,4 +73,9 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = () => { return ({}); };
+
+export default connect(mapStateToProps, { 
+  locationUpdate, 
+  questsFetch
+})(App);
