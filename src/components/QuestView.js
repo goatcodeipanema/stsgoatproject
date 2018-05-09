@@ -10,6 +10,11 @@ import { locationUpdate, distanceUpdate } from '../actions';
 import { Card, CardSection, Button } from './common';
 import FadeOverlay from './FadeOverlay';
 import WindowedModal from './WindowedModal';
+import { 
+  toggleClueModal, 
+  toggleFoundModal,
+  toggleSureModal
+} from '../actions/QuestViewActions';
 
 class QuestView extends Component {
 
@@ -31,9 +36,6 @@ class QuestView extends Component {
     this.state = {
       containerStyle: {},
       mapStyle: {},
-      clueModalVisible: false,
-      foundModalVisible: false,
-      sureModalVisible: false,
       markerFound: false
     };
   }
@@ -92,7 +94,7 @@ class QuestView extends Component {
               this.setState({
                 markerFound: true
               });
-              this.toggleFoundModal();
+              this.props.toggleFoundModal();
             }
           }
         },
@@ -101,30 +103,12 @@ class QuestView extends Component {
     }
   }
 
-  toggleClueModal() {
-    this.setState({
-      clueModalVisible: !this.state.clueModalVisible
-    });
-  }
-
-  toggleFoundModal() {
-    this.setState({
-      foundModalVisible: !this.state.foundModalVisible
-    });
-  }
-
-  toggleSureModal() {
-    this.setState({
-      sureModalVisible: !this.state.sureModalVisible
-    });
-  }
-
   giveUp() {
-    this.toggleSureModal();
+    this.props.toggleSureModal();
     /*Väntar lite innan den stänger andra fönstret,
     annars är den för snabb för sitt eget bästa... */
     setTimeout(() => {
-      this.toggleClueModal();
+      this.props.toggleClueModal();
     }, 10);
     this.setState({
       markerFound: true
@@ -146,6 +130,15 @@ class QuestView extends Component {
 
   render() {
     const { progressStyle, titleStyle, boxStyle } = styles;
+    const { 
+      toggleClueModal,
+      toggleFoundModal,
+      toggleSureModal,
+      clueModalVisible,
+      foundModalVisible,
+      sureModalVisible,
+      quest
+    } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <FadeOverlay />
@@ -164,7 +157,7 @@ class QuestView extends Component {
               }
               <View style={{ width: 80, height: 50, backgroundColor: 'powderblue' }} />
               <View style={{ width: 50, height: 50, backgroundColor: 'skyblue' }} />
-              <Button onPress={this.toggleClueModal.bind(this)}>
+              <Button onPress={toggleClueModal.bind(this)}>
                 Clue
               </Button>
             </CardSection>
@@ -172,24 +165,24 @@ class QuestView extends Component {
 
         {/* Clue Modal */}
         <WindowedModal 
-        visible={this.state.clueModalVisible} 
-        toggleModal={this.toggleClueModal.bind(this)} 
+        visible={clueModalVisible} 
+        toggleModal={toggleClueModal.bind(this)} 
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>Clue</Text>
           <View style={boxStyle}>
-            <Text>{this.props.quest.clue}</Text>
+            <Text>{quest.clue}</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button onPress={this.toggleSureModal.bind(this)}>
+            <Button onPress={toggleSureModal.bind(this)}>
               Give up?
             </Button>
           </View>
 
           {/* areYouSure Modal */}
           <WindowedModal 
-          visible={this.state.sureModalVisible} 
-          toggleModal={this.toggleSureModal.bind(this)} 
+          visible={sureModalVisible} 
+          toggleModal={toggleSureModal.bind(this)} 
           modalStyle={styles.sureModalStyle}
           >
             <Text style={titleStyle}>Are you sure?</Text>
@@ -197,7 +190,7 @@ class QuestView extends Component {
               <Button onPress={this.giveUp.bind(this)}>
                 Yes
               </Button>
-              <Button onPress={this.toggleSureModal.bind(this)}>
+              <Button onPress={toggleSureModal.bind(this)}>
                 No
               </Button>
             </View>
@@ -207,8 +200,8 @@ class QuestView extends Component {
 
         {/* Found Modal*/}
         <WindowedModal 
-        visible={this.state.foundModalVisible} 
-        toggleModal={this.toggleFoundModal.bind(this)} 
+        visible={foundModalVisible} 
+        toggleModal={toggleFoundModal.bind(this)} 
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>Found!</Text>
@@ -253,11 +246,26 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({ location }) => {
+const mapStateToProps = ({ location, ongoingQuest }) => {
   const { userLocation, distanceToMarker } = location;
-  return { userLocation, distanceToMarker };
+  const { 
+    clueModalVisible, 
+    foundModalVisible,
+    sureModalVisible
+  } = ongoingQuest;
+  return { 
+    userLocation,
+    distanceToMarker,
+    clueModalVisible, 
+    foundModalVisible,
+    sureModalVisible
+     };
 };
 
 export default connect(mapStateToProps, {
-  locationUpdate, distanceUpdate
+  locationUpdate, 
+  distanceUpdate,
+  toggleClueModal,
+  toggleFoundModal,
+  toggleSureModal
 })(QuestView);

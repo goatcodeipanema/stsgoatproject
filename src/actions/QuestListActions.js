@@ -3,7 +3,8 @@ import {
   SELECT_QUEST,
   QUESTS_FETCH_SUCCESS,
   DESELECT_QUEST,
-  SEARCH_CHANGE
+  SEARCH_CHANGE,
+  QUEST_SAVE
  } from './types';
 
 // Här skickas just nu hela questobjectet som payload.
@@ -26,6 +27,12 @@ export const questsFetch = () => {
     .on('value', snapshot => {
       dispatch({ type: QUESTS_FETCH_SUCCESS, payload: snapshot.val() });
     });
+  };
+};
+
+export const questsDiscard = () => {
+  return {
+    type: QUEST_SAVE
   };
 };
 

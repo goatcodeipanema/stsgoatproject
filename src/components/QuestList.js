@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ListView, View } from 'react-native';
 import QuestListItem from './QuestListItem';
-import { questsFetch, selectQuest, searchChange } from '../actions';
-import { Spinner, SearchBar, Card, CardSection } from './common';
+import { questsFetch, questsDiscard, selectQuest, searchChange } from '../actions';
+import { Spinner, SearchBar, Card, CardSection, Button } from './common';
 
 
 class QuestList extends Component {
@@ -50,6 +50,15 @@ class QuestList extends Component {
         return searchResult;
     }
 
+    reloadList() {
+      console.log(this.props.dataLoaded);
+      this.props.questsDiscard();
+      //Älskar trubbiga timeouts
+      setTimeout(() => {
+        this.props.questsFetch();
+      }, 1);
+    }
+
     createDataSource({ quests }) {
         const ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2
@@ -68,10 +77,13 @@ class QuestList extends Component {
             return (
               <Card>
                 <CardSection>
-                   <SearchBar
-                    onChangeText={this.onSearchChange.bind(this)}
-                    placeholder='Search for a goaty quest'
-                   />
+                  <SearchBar
+                  onChangeText={this.onSearchChange.bind(this)}
+                  placeholder='Search for a goaty quest'
+                  />
+                  <Button onPress={this.reloadList.bind(this)}>
+                    Reload
+                  </Button>
                 </CardSection>
 
                 <ListView
@@ -114,4 +126,4 @@ const mapStateToProps = ({ selected }) => {
 };
 
 
-export default connect(mapStateToProps, { questsFetch, selectQuest, searchChange })(QuestList);
+export default connect(mapStateToProps, { questsFetch, questsDiscard, selectQuest, searchChange })(QuestList);

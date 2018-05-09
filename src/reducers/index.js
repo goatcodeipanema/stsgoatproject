@@ -3,10 +3,13 @@ import AuthReducer from './AuthReducer';
 import CreateQuestReducer from './CreateQuestReducer';
 import QuestListReducer from './QuestListReducer';
 import LocationReducer from './LocationReducer';
+import QuestViewReducer from './QuestViewReducer';
 
 export default combineReducers({
   auth: AuthReducer,
   createQuest: CreateQuestReducer,
   selected: QuestListReducer,
-  location: LocationReducer
+  location: LocationReducer,
+  ongoingQuest: QuestViewReducer
+
 });

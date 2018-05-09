@@ -13,3 +13,7 @@ export const SEARCH_CHANGE = 'search_change';
 export const LOCATION_UPDATE = 'location_update';
 export const LOCATION_FAIL = 'location_fail';
 export const DISTANCE_UPDATE = 'distance_update';
+export const TOGGLE_CLUE_MODAL = 'toggle_clue_modal';
+export const TOGGLE_FOUND_MODAL = 'toggle_found_modal';
+export const TOGGLE_SURE_MODAL = 'toggle_sure_modal';
+export const MARKER_FOUND = 'marker_found';

@@ -23,7 +23,7 @@ class RouterComponent extends Component {
   backgroundLocation() {
     this.props.locationUpdate();
     setTimeout(() => {
-      this.props.locationUpdate();
+      this.backgroundLocation();
     }, 10000
     );
   }
