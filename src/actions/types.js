@@ -13,3 +13,5 @@ export const SEARCH_CHANGE = 'search_change';
 export const LOCATION_UPDATE = 'location_update';
 export const LOCATION_FAIL = 'location_fail';
 export const DISTANCE_UPDATE = 'distance_update';
+export const MARKER_UPDATE = 'marker_update';
+export const MARKER_SELECT = 'marker_select';
