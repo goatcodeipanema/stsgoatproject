@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 import { PermissionsAndroid, YellowBox } from 'react-native';
 import _ from 'lodash';
 import firebase from 'firebase';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
-import Reducers from './reducers';
+import { connect, Provider } from 'react-redux';
 import RouterComponent from './Router';
+import { locationUpdate, questsFetch } from './actions';
 
 class App extends Component {
 
@@ -26,10 +24,24 @@ class App extends Component {
     this.ignoreLongTimerWarnings();
   }
 
+  componentDidMount() {
+    this.props.questsFetch();
+    this.backgroundLocation();
+  }
+
+  backgroundLocation() {
+    this.props.locationUpdate();
+    setTimeout(() => {
+      this.backgroundLocation();
+    }, 10000
+    );
+  }
+
   //Ska lösa problemet med gula varningar om långa timeouts 
   //(som fö beror på ett problem i firebase)  
   ignoreLongTimerWarnings() {
     YellowBox.ignoreWarnings(['Setting a timer']);
+    YellowBox.ignoreWarnings(['Remote debugger is in a background tab']);
     const _console = _.clone(console);
     console.warn = message => {
     if (message.indexOf('Setting a timer') <= -1) {
@@ -53,13 +65,17 @@ class App extends Component {
   }
 
   render() {
-    const store = createStore(Reducers, {}, applyMiddleware(ReduxThunk));
     return (
-      <Provider store={store}>
+      <Provider store={this.props.store}>
         <RouterComponent />
       </Provider>
     );
   }
 }
 
-export default App;
+const mapStateToProps = () => { return ({}); };
+
+export default connect(mapStateToProps, { 
+  locationUpdate, 
+  questsFetch
+})(App);
