@@ -6,6 +6,7 @@ import {
   Text
 } from 'react-native';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { locationUpdate, distanceUpdate } from '../actions';
 import { Card, CardSection, Button } from './common';
 import FadeOverlay from './FadeOverlay';
@@ -13,7 +14,9 @@ import WindowedModal from './WindowedModal';
 import { 
   toggleClueModal, 
   toggleFoundModal,
-  toggleSureModal
+  toggleSureModal,
+  markerIsFound,
+  loadNextMarker
 } from '../actions/QuestViewActions';
 
 class QuestView extends Component {
@@ -35,8 +38,7 @@ class QuestView extends Component {
     super();
     this.state = {
       containerStyle: {},
-      mapStyle: {},
-      markerFound: false
+      mapStyle: {}
     };
   }
 
@@ -74,9 +76,10 @@ class QuestView extends Component {
   updateQuestProgress() {
     //Uppdaterar location och distance.
     if (this._mounted) {
-      this.props.locationUpdate();
-      this.props.distanceUpdate(this.props.quest.marker);
-      if (!this.state.markerFound) {
+      const { markerArray, currentMarker, locationUpdate, distanceUpdate } = this.props;
+      locationUpdate();
+      distanceUpdate(markerArray[currentMarker].coordinate);
+      if (!markerArray[currentMarker].found) {
         this.checkFound();
       }
       setTimeout(() => this.updateQuestProgress(), 300);
@@ -85,20 +88,22 @@ class QuestView extends Component {
 
   checkFound() {
     let distanceToMarker = this.props.distanceToMarker;
+    const currentMarker = this.props.currentMarker;
     if (distanceToMarker <= 15 && distanceToMarker > 0) {
       setTimeout(
         () => {
-          if (!this.state.markerFound) {
+          if (!this.props.markerArray[currentMarker].found) {
             distanceToMarker = this.props.distanceToMarker;
             if (distanceToMarker <= 15 && distanceToMarker > 0) {
-              this.setState({
-                markerFound: true
-              });
+              this.props.markerIsFound();
+              if (currentMarker < this.props.markerArray.length - 1) {
+                this.props.loadNextMarker();
+              }
               this.props.toggleFoundModal();
             }
           }
         },
-        8000
+        5000
       );
     }
   }
@@ -109,23 +114,28 @@ class QuestView extends Component {
     annars är den för snabb för sitt eget bästa... */
     setTimeout(() => {
       this.props.toggleClueModal();
-    }, 10);
-    this.setState({
-      markerFound: true
-    });
+    }, 1);
+    const currentMarker = this.props.currentMarker;
+    this.props.markerIsFound();
+    if (currentMarker < this.props.markerArray.length - 1) {
+      this.props.loadNextMarker();
+    }
   }
 
-  renderMarker() {
-    const { marker } = this.props.quest;
-    if (this.state.markerFound) {
-      return (
+  renderMarkers() {
+    const { markerArray } = this.props;
+    return (
+      markerArray.filter((marker) => marker.found)
+        .map((eachMarker, i) => (
         <Marker
-        coordinate={marker}
-        draggable={false}
-        pinColor='blue'
+          coordinate={eachMarker.coordinate}
+          //draggable
+          identifier={i.toString()}
+          key={i}
         />
-      );
-    }
+        )
+      )
+    );
   }
 
   render() {
@@ -137,7 +147,7 @@ class QuestView extends Component {
       clueModalVisible,
       foundModalVisible,
       sureModalVisible,
-      quest
+      currentClue
     } = this.props;
     return (
       <View style={{ flex: 1 }}>
@@ -149,7 +159,7 @@ class QuestView extends Component {
               initialRegion={this.state.region}
               style={this.state.mapStyle}
               >
-                {this.renderMarker()}
+                {this.renderMarkers()}
               </MapView>
             </CardSection>
             <CardSection style={progressStyle}>
@@ -171,7 +181,7 @@ class QuestView extends Component {
         >
           <Text style={titleStyle}>Clue</Text>
           <View style={boxStyle}>
-            <Text>{quest.clue}</Text>
+            <Text>{currentClue}</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <Button onPress={toggleSureModal.bind(this)}>
@@ -249,11 +259,21 @@ const styles = {
 const mapStateToProps = ({ location, ongoingQuest }) => {
   const { userLocation, distanceToMarker } = location;
   const { 
+    quest,
+    progress,
+    currentMarker,
     clueModalVisible, 
     foundModalVisible,
     sureModalVisible
   } = ongoingQuest;
+  const markerArray = _.map(quest.markers, (val, index) => {
+    return { ...val, found: progress[index].found };
+  });
+  const currentClue = quest.markers[currentMarker].clue;
   return { 
+    markerArray,
+    currentMarker,
+    currentClue,
     userLocation,
     distanceToMarker,
     clueModalVisible, 
@@ -267,5 +287,7 @@ export default connect(mapStateToProps, {
   distanceUpdate,
   toggleClueModal,
   toggleFoundModal,
-  toggleSureModal
+  toggleSureModal,
+  markerIsFound,
+  loadNextMarker
 })(QuestView);
