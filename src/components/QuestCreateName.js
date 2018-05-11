@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { CardSection, Button, Input, TextArea, Card } from './common';
@@ -13,6 +13,7 @@ class QuestCreateName extends Component {
   }
 
   onButtonPress() {
+    Keyboard.dismiss();
     Actions.questCreateMarker();
   }
   //Det här genererar ett id med 7 tecken, blandade bokstäver & siffror

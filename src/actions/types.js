@@ -19,3 +19,7 @@ export const TOGGLE_CLUE_MODAL = 'toggle_clue_modal';
 export const TOGGLE_FOUND_MODAL = 'toggle_found_modal';
 export const TOGGLE_SURE_MODAL = 'toggle_sure_modal';
 export const MARKER_FOUND = 'marker_found';
+export const TOGGLE_MARKER_MODAL = 'toggle_marker_modal';
+export const TOGGLE_DELETE_MODAL = 'toggle_delete_modal';
+export const DELETE_MARKER = 'delete_marker';
+export const UPDATE_TOTAL_DISTANCE = 'update_total_distance';
