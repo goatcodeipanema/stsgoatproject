@@ -3,7 +3,7 @@ import { Text, TouchableWithoutFeedback, View, Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { CardSection, Button } from './common';
-import { selectQuest, questsFetch, deselectQuest } from '../actions';
+import { selectQuest, questsFetch, deselectQuest, loadQuest } from '../actions';
 
 class QuestListItem extends Component {
 
@@ -23,7 +23,8 @@ class QuestListItem extends Component {
 
   //Hoppar till questview och ger den questen som prop.
   goToQuest() {
-    Actions.questView({ quest: this.props.quest });
+    this.props.loadQuest(this.props.quest);
+    Actions.questView();
   }
 
   renderDescription() {
@@ -96,5 +97,5 @@ const mapStateToProps = ({ selected }, ownProps) => {
 };
 
 export default connect(mapStateToProps, {
-  selectQuest, questsFetch, deselectQuest
+  selectQuest, questsFetch, deselectQuest, loadQuest
  })(QuestListItem);
