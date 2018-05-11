@@ -60,12 +60,14 @@ class Map extends Component {
           longitude: this.props.userLocation.longitude,
         } 
       });
-      //setTimeout(() => this.animateToPosition(), 1000);
+      setTimeout(() => this.animateToPosition(), 10);
     }
   }
 
   onRegionChange(region) {
-    this.setState({ region });
+    if (this.mounted) {
+      this.setState({ region });
+    }
   }
 
   render() {

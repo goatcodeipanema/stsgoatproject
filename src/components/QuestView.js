@@ -12,11 +12,14 @@ import FadeOverlay from './FadeOverlay';
 import WindowedModal from './WindowedModal';
 import Map from './Map';
 import { 
-  toggleClueModal, 
+  toggleClueModal,
   toggleFoundModal,
   toggleSureModal,
+  toggleCompleteModal,
+  closeQuestViewModals,
   markerIsFound,
-  loadNextMarker
+  loadNextMarker,
+  questComplete
 } from '../actions/QuestViewActions';
 
 class QuestView extends Component {
@@ -27,7 +30,16 @@ class QuestView extends Component {
     this.clueModal = props.toggleClueModal.bind(this);
     this.sureModal = props.toggleSureModal.bind(this);
     this.foundModal = props.toggleFoundModal.bind(this);
+    this.completeModal = props.toggleCompleteModal.bind(this);
     this.giveUp = this.giveUp.bind(this);
+    this.completeText = {
+      title: "Golden egg found!",
+      text: "WOW, you found the egg! And it's full of CHEESE!! What a day..."
+    };
+    this.foundText = {
+      title: "",
+      text: ""
+    };
   }
 
   componentDidMount() {
@@ -61,17 +73,36 @@ class QuestView extends Component {
           if (!this.props.markerArray[currentMarker].found) {
             distanceToMarker = this.props.distanceToMarker;
             if (distanceToMarker <= 15 && distanceToMarker > 0) {
-              this.props.markerIsFound();
-              if (currentMarker < this.props.markerArray.length - 1) {
-                this.props.loadNextMarker();
-              }
-              this.props.toggleFoundModal();
+              this.advanceQuest(false);
             }
           }
-        },
-        5000
-      );
+        }, 5000);
     }
+  }
+
+  advanceQuest(cheated) {
+    const { 
+    toggleFoundModal,
+    toggleCompleteModal,
+    closeQuestViewModals,
+    currentMarker,
+    markerArray,
+    markerIsFound,
+    loadNextMarker,
+    questComplete
+    } = this.props;
+
+    closeQuestViewModals();
+
+    markerIsFound(cheated);
+    this.setModalTexts(cheated);
+    if (currentMarker < markerArray.length - 1) {
+      loadNextMarker();
+      toggleFoundModal();
+    } else {
+      questComplete();
+      toggleCompleteModal();
+    }             
   }
 
   giveUp() {
@@ -79,10 +110,27 @@ class QuestView extends Component {
     setTimeout(() => {
       this.props.toggleClueModal();
     }, 1);
-    const currentMarker = this.props.currentMarker;
-    this.props.markerIsFound();
-    if (currentMarker < this.props.markerArray.length - 1) {
-      this.props.loadNextMarker();
+    setTimeout(() => {
+      this.advanceQuest(true);
+    }, 300);
+  }
+
+  setModalTexts(cheated) {
+    if (cheated) {
+      this.completeText = {
+        title: "Golden egg found!",
+        text: "WOW, you found the egg! But what's that?" +
+          " It's full of HUEL... That's what happens to cheaters."
+      };
+      this.foundText = {
+        title: "Cheated...",
+        text: "Too hard?? Ok then, here's your next clue."
+      };
+    } else {
+      this.foundText = {
+        title: "Next clue found!",
+        text: "You found another clue, keep going!"
+      };
     }
   }
 
@@ -102,6 +150,7 @@ class QuestView extends Component {
       clueModalVisible,
       foundModalVisible,
       sureModalVisible,
+      completeModalVisible,
       currentClue
     } = this.props;
     return (
@@ -159,15 +208,27 @@ class QuestView extends Component {
 
         </WindowedModal>
 
-        {/* Found Modal*/}
+        {/* Found Modal */}
         <WindowedModal 
         visible={foundModalVisible} 
         toggleModal={this.foundModal} 
         modalStyle={{ marginTop: 100 }}
         >
-          <Text style={titleStyle}>Found!</Text>
+          <Text style={titleStyle}>{this.foundText.title}</Text>
           <View style={boxStyle}>
-            <Text>Egg found, gratz</Text>
+            <Text>{this.foundText.text}</Text>
+          </View>
+        </WindowedModal>
+
+        {/* Complete Modal */}
+        <WindowedModal 
+        visible={completeModalVisible} 
+        toggleModal={this.completeModal} 
+        modalStyle={{ marginTop: 100 }}
+        >
+          <Text style={titleStyle}>{this.completeText.title}</Text>
+          <View style={boxStyle}>
+            <Text>{this.completeText.text}</Text>
           </View>
         </WindowedModal>
 
@@ -220,7 +281,8 @@ const mapStateToProps = ({ location, ongoingQuest }) => {
     currentMarker,
     clueModalVisible, 
     foundModalVisible,
-    sureModalVisible
+    sureModalVisible,
+    completeModalVisible
   } = ongoingQuest;
 
   const markerArray = _.map(quest.markers, (val, index) => {
@@ -236,7 +298,8 @@ const mapStateToProps = ({ location, ongoingQuest }) => {
     distanceToMarker,
     clueModalVisible, 
     foundModalVisible,
-    sureModalVisible
+    sureModalVisible,
+    completeModalVisible
      };
 };
 
@@ -246,6 +309,9 @@ export default connect(mapStateToProps, {
   toggleClueModal,
   toggleFoundModal,
   toggleSureModal,
+  toggleCompleteModal,
+  closeQuestViewModals,
   markerIsFound,
-  loadNextMarker
+  loadNextMarker,
+  questComplete
 })(QuestView);

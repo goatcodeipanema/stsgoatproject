@@ -13,8 +13,6 @@ class WindowedModal extends Component {
   -stängningskrysset kan i framtiden se lite roligare ut kanske 
   */
 
-  state
-
   render() {
    const { visible, modalStyle, containerStyle, toggleModal } = this.props;
     return (

@@ -2,10 +2,19 @@ import {
   TOGGLE_CLUE_MODAL,
   TOGGLE_FOUND_MODAL,
   TOGGLE_SURE_MODAL,
+  TOGGLE_COMPLETE_MODAL,
+  CLOSE_QVIEW_MODALS,
   MARKER_FOUND,
   LOAD_NEXT_MARKER,
-  LOAD_QUEST
+  LOAD_QUEST,
+  QUEST_COMPLETE
  } from './types';
+
+export const closeQuestViewModals = () => {
+    return {
+        type: CLOSE_QVIEW_MODALS
+    };
+};
 
 export const toggleClueModal = () => {
     return {
@@ -25,9 +34,22 @@ export const toggleSureModal = () => {
     };
 };
 
-export const markerIsFound = () => {
+export const toggleCompleteModal = () => {
     return {
-        type: MARKER_FOUND
+        type: TOGGLE_COMPLETE_MODAL
+    };
+};
+
+export const questComplete = () => {
+    return {
+        type: QUEST_COMPLETE
+    };
+};
+
+export const markerIsFound = (cheated) => {
+    return {
+        type: MARKER_FOUND,
+        payload: cheated
     };
 };
 
