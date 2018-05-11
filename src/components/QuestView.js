@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { 
   View, 
-  StyleSheet,
   Text
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -11,6 +10,7 @@ import { locationUpdate, distanceUpdate } from '../actions';
 import { Card, CardSection, Button } from './common';
 import FadeOverlay from './FadeOverlay';
 import WindowedModal from './WindowedModal';
+import Map from './Map';
 import { 
   toggleClueModal, 
   toggleFoundModal,
@@ -21,61 +21,27 @@ import {
 
 class QuestView extends Component {
 
-  /*
-  -Just nu behöver QuestView en quest som prop när den navigeras till.
-  -Style för kartan lagras i state eftersom vi behöver uppdatera den
-    och rendera om den för att visa showUserLocation-knappen. Det finns 
-    typ ingen best practice så vi får väl välja själva hur vi vill ha det.
-    Nackdelen med state är att this._mounted måste användas för att inte råka
-    kalla setState när komponenten är omountad.
-  -...absoluteFillObject är samma som att sätta position: absolute och
-    top: 0, bottom: 0, left: 0, right: 0. Alla borders och paddings försvinner alltså.
-  -Understrecket i this._mounted vet jag inte om det betyder något, men det 
-    är ju inte lodash och vi kanske ska döpa om det om det blir förvirrande?
-  */
-
-  constructor() {
+  constructor(props) {
     super();
-    this.state = {
-      containerStyle: {},
-      mapStyle: {}
-    };
+    this.renderMarkers = this.renderMarkers.bind(this);
+    this.clueModal = props.toggleClueModal.bind(this);
+    this.sureModal = props.toggleSureModal.bind(this);
+    this.foundModal = props.toggleFoundModal.bind(this);
+    this.giveUp = this.giveUp.bind(this);
   }
 
   componentDidMount() {
-    this._mounted = true;
+    this.mounted = true;
     this.updateQuestProgress();
-
-    //Det är lite oklart men det här funkar alltså för att rendera knappen.
-    //Om den inte dyker upp direkt, prova att öka fördröjningen i timern.
-    setTimeout(() => this.updateStyle(), 1);
   }
 
   componentWillUnmount() {
-    this._mounted = false;
-  }
-
-  updateStyle() {
-    if (this._mounted) {
-      this.setState({ containerStyle: {
-          flex: 1,
-        },
-        mapStyle: {
-        ...StyleSheet.absoluteFillObject
-        },
-        region: {
-          latitude: this.props.userLocation.latitude,
-          longitude: this.props.userLocation.longitude,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5
-        } 
-      });
-    }
+    this.mounted = false;
   }
 
   updateQuestProgress() {
     //Uppdaterar location och distance.
-    if (this._mounted) {
+    if (this.mounted) {
       const { markerArray, currentMarker, locationUpdate, distanceUpdate } = this.props;
       locationUpdate();
       distanceUpdate(markerArray[currentMarker].coordinate);
@@ -110,8 +76,6 @@ class QuestView extends Component {
 
   giveUp() {
     this.props.toggleSureModal();
-    /*Väntar lite innan den stänger andra fönstret,
-    annars är den för snabb för sitt eget bästa... */
     setTimeout(() => {
       this.props.toggleClueModal();
     }, 1);
@@ -127,23 +91,14 @@ class QuestView extends Component {
     return (
       markerArray.filter((marker) => marker.found)
         .map((eachMarker, i) => (
-        <Marker
-          coordinate={eachMarker.coordinate}
-          //draggable
-          identifier={i.toString()}
-          key={i}
-        />
-        )
-      )
+        <Marker coordinate={eachMarker.coordinate} key={i} />
+          ))
     );
   }
 
   render() {
-    const { progressStyle, titleStyle, boxStyle } = styles;
+    const { mapWindowStyle, progressStyle, titleStyle, boxStyle } = styles;
     const { 
-      toggleClueModal,
-      toggleFoundModal,
-      toggleSureModal,
       clueModalVisible,
       foundModalVisible,
       sureModalVisible,
@@ -153,30 +108,26 @@ class QuestView extends Component {
       <View style={{ flex: 1 }}>
         <FadeOverlay />
         <Card>
-            <CardSection style={this.state.containerStyle}>
-              <MapView 
-              showsUserLocation
-              initialRegion={this.state.region}
-              style={this.state.mapStyle}
-              >
-                {this.renderMarkers()}
-              </MapView>
+            <CardSection style={mapWindowStyle}>
+              <Map renderMarkers={this.renderMarkers} />
             </CardSection>
             <CardSection style={progressStyle}>
               {//Här går det att ploppa in progressgrejer istället för viewsen
               }
               <View style={{ width: 80, height: 50, backgroundColor: 'powderblue' }} />
               <View style={{ width: 50, height: 50, backgroundColor: 'skyblue' }} />
-              <Button onPress={toggleClueModal.bind(this)}>
-                Clue
-              </Button>
+              <View>
+                <Button onPress={this.clueModal}>
+                  Clue
+                </Button>
+              </View>
             </CardSection>
         </Card>
 
         {/* Clue Modal */}
         <WindowedModal 
         visible={clueModalVisible} 
-        toggleModal={toggleClueModal.bind(this)} 
+        toggleModal={this.clueModal} 
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>Clue</Text>
@@ -184,7 +135,7 @@ class QuestView extends Component {
             <Text>{currentClue}</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button onPress={toggleSureModal.bind(this)}>
+            <Button onPress={this.sureModal}>
               Give up?
             </Button>
           </View>
@@ -192,15 +143,15 @@ class QuestView extends Component {
           {/* areYouSure Modal */}
           <WindowedModal 
           visible={sureModalVisible} 
-          toggleModal={toggleSureModal.bind(this)} 
+          toggleModal={this.sureModal} 
           modalStyle={styles.sureModalStyle}
           >
             <Text style={titleStyle}>Are you sure?</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Button onPress={this.giveUp.bind(this)}>
+              <Button onPress={this.giveUp}>
                 Yes
               </Button>
-              <Button onPress={toggleSureModal.bind(this)}>
+              <Button onPress={this.sureModal}>
                 No
               </Button>
             </View>
@@ -211,7 +162,7 @@ class QuestView extends Component {
         {/* Found Modal*/}
         <WindowedModal 
         visible={foundModalVisible} 
-        toggleModal={toggleFoundModal.bind(this)} 
+        toggleModal={this.foundModal} 
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>Found!</Text>
@@ -230,9 +181,14 @@ const styles = {
   textStyle: {
     fontSize: 18
   },
+  mapWindowStyle: {
+    flex: 5
+  },
   progressStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1
   },
   titleStyle: {
     fontSize: 45,
@@ -266,10 +222,12 @@ const mapStateToProps = ({ location, ongoingQuest }) => {
     foundModalVisible,
     sureModalVisible
   } = ongoingQuest;
+
   const markerArray = _.map(quest.markers, (val, index) => {
     return { ...val, found: progress[index].found };
   });
   const currentClue = quest.markers[currentMarker].clue;
+  
   return { 
     markerArray,
     currentMarker,

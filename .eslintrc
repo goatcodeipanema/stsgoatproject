@@ -4,7 +4,7 @@
       "arrow-body-style": 0,
       "no-underscore-dangle": 0,
       "no-shadow": 0,
-      "max-len": 0,
-      "radix": 0
+      "radix": 0,
+      "react/sort-comp": 0
     }
 }

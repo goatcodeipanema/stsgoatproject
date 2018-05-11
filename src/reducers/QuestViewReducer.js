@@ -32,13 +32,15 @@ export default (state = INITIAL_STATE, action) => {
         case TOGGLE_FOUND_MODAL:
             return { ...state, foundModalVisible: !state.foundModalVisible };
         case TOGGLE_SURE_MODAL:
-          return { ...state, sureModalVisible: !state.sureModalVisible };
+            return { ...state, sureModalVisible: !state.sureModalVisible };
         case MARKER_FOUND:
-          return { ...state, progress: { ...state.progress, [state.currentMarker]: { found: true } } };
+            return { 
+                ...state, 
+                progress: { ...state.progress, [state.currentMarker]: { found: true } } };
         case LOAD_NEXT_MARKER:
-          return { ...state, currentMarker: parseInt(state.currentMarker) + 1 };
+            return { ...state, currentMarker: parseInt(state.currentMarker) + 1 };
         case LOAD_QUEST:
-          return { ...state, quest: action.payload.quest, progress: action.payload.progress };
+            return { ...state, quest: action.payload.quest, progress: action.payload.progress };
         default:
             return state;
     }
