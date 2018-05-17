@@ -9,6 +9,7 @@ const SearchBar = ({ placeholder, onChangeText }) => {
         style={inputStyle}
         placeholder={placeholder}
         onChangeText={onChangeText}
+        placeholderTextColor='limegreen'
       />
     </View>
   );
@@ -20,16 +21,22 @@ const styles = {
     padding: 8,
     flexDirection: 'row',
     alignItems: 'center',
+    //backgroundColor: 'transparent'
     //backgroundColor: '#C1C1C1',
+
   },
   inputStyle: {
-    color: '#000',
+    color: 'limegreen',
     height: 40,
     flex: 1,
     paddingHorizontal: 8,
     fontSize: 15,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 2,
+    //backgroundColor: '#FFFFFF',
+    backgroundColor: 'transparent',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    fontFamily: 'VCR_OSD_MONO_1.001'
   }
 };
 

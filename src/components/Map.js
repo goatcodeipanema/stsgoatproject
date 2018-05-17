@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class Map extends Component {
 
   /*
-  -Updates style shortly after mounting to render the showUserLocation button properly. 
+  -Updates style shortly after mounting to render the showUserLocation button properly.
   -Needs a renderMarkers() as a prop. Have renderMarkers() return an empty [] if no markers wanted.
 
   */
@@ -27,7 +27,7 @@ class Map extends Component {
         longitude: 0,
         latitudeDelta,
         longitudeDelta
-      } 
+      }
     };
   }
 
@@ -48,17 +48,17 @@ class Map extends Component {
 
   updateStyle() {
     if (this.mounted) {
-      this.setState({ 
+      this.setState({
         containerStyle: {
           flex: 1
         },
         mapStyle: {
         ...StyleSheet.absoluteFillObject
         },
-        region: { ...this.state.region, 
+        region: { ...this.state.region,
           latitude: this.props.userLocation.latitude,
           longitude: this.props.userLocation.longitude,
-        } 
+        }
       });
       setTimeout(() => this.animateToPosition(), 10);
     }

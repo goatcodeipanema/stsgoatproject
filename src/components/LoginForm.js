@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { ImageButton, CardSection, Input, Button, Spinner } from './common';
 
 const goatImage = require('../goatPic/goat2.png');
+const starGif = require('../goatPic/stars.gif');
+const pinkButton = require('../goatPic/pinkButton.png');
+const blueButton = require('../goatPic/blueButton.png');
 
 class LoginForm extends Component {
 
@@ -24,38 +27,51 @@ class LoginForm extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Sign in/ Sign up
-      </Button>
+      <ImageButton
+        onPress={this.onButtonPress.bind(this)} source={blueButton}
+      >
+      Start
+      </ImageButton>
+
+
     );
   }
   renderError() {
     if (this.props.error) {
       return (
-        <View style={{ backgroundColor: 'white' }}>
+
           <Text style={styles.errorTextStyle}>
             {this.props.error}
           </Text>
-        </View>
+
       );
     }
   }
 
   render() {
     return (
-      <Card style={styles.cardStyle}>
+
+      <ImageBackground source={starGif} style={styles.backgroundStyle}>
+
         <CardSection>
-          <View>
+
             <Image
-              style={{ height: 240, width: 240 }}
+              style={{ height: 220, width: 220, marginRight: 30 }}
               source={goatImage}
             />
+        </CardSection>
+
+        <CardSection>
             <Text style={styles.titleStyle}>
             Goat Quest
             </Text>
-          </View>
         </CardSection>
-        <CardSection>
+
+        <CardSection style={{ backgroundColor: 'black' }}>
+          <Text style={{ color: '#FACC2E', fontFamily: 'upheavtt', fontSize: 20 }}> Sign in / sign up: </Text>
+        </CardSection>
+
+        <CardSection style={{ backgroundColor: 'black' }}>
           <Input
             label="Email"
             placeholder="email@gmail.com"
@@ -64,7 +80,7 @@ class LoginForm extends Component {
           />
         </CardSection>
 
-        <CardSection>
+        <CardSection style={{ backgroundColor: 'black' }}>
           <Input
             secureTextEntry
             label="Password"
@@ -73,13 +89,20 @@ class LoginForm extends Component {
             value={this.props.password}
           />
         </CardSection>
-
-        {this.renderError()}
+        <CardSection>
+          {this.renderError()}
+        </CardSection>
 
         <CardSection>
           {this.renderButton()}
         </CardSection>
-      </Card>
+
+        <CardSection
+        style={{ height: 140 }}
+        />
+
+
+      </ImageBackground>
     );
   }
 }
@@ -89,7 +112,7 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red',
-    backgroundColor: '#ADD8E6'
+    backgroundColor: 'transparent'
   },
 
   cardStyle: {
@@ -98,9 +121,16 @@ const styles = {
     justifyContent: 'center'
   },
 
+  backgroundStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
   titleStyle: {
-    fontFamily: 'Cake n Truffles',
-    fontSize: 40,
+    fontFamily: 'upheavtt',
+    fontSize: 55,
+    color: '#FACC2E'
 
   }
 };

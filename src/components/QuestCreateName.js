@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Text, Keyboard } from 'react-native';
+import { Text, Keyboard, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { CardSection, Button, Input, TextArea, Card } from './common';
+import { CardSection, Button, Input, TextArea } from './common';
 import { questUpdate } from '../actions';
+
+const starGif = require('../goatPic/stars.gif');
 
 class QuestCreateName extends Component {
 
@@ -26,16 +28,19 @@ class QuestCreateName extends Component {
     if (title && description) {
       //det går inte att gå vidare utan title och description
       return (
-        <Button onPress={this.onButtonPress.bind(this)} >Press to go to map</Button>
+        <Button onPress={this.onButtonPress.bind(this)} >To map</Button>
       );
     }
-    return (<Text> Give your quest a name and add a description to continue</Text>);
+    return (
+      <Text style={{ color: 'yellow' }}>
+        Give your quest a name and add a description to continue
+      </Text>);
   }
 
   render() {
     return (
-      <Card style={styles.cardStyle}>
-        <CardSection>
+      <ImageBackground source={starGif} style={styles.backgroundStyle}>
+        <CardSection style={{ backgroundColor: 'black' }}>
           <Input
             label="Quest"
             placeholder="My first goat quest"
@@ -45,7 +50,7 @@ class QuestCreateName extends Component {
           />
         </CardSection>
 
-        <CardSection>
+        <CardSection style={{ backgroundColor: 'black' }}>
           <TextArea
             label="Description"
             placeholder="pelle svanslös blablablabla.."
@@ -59,7 +64,7 @@ class QuestCreateName extends Component {
         <CardSection>
           {this.renderButton()}
         </CardSection>
-      </Card>
+      </ImageBackground>
     );
   }
 }
@@ -68,7 +73,13 @@ const styles = {
   cardStyle: {
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+
+  backgroundStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 
 };
 

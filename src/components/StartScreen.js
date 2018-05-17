@@ -1,40 +1,44 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, ImageBackground } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button, Card, CardSection } from './common';
+import { Button, ImageButton, CardSection } from './common';
 
+const starGif = require('../goatPic/stars.gif');
+const blueButton = require('../goatPic/blueButton.png');
 
 const StartScreen = () => {
   return (
-    <Card style={styles.cardStyle}>
+    <ImageBackground source={starGif} style={styles.backgroundStyle}>
 
       <CardSection style={styles.buttonStyle}>
-        <Button 
-          onPress={() => { 
+        <ImageButton
+          onPress={() => {
             if (Actions.currentScene === 'start') {
-              Actions.questCreateName(); 
+              Actions.questCreateName();
             }
           }}
+          source={blueButton}
         >
           CREATE QUEST
-        </Button>
+        </ImageButton>
       </CardSection>
 
       <CardSection>
           <Text style={styles.textStyle}> OR </Text>
       </CardSection>
       <CardSection style={styles.buttonStyle}>
-        <Button 
-          onPress={() => { 
+        <ImageButton
+          onPress={() => {
             if (Actions.currentScene === 'start') {
-              Actions.questList(); 
+              Actions.questList();
             }
           }}
+          source={blueButton}
         >
           JOIN QUEST
-        </Button>
+        </ImageButton>
       </CardSection>
-    </Card>
+    </ImageBackground>
   );
 };
 const styles = {
@@ -49,9 +53,16 @@ const styles = {
     justifyContent: 'center',
   },
 
+  backgroundStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
     textStyle: {
-      fontFamily: 'Cake n Truffles',
-      fontSize: 40
+      fontFamily: 'upheavtt',
+      fontSize: 40,
+      color: 'white'
     }
 };
 

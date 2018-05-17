@@ -1,10 +1,12 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView, View } from 'react-native';
+import { ListView, View, ImageBackground } from 'react-native';
 import QuestListItem from './QuestListItem';
 import { questsFetch, questsDiscard, selectQuest, searchChange } from '../actions';
 import { Spinner, SearchBar, Card, CardSection, Button } from './common';
+
+const starGif = require('../goatPic/stars.gif');
 
 
 class QuestList extends Component {
@@ -80,7 +82,7 @@ class QuestList extends Component {
                 <CardSection>
                   <SearchBar
                   onChangeText={this.onSearchChange.bind(this)}
-                  placeholder='Search for a goaty quest'
+                  placeholder='Search...'
                   />
                   <Button onPress={this.reloadList.bind(this)}>
                     Reload
@@ -102,16 +104,26 @@ class QuestList extends Component {
             );
         }
         return (
+            <Card>
             <Spinner />
+
+            </Card>
+
         );
     }
 }
 const styles = {
   separator: {
-    backgroundColor: '#87cefa',
+    backgroundColor: 'transparent',
     height: 5,
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
+
+  backgroundStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 };
 /*
 Ev att vi vill byta namn på selected. det kommer från index.js i reducers. _.map kommer från

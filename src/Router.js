@@ -16,7 +16,14 @@ class RouterComponent extends Component {
 
   render() {
   return (
-    <Router>
+    <Router
+    navigationBarStyle={{ backgroundColor: 'black' }}
+    titleStyle={{ color: 'limegreen', fontWeight: '100', fontFamily: 'VCR_OSD_MONO_1.001' }}
+    barButtonTextStyle={{ color: 'pink' }}
+    barButtonIconStyle={{ tintColor: 'pink' }}
+    rightButtonTextStyle={{ color: 'white' }}
+    tintColor='white'
+    >
       <Scene key="root" hideNavBar>
         <Scene key="auth" hideNavBar>
           <Scene

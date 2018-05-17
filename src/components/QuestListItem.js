@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { Text, TouchableWithoutFeedback, View, Keyboard } from 'react-native';
+import { Text, TouchableWithoutFeedback, View, Keyboard, ImageBackground } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { CardSection, Button } from './common';
 import { selectQuest, questsFetch, deselectQuest, loadQuest } from '../actions';
+
+const starGif = require('../goatPic/stars.gif');
+const blueButton = require('../goatPic/blueButton.png');
 
 class QuestListItem extends Component {
 
@@ -26,6 +29,31 @@ class QuestListItem extends Component {
     this.props.loadQuest(this.props.quest);
     Actions.questView();
   }
+  renderTitle() {
+    const { quest, expanded } = this.props;
+    if (!expanded) {
+      return (
+
+        <CardSection
+        style={{
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          /*borderRadius: 15,
+          borderWidth: 3,
+          borderColor: 'white'*/
+        }}
+        >
+        <ImageBackground source={starGif} style={styles.backgroundStyle}>
+        <Text style={styles.titleStyle}>
+           {quest.title}
+        </Text>
+        </ImageBackground>
+        </CardSection>
+
+
+      );
+    }
+  }
 
   renderDescription() {
     //Samma grej som i techstack
@@ -33,19 +61,26 @@ class QuestListItem extends Component {
     //Det här måste stylas ordentligt sen. har bara lagt in nåt nu
     if (expanded) {
       return (
+        <ImageBackground source={starGif} style={styles.backgroundStyle}>
+        <CardSection>
+        <Text style={styles.titleStyle}>
+           {quest.title}
+        </Text>
+        </CardSection>
         <CardSection>
         <View style={{ flex: 1 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+
+            <Text style={styles.textStyle}>
               About quest:
             </Text>
-            <Text>
+            <Text style={styles.textStyle}>
             {quest.description}
             </Text>
 
-            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+            <Text style={styles.textStyle}>
               ID:
             </Text>
-            <Text>
+            <Text style={styles.textStyle}>
              {quest.id}
             </Text>
         </View>
@@ -55,6 +90,7 @@ class QuestListItem extends Component {
           </Button>
         </View>
         </CardSection>
+      </ImageBackground>
       );
     }
     /*
@@ -70,14 +106,14 @@ class QuestListItem extends Component {
     const { title } = this.props.quest;
 
     return (
-      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
+
+      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)} >
           <View>
-              <Text style={styles.titleStyle}>
-                 {title}
-              </Text>
+              {this.renderTitle()}
               {this.renderDescription()}
           </View>
       </TouchableWithoutFeedback>
+
     );
   }
 }
@@ -86,8 +122,23 @@ const styles = {
   titleStyle: {
     fontSize: 45,
     paddingLeft: 20,
-    fontFamily: 'Cake n Truffles'
+    fontFamily: 'upheavtt',
+    color: 'white'
   },
+  textStyle: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'limegreen'
+  },
+  backgroundStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    borderWidth: 6,
+    borderColor: '#FACC2E'
+  },
+
 };
 
 const mapStateToProps = ({ selected }, ownProps) => {

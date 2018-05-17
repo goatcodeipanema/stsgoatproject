@@ -18,18 +18,21 @@ const styles = {
     alignSelf: 'center',
     color: 'black',
     fontSize: 16,
-    fontWeight: '500',
+    //fontWeight: '500',
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    fontWeight: '400',
+    fontFamily: 'upheavtt'
   },
   buttonStyle: {
     //flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: 'rgba(143, 255, 163, 1)',
+    //backgroundColor: 'rgba(143, 255, 163, 1)',
+    backgroundColor: '#139999',
     borderRadius: 15,
     borderWidth: 3,
     borderColor: 'black',
-    width: 150,
+    width: 140,
     marginLeft: 5,
     marginRight: 5
   }

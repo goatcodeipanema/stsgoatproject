@@ -9,3 +9,4 @@ export * from './TextArea';
 export * from './MyAppText';
 export * from './SearchBar';
 export * from './InputModal';
+export * from './ImageButton';

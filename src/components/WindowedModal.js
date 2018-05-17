@@ -3,14 +3,14 @@ import { View, TouchableWithoutFeedback, Text } from 'react-native';
 import Modal from 'react-native-modal';
 
 class WindowedModal extends Component {
-  /* 
+  /*
   -Fungerar typ som en modal fast den går att styla mycket mer.
-    Tex. går det att ha transparent backdrop och gömma fönstret 
+    Tex. går det att ha transparent backdrop och gömma fönstret
     genom att klicka på backdrop.
   -justifyContent: undefined hittar jag inte ens någon förklaring
     till när jag googlar men fråga Patrik om ni undrar vad den gör.
   -toggleModal ska ha funktionen som togglar modalen i parentkomponenten
-  -stängningskrysset kan i framtiden se lite roligare ut kanske 
+  -stängningskrysset kan i framtiden se lite roligare ut kanske
   */
 
   render() {
@@ -40,10 +40,10 @@ const styles = {
     justifyContent: undefined
   },
   containerStyle: {
-    borderColor: 'black',
+    borderColor: 'white',
     borderRadius: 15,
     borderWidth: 4,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     padding: 5
   },
   closeStyle: {
@@ -52,7 +52,7 @@ const styles = {
     right: 0,
     zIndex: 15,
     padding: 10
-  
+
   }
 };
 

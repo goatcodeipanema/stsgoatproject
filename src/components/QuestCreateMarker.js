@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import geolib from 'geolib';
 import _ from 'lodash';
-import { Keyboard, Text, View } from 'react-native';
+import { Keyboard, Text, View, ImageBackground } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
-import { CardSection, Button, Card, TextArea } from './common';
+import { CardSection, Button, TextArea } from './common';
 import WindowedModal from './WindowedModal';
 import FadeOverlay from './FadeOverlay';
+import Map from './Map';
+
 import {
   questUpdate,
   questSave,
@@ -18,6 +20,9 @@ import {
   deleteMarker,
   updateTotalDistance
      } from '../actions';
+
+const starGif = require('../goatPic/stars.gif');
+const MapStyle = require('./MapStyle.json');
 // Det är ganska mycket i den här filen, möjligt att
 //det är snyggare att dela upp det i olika componenter.
 class QuestCreateMarker extends Component {
@@ -90,10 +95,14 @@ class QuestCreateMarker extends Component {
       return;
 }
 renderButton() {
-  return (
-    <Button onPress={this.onButtonPress.bind(this)} >Submit quest</Button>
-  );
+  console.log(this.props);
+  if (this.props.markerArray.length > 0) {
+    return (
+      <Button onPress={this.onButtonPress.bind(this)} >Submit quest</Button>
+    );
+  }
 }
+
   renderMarkers() {
       if (this.props.markers) {
         return (
@@ -104,6 +113,7 @@ renderButton() {
                identifier={eachMarker.key.toString()}
                key={i}
                title={this.getNumber(i).toString()}
+               pinColor='#FACC2E'
                //onDragStart={this.onMarkerDragStart.bind(this)}
                //onDragEnd={this.onMarkerDragEnd.bind(this)}
             />
@@ -116,8 +126,8 @@ renderButton() {
   renderInfo() {
     return (
       <CardSection>
-      <Text> Number of Eggs: {this.props.markerArray.length} </Text>
-      <Text> Total Distance: {this.props.totalDistance} </Text>
+      <Text style={{ color: 'yellow' }}> Number of Eggs: {this.props.markerArray.length} </Text>
+      <Text style={{ color: 'yellow' }}> Total Distance: {this.props.totalDistance} </Text>
       </CardSection>
     );
   }
@@ -136,9 +146,13 @@ renderButton() {
      const { titleStyle } = styles;
      return (
 
-       <View style={{ flex: 1 }}>
+       <ImageBackground source={starGif} style={styles.backgroundStyle}>
        <FadeOverlay />
-       <Card>
+
+       <CardSection>
+       <Text style={{ color: 'limegreen' }}> Press and hold to place your eggs on the map</Text>
+       </CardSection>
+
          <CardSection>
                <MapView
                  style={styles.map}
@@ -149,6 +163,7 @@ renderButton() {
                  onMarkerPress={this.onMarkerPress.bind(this)}
                  //onMarkerDragEnd={this.onMarkerDragEnd.bind(this)}
                  //onMarkerDragStart={this.onMarkerDragStart.bind(this)}
+                 customMapStyle={MapStyle}
                >
                {this.renderMarkers()}
                </MapView>
@@ -161,14 +176,14 @@ renderButton() {
           <CardSection>
             {this.renderButton()}
           </CardSection>
-         </Card>
+
 
           <WindowedModal
           visible={markerModalVisible}
           toggleModal={toggleMarkerModal.bind(this)}
           modalStyle={{ marginTop: 100 }}
           >
-            <Text style={titleStyle}>Egg No {this.getNumber(allMarkers.indexOf(selectedMarker))} </Text>
+            <Text style={titleStyle}>EGG NO. {this.getNumber(allMarkers.indexOf(selectedMarker))} </Text>
               <View style={{ flexDirection: 'row' }}>
                 <TextArea
                 label='Clue: '
@@ -206,7 +221,7 @@ renderButton() {
               </View>
             </WindowedModal>
           </WindowedModal>
-       </View>
+       </ImageBackground>
      );
    }
   }
@@ -221,9 +236,10 @@ renderButton() {
     },
     titleStyle: {
       fontSize: 45,
-      fontFamily: 'Cake n Truffles',
+      fontFamily: 'VCR_OSD_MONO_1.001',
       marginTop: 5,
-      marginLeft: 10
+      marginLeft: 10,
+      color: 'limegreen'
     },
     boxStyle: {
       flexDirection: 'row',
@@ -233,12 +249,19 @@ renderButton() {
       padding: 5,
       margin: 10,
       marginTop: 0
+
     },
     sureModalStyle: {
       justifyContent: 'center',
       borderRadius: 0,
       borderColor: 'red'
-    }
+    },
+
+    backgroundStyle: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
   };
 
   const mapStateToProps = ({ createQuest }) => {

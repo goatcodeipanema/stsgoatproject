@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Marker } from 'react-native-maps';
-import { 
-  View, 
+import {
+  View,
   Text
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -11,7 +11,7 @@ import { Card, CardSection, Button } from './common';
 import FadeOverlay from './FadeOverlay';
 import WindowedModal from './WindowedModal';
 import Map from './Map';
-import { 
+import {
   toggleClueModal,
   toggleFoundModal,
   toggleSureModal,
@@ -81,7 +81,7 @@ class QuestView extends Component {
   }
 
   advanceQuest(cheated) {
-    const { 
+    const {
     toggleFoundModal,
     toggleCompleteModal,
     closeQuestViewModals,
@@ -102,7 +102,7 @@ class QuestView extends Component {
     } else {
       questComplete();
       toggleCompleteModal();
-    }             
+    }
   }
 
   giveUp() {
@@ -146,7 +146,7 @@ class QuestView extends Component {
 
   render() {
     const { mapWindowStyle, progressStyle, titleStyle, boxStyle } = styles;
-    const { 
+    const {
       clueModalVisible,
       foundModalVisible,
       sureModalVisible,
@@ -174,9 +174,9 @@ class QuestView extends Component {
         </Card>
 
         {/* Clue Modal */}
-        <WindowedModal 
-        visible={clueModalVisible} 
-        toggleModal={this.clueModal} 
+        <WindowedModal
+        visible={clueModalVisible}
+        toggleModal={this.clueModal}
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>Clue</Text>
@@ -190,9 +190,9 @@ class QuestView extends Component {
           </View>
 
           {/* areYouSure Modal */}
-          <WindowedModal 
-          visible={sureModalVisible} 
-          toggleModal={this.sureModal} 
+          <WindowedModal
+          visible={sureModalVisible}
+          toggleModal={this.sureModal}
           modalStyle={styles.sureModalStyle}
           >
             <Text style={titleStyle}>Are you sure?</Text>
@@ -209,9 +209,9 @@ class QuestView extends Component {
         </WindowedModal>
 
         {/* Found Modal */}
-        <WindowedModal 
-        visible={foundModalVisible} 
-        toggleModal={this.foundModal} 
+        <WindowedModal
+        visible={foundModalVisible}
+        toggleModal={this.foundModal}
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>{this.foundText.title}</Text>
@@ -221,9 +221,9 @@ class QuestView extends Component {
         </WindowedModal>
 
         {/* Complete Modal */}
-        <WindowedModal 
-        visible={completeModalVisible} 
-        toggleModal={this.completeModal} 
+        <WindowedModal
+        visible={completeModalVisible}
+        toggleModal={this.completeModal}
         modalStyle={{ marginTop: 100 }}
         >
           <Text style={titleStyle}>{this.completeText.title}</Text>
@@ -233,7 +233,7 @@ class QuestView extends Component {
         </WindowedModal>
 
       </View>
-      
+
     );
   }
 }
@@ -275,28 +275,33 @@ const styles = {
 
 const mapStateToProps = ({ location, ongoingQuest }) => {
   const { userLocation, distanceToMarker } = location;
-  const { 
+  const {
     quest,
     progress,
     currentMarker,
-    clueModalVisible, 
+    clueModalVisible,
     foundModalVisible,
     sureModalVisible,
     completeModalVisible
   } = ongoingQuest;
 
-  const markerArray = _.map(quest.markers, (val, index) => {
+  /*const markerArray = _.map(quest.markers, (val, index) => {
     return { ...val, found: progress[index].found };
+  });*/
+
+  const markerArray = _.map(quest.allMarkers, (val, index) => {
+    return { ...quest.markers[val], found: progress[index].found };
   });
-  const currentClue = quest.markers[currentMarker].clue;
-  
-  return { 
+  const currentClue = markerArray[currentMarker].clue;
+  //const currentClue = quest.markers[currentMarker].clue;
+
+  return {
     markerArray,
     currentMarker,
     currentClue,
     userLocation,
     distanceToMarker,
-    clueModalVisible, 
+    clueModalVisible,
     foundModalVisible,
     sureModalVisible,
     completeModalVisible
@@ -304,7 +309,7 @@ const mapStateToProps = ({ location, ongoingQuest }) => {
 };
 
 export default connect(mapStateToProps, {
-  locationUpdate, 
+  locationUpdate,
   distanceUpdate,
   toggleClueModal,
   toggleFoundModal,
