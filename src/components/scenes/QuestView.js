@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Card, CardSection, Button, FadeOverlay, WindowedModal } from '../common';
+import { Card, CardSection, ImageButton, FadeOverlay, WindowedModal } from '../common';
 import Map from '../Map';
 import {
   locationUpdate,
@@ -23,6 +23,11 @@ import {
 } from '../../actions';
 
 const pixelMarker = require('../../pictures/marker.png');
+const eggFoundGif = require('../../pictures/finishgoathappy.gif');
+const clueGif = require('../../pictures/cluegoat.gif');
+const blueImageButton = require('../../pictures/blueButton.png');
+const mediumButton = require('../../pictures/mediumButton.png');
+
 
 class QuestView extends Component {
 
@@ -170,9 +175,9 @@ class QuestView extends Component {
               <View style={{ width: 80, height: 50, backgroundColor: 'powderblue' }} />
               <View style={{ width: 50, height: 50, backgroundColor: 'skyblue' }} />
               <View>
-                <Button onPress={this.clueModal}>
+                <ImageButton onPress={this.clueModal} source={blueImageButton}>
                   Clue
-                </Button>
+                </ImageButton>
               </View>
             </CardSection>
         </Card>
@@ -185,12 +190,15 @@ class QuestView extends Component {
         >
           <Text style={titleStyle}>Clue</Text>
           <View style={boxStyle}>
-            <Text>{currentClue}</Text>
+            <Text style={styles.textStyle}>{currentClue}</Text>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button onPress={this.sureModal}>
-              Give up?
-            </Button>
+          <View style={styles.centerContent}>
+              <Image source={clueGif} style={{ height: 200, width: 300, marginBottom: 20 }} />
+          </View>
+          <View style={styles.centerContent}>
+            <ImageButton onPress={this.sureModal} source={blueImageButton} customButtonStyle={{ marginBottom: 4 }}>
+              Cheat?
+            </ImageButton>
           </View>
 
           {/* areYouSure Modal */}
@@ -199,14 +207,14 @@ class QuestView extends Component {
           toggleModal={this.sureModal}
           modalStyle={styles.sureModalStyle}
           >
-            <Text style={titleStyle}>Are you sure?</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Button onPress={this.giveUp}>
+            <Text style={titleStyle}>Really?</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 15 }}>
+              <ImageButton onPress={this.giveUp} source={mediumButton} customImageStyle={{ height: 50, width: 150 }} >
                 Yes
-              </Button>
-              <Button onPress={this.sureModal}>
+              </ImageButton>
+              <ImageButton onPress={this.sureModal} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
                 No
-              </Button>
+              </ImageButton>
             </View>
           </WindowedModal>
 
@@ -220,7 +228,7 @@ class QuestView extends Component {
         >
           <Text style={titleStyle}>{this.foundText.title}</Text>
           <View style={boxStyle}>
-            <Text>{this.foundText.text}</Text>
+            <Text style={styles.textStyle}>{this.foundText.text}</Text>
           </View>
         </WindowedModal>
 
@@ -232,7 +240,10 @@ class QuestView extends Component {
         >
           <Text style={titleStyle}>{this.completeText.title}</Text>
           <View style={boxStyle}>
-            <Text>{this.completeText.text}</Text>
+            <Text style={styles.textStyle}>{this.completeText.text}</Text>
+          </View>
+          <View style={styles.centerContent}>
+            <Image source={eggFoundGif} style={{ height: 300, width: 300, marginBottom: 20 }} />
           </View>
         </WindowedModal>
 
@@ -244,7 +255,9 @@ class QuestView extends Component {
 
 const styles = {
   textStyle: {
-    fontSize: 18
+    fontSize: 18,
+    fontFamily: 'VCR_OSD_MONO_1.001',
+    color: 'white'
   },
   mapWindowStyle: {
     flex: 5
@@ -257,23 +270,29 @@ const styles = {
   },
   titleStyle: {
     fontSize: 45,
-    fontFamily: 'Cake n Truffles',
+    fontFamily: 'VCR_OSD_MONO_1.001',
     marginTop: 5,
-    marginLeft: 10
+    marginLeft: 10,
+    color: 'white'
   },
   boxStyle: {
+    backgroundColor: 'black',
     flexDirection: 'row',
-    borderColor: 'rgba(0, 0, 0, 0.3)',
-    borderRadius: 20,
-    borderWidth: 8,
+    borderColor: 'white',
+    borderRadius: 2,
+    borderWidth: 2,
     padding: 5,
     margin: 10,
-    marginTop: 0
+    marginTop: 5
   },
   sureModalStyle: {
     justifyContent: 'center',
     borderRadius: 0,
     borderColor: 'red'
+  },
+  centerContent: {
+    justifyContent: 'center',
+    flexDirection: 'row'
   }
 };
 

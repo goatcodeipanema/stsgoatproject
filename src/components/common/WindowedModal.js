@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { View, TouchableWithoutFeedback, Text } from 'react-native';
 import Modal from 'react-native-modal';
+import { Text, ImageBackground } from 'react-native';
+import { ImageButton } from './';
+
+const starGif = require('../../pictures/stars.gif');
+const smallButton = require('../../pictures/smallButton.png');
 
 class WindowedModal extends Component {
   /*
@@ -22,14 +26,17 @@ class WindowedModal extends Component {
         onBackdropPress={toggleModal}
         useNativeDriver
       >
-        <View style={[styles.containerStyle, containerStyle]}>
-          <TouchableWithoutFeedback onPress={toggleModal}>
-            <View style={styles.closeStyle}>
-              <Text style={{ fontSize: 20 }}>X</Text>
-            </View>
-          </TouchableWithoutFeedback>
-          {this.props.children}
-        </View>
+        <ImageBackground source={starGif} style={[styles.containerStyle, containerStyle]}>
+            <ImageButton 
+            onPress={toggleModal} 
+            source={smallButton} 
+            customImageStyle={{ width: 40, height: 40 }}
+            customButtonStyle={styles.closeStyle}
+            >
+                <Text style={styles.xStyle}>X</Text>
+            </ImageButton>
+            {this.props.children}
+        </ImageBackground>
       </Modal>
     );
   }
@@ -41,18 +48,21 @@ const styles = {
   },
   containerStyle: {
     borderColor: 'white',
-    borderRadius: 15,
     borderWidth: 4,
-    backgroundColor: 'transparent',
     padding: 5
   },
   closeStyle: {
     position: 'absolute',
-    top: -5,
+    top: 0,
     right: 0,
     zIndex: 15,
-    padding: 10
-
+    padding: 10,
+    paddingRight: 8
+  },
+  xStyle: {
+    fontSize: 22,
+    fontFamily: 'VCR_OSD_MONO_1.001',
+    letterSpacing: 0
   }
 };
 
