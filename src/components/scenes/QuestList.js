@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView, View, ImageBackground } from 'react-native';
-import QuestListItem from './QuestListItem';
-import { questsFetch, questsDiscard, selectQuest, searchChange } from '../actions';
-import { Spinner, SearchBar, Card, CardSection, Button } from './common';
-
-const starGif = require('../goatPic/stars.gif');
+import { ListView, View } from 'react-native';
+import QuestListItem from '../QuestListItem';
+import { questsFetch, questsDiscard, selectQuest, searchChange } from '../../actions';
+import { Spinner, SearchBar, Card, CardSection, Button } from '../common';
 
 
 class QuestList extends Component {

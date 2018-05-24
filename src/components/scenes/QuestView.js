@@ -6,12 +6,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { locationUpdate, distanceUpdate } from '../actions';
-import { Card, CardSection, Button } from './common';
-import FadeOverlay from './FadeOverlay';
-import WindowedModal from './WindowedModal';
-import Map from './Map';
+import { Card, CardSection, Button, FadeOverlay, WindowedModal } from '../common';
+import Map from '../Map';
 import {
+  locationUpdate,
+  distanceUpdate,
   toggleClueModal,
   toggleFoundModal,
   toggleSureModal,
@@ -20,7 +19,7 @@ import {
   markerIsFound,
   loadNextMarker,
   questComplete
-} from '../actions/QuestViewActions';
+} from '../../actions';
 
 class QuestView extends Component {
 

@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Scene, Router, Actions } from 'react-native-router-flux';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/scenes/LoginForm';
+import QuestList from './components/scenes/QuestList';
+import QuestCreateName from './components/scenes/QuestCreateName';
+import QuestCreateMarker from './components/scenes/QuestCreateMarker';
+import QuestView from './components/scenes/QuestView';
+import StartScreen from './components/scenes/StartScreen';
 
-import QuestList from './components/QuestList';
-import QuestCreateName from './components/QuestCreateName';
-import QuestCreateMarker from './components/QuestCreateMarker';
-import QuestView from './components/QuestView';
-
-//hideNavBar i scene root för att undvika dubbla bars längst upp /A
-
-import StartScreen from './components/StartScreen';
- // root ska vara initial
 class RouterComponent extends Component {
 
   render() {

@@ -4,10 +4,7 @@ import _ from 'lodash';
 import { Keyboard, Text, View, ImageBackground } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
-import { CardSection, Button, TextArea } from './common';
-import WindowedModal from './WindowedModal';
-import FadeOverlay from './FadeOverlay';
-import Map from './Map';
+import { CardSection, Button, TextArea, FadeOverlay, WindowedModal } from '../common';
 
 import {
   questUpdate,
@@ -19,10 +16,10 @@ import {
   toggleDeleteModal,
   deleteMarker,
   updateTotalDistance
-     } from '../actions';
+     } from '../../actions';
 
-const starGif = require('../goatPic/stars.gif');
-const MapStyle = require('./MapStyle.json');
+const starGif = require('../../pictures/stars.gif');
+const MapStyle = require('../MapStyle.json');
 // Det är ganska mycket i den här filen, möjligt att
 //det är snyggare att dela upp det i olika componenter.
 class QuestCreateMarker extends Component {

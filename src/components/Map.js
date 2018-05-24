@@ -3,6 +3,8 @@ import MapView from 'react-native-maps';
 import { View, Dimensions, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+const customMap = require('./MapStyle.json');
+
 class Map extends Component {
 
   /*
@@ -60,7 +62,7 @@ class Map extends Component {
           longitude: this.props.userLocation.longitude,
         }
       });
-      setTimeout(() => this.animateToPosition(), 10);
+      setTimeout(() => this.animateToPosition(), 1000);
     }
   }
 
@@ -79,6 +81,7 @@ class Map extends Component {
         showsUserLocation
         onRegionChangeComplete={this.onRegionChange}
         style={mapStyle}
+        customMapStyle={customMap}
         >
           {this.props.renderMarkers()}
         </MapView>

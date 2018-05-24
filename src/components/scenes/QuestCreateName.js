@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Text, Keyboard, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { CardSection, Button, Input, TextArea } from './common';
-import { questUpdate } from '../actions';
+import { CardSection, Button, Input, TextArea } from '../common';
+import { questUpdate } from '../../actions';
 
-const starGif = require('../goatPic/stars.gif');
+const starGif = require('../../pictures/stars.gif');
 
 class QuestCreateName extends Component {
 

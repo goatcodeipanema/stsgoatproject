@@ -56,4 +56,4 @@ const styles = {
   }
 };
 
-export default WindowedModal;
+export { WindowedModal };

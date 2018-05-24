@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ImageBackground } from 'react-native';
+import { Text, Image, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { ImageButton, CardSection, Input, Button, Spinner } from './common';
+import { emailChanged, passwordChanged, loginUser } from '../../actions';
+import { ImageButton, CardSection, Input, Spinner } from '../common';
 
-const goatImage = require('../goatPic/goat2.png');
-const starGif = require('../goatPic/stars.gif');
-const pinkButton = require('../goatPic/pinkButton.png');
-const blueButton = require('../goatPic/blueButton.png');
+const goatImage = require('../../pictures/goat2.png');
+const starGif = require('../../pictures/stars.gif');
+const blueButton = require('../../pictures/blueButton.png');
 
 class LoginForm extends Component {
 

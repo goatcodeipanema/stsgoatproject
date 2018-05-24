@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, ImageBackground } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button, ImageButton, CardSection } from './common';
+import { ImageButton, CardSection } from '../common';
 
-const starGif = require('../goatPic/stars.gif');
-const blueButton = require('../goatPic/blueButton.png');
+const starGif = require('../../pictures/stars.gif');
+const blueButton = require('../../pictures/blueButton.png');
 
 const StartScreen = () => {
   return (

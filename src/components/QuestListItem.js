@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { CardSection, Button } from './common';
 import { selectQuest, questsFetch, deselectQuest, loadQuest } from '../actions';
 
-const starGif = require('../goatPic/stars.gif');
-const blueButton = require('../goatPic/blueButton.png');
+const starGif = require('../pictures/stars.gif');
 
 class QuestListItem extends Component {
 
@@ -103,7 +102,6 @@ class QuestListItem extends Component {
 
   render() {
     //Samma grej som i techstack
-    const { title } = this.props.quest;
 
     return (
 

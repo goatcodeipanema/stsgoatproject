@@ -6,6 +6,7 @@
       "no-shadow": 0,
       "radix": 0,
       "react/sort-comp": 0,
-      "quotes": 0
+      "quotes": 0,
+      "max-len": 0
     }
 }
