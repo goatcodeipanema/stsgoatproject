@@ -1,14 +1,12 @@
 import React from 'react';
 import { Text, TouchableOpacity, ImageBackground } from 'react-native';
 
-const ImageButton = ({ onPress, source, children }) => {
-  const { buttonStyle } = styles;
-
+const ImageButton = ({ onPress, source, children, customImageStyle, customButtonStyle }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={buttonStyle} source={source} >
+    <TouchableOpacity onPress={onPress} style={[styles.buttonStyle, customButtonStyle]} >
         <ImageBackground
           source={source}
-          style={styles.imageStyle}
+          style={[styles.imageStyle, customImageStyle]}
         >
           <Text style={styles.textStyle}>
             {children}
