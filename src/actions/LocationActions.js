@@ -23,7 +23,8 @@ export const locationUpdate = () => {
                     type: LOCATION_FAIL
                 });
             },
-            { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
+            //maximumAge seems to cause crashes, removed it.
+            { enableHighAccuracy: true, timeout: 10000 }
         );
     };
 };
