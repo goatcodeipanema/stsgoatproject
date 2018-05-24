@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Marker } from 'react-native-maps';
 import {
   View,
-  Text
+  Text,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -20,6 +21,8 @@ import {
   loadNextMarker,
   questComplete
 } from '../../actions';
+
+const pixelMarker = require('../../pictures/marker.png');
 
 class QuestView extends Component {
 
@@ -138,7 +141,9 @@ class QuestView extends Component {
     return (
       markerArray.filter((marker) => marker.found)
         .map((eachMarker, i) => (
-        <Marker coordinate={eachMarker.coordinate} key={i} />
+        <Marker coordinate={eachMarker.coordinate} key={i}>
+          <Image source={pixelMarker} style={{ width: 33, height: 60 }} />
+        </Marker>
           ))
     );
   }

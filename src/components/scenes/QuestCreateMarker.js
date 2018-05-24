@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import geolib from 'geolib';
 import _ from 'lodash';
-import { Keyboard, Text, View, ImageBackground } from 'react-native';
+import { Keyboard, Text, View, ImageBackground, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { CardSection, Button, TextArea, FadeOverlay, WindowedModal } from '../common';
@@ -20,6 +20,7 @@ import {
 
 const starGif = require('../../pictures/stars.gif');
 const MapStyle = require('../MapStyle.json');
+const pixelMarker = require('../../pictures/marker.png');
 // Det är ganska mycket i den här filen, möjligt att
 //det är snyggare att dela upp det i olika componenter.
 class QuestCreateMarker extends Component {
@@ -113,7 +114,9 @@ renderButton() {
                pinColor='#FACC2E'
                //onDragStart={this.onMarkerDragStart.bind(this)}
                //onDragEnd={this.onMarkerDragEnd.bind(this)}
-            />
+            >
+            <Image source={pixelMarker} style={{ width: 33, height: 60 }} />
+            </Marker>
 
           ))
 
@@ -123,8 +126,8 @@ renderButton() {
   renderInfo() {
     return (
       <CardSection>
-      <Text style={{ color: 'yellow' }}> Number of Eggs: {this.props.markerArray.length} </Text>
-      <Text style={{ color: 'yellow' }}> Total Distance: {this.props.totalDistance} </Text>
+      <Text style={{ color: 'yellow' }}> Number of locations: {this.props.markerArray.length} </Text>
+      <Text style={{ color: 'yellow' }}> Total Distance: {this.props.totalDistance} m </Text>
       </CardSection>
     );
   }
@@ -147,7 +150,7 @@ renderButton() {
        <FadeOverlay />
 
        <CardSection>
-       <Text style={{ color: 'limegreen' }}> Press and hold to place your eggs on the map</Text>
+       <Text style={{ color: 'limegreen' }}> Press and hold to place your locations on the map</Text>
        </CardSection>
 
          <CardSection>
@@ -180,7 +183,7 @@ renderButton() {
           toggleModal={toggleMarkerModal.bind(this)}
           modalStyle={{ marginTop: 100 }}
           >
-            <Text style={titleStyle}>EGG NO. {this.getNumber(allMarkers.indexOf(selectedMarker))} </Text>
+            <Text style={titleStyle}> NO. {this.getNumber(allMarkers.indexOf(selectedMarker))} </Text>
               <View style={{ flexDirection: 'row' }}>
                 <TextArea
                 label='Clue: '
@@ -198,7 +201,7 @@ renderButton() {
                 </Button>
 
                 <Button onPress={toggleDeleteModal.bind(this)}>
-                  Delete Egg
+                  Delete
                 </Button>
             </View>
             {/* areYouSure Modal */}

@@ -130,7 +130,6 @@ const styles = {
     fontFamily: 'upheavtt',
     fontSize: 55,
     color: '#FACC2E'
-
   }
 };
 

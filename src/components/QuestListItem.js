@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Text, TouchableWithoutFeedback, View, Keyboard, ImageBackground } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { CardSection, Button } from './common';
+import { CardSection, ImageButton } from './common';
 import { selectQuest, questsFetch, deselectQuest, loadQuest } from '../actions';
 
 const starGif = require('../pictures/stars.gif');
+const blueButton = require('../pictures/blueButton.png');
 
 class QuestListItem extends Component {
 
@@ -37,72 +38,77 @@ class QuestListItem extends Component {
         style={{
           justifyContent: 'center',
           backgroundColor: 'transparent',
-          /*borderRadius: 15,
-          borderWidth: 3,
-          borderColor: 'white'*/
         }}
         >
         <ImageBackground source={starGif} style={styles.backgroundStyle}>
+        <View style={{ alignSelf: 'center', backgroundColor: 'black' }}>
         <Text style={styles.titleStyle}>
            {quest.title}
         </Text>
+        </View>
         </ImageBackground>
         </CardSection>
-
-
       );
     }
   }
 
   renderDescription() {
-    //Samma grej som i techstack
     const { quest, expanded } = this.props;
+    console.log(quest.allMarkers.length);
     //Det här måste stylas ordentligt sen. har bara lagt in nåt nu
     if (expanded) {
       return (
         <ImageBackground source={starGif} style={styles.backgroundStyle}>
-        <CardSection>
-        <Text style={styles.titleStyle}>
-           {quest.title}
-        </Text>
-        </CardSection>
-        <CardSection>
-        <View style={{ flex: 1 }}>
+          <View style={{ alignSelf: 'center', backgroundColor: 'black' }}>
+            <Text style={styles.titleStyle} >
+               {quest.title}
+            </Text>
+          </View>
 
-            <Text style={styles.textStyle}>
-              About quest:
+          <View style={{ marginLeft: 10, flexDirection: 'row', backgroundColor: 'black' }}>
+            <Text style={styles.smallTitleStyle}>
+              NO. of stops:
             </Text>
-            <Text style={styles.textStyle}>
-            {quest.description}
-            </Text>
+            <View style={{ backgroundColor: 'black' }}>
+              <Text style={styles.textStyle}>
+                {quest.allMarkers.length}
+              </Text>
+            </View>
+          </View>
 
-            <Text style={styles.textStyle}>
-              ID:
+          <View style={{ marginLeft: 10, flexDirection: 'row', backgroundColor: 'black' }}>
+            <Text style={styles.smallTitleStyle}>
+             Total distance:
             </Text>
-            <Text style={styles.textStyle}>
-             {quest.id}
+            <View style={{ backgroundColor: 'black' }}>
+              <Text style={styles.textStyle}>
+                {quest.totalDistance} m
+              </Text>
+            </View>
+          </View>
+
+          <View style={{ marginLeft: 10, backgroundColor: 'black' }}>
+            <Text style={styles.smallTitleStyle}>
+             Description:
             </Text>
-        </View>
-        <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
-          <Button onPress={this.goToQuest.bind(this)}>
-            Start Quest
-          </Button>
-        </View>
-        </CardSection>
+            <View style={{ backgroundColor: 'black' }}>
+              <Text style={styles.textStyle}>
+                {quest.description}
+              </Text>
+            </View>
+          </View>
+
+          <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center', marginTop: 7 }}>
+            <ImageButton onPress={this.goToQuest.bind(this)} source={blueButton}>
+              Start Quest
+            </ImageButton>
+          </View>
       </ImageBackground>
       );
     }
-    /*
-    return (
-      <Button onPress={this.goToQuest.bind(this)}>
-          Start Quest
-      </Button>
-    );*/
     }
 
   render() {
-    //Samma grej som i techstack
-
     return (
 
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)} >
@@ -123,18 +129,28 @@ const styles = {
     fontFamily: 'upheavtt',
     color: 'white'
   },
+  smallTitleStyle: {
+      fontSize: 30,
+      fontFamily: 'upheavtt',
+      color: '#FACC2E',
+      marginRight: 3
+  },
   textStyle: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: 'limegreen'
+    //fontWeight: 'bold',
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'VCR_OSD_MONO_1.001',
+    marginLeft: 5,
+    marginTop: 4
+
   },
   backgroundStyle: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    borderWidth: 6,
-    borderColor: '#FACC2E'
+    borderRadius: 9,
+    borderWidth: 3,
+    borderColor: '#FACC2E',
+    marginLeft: 5,
+    marginRight: 6
   },
 
 };

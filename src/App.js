@@ -5,7 +5,7 @@ import _ from 'lodash';
 import firebase from 'firebase';
 import { connect, Provider } from 'react-redux';
 import RouterComponent from './Router';
-import { locationUpdate, questsFetch } from './actions';
+import { locationUpdate, questsFetch, loginUser } from './actions';
 
 class App extends Component {
 
@@ -27,6 +27,7 @@ class App extends Component {
   componentDidMount() {
     this.props.questsFetch();
     this.backgroundLocation();
+    this.props.loginUser('test@test.com', 'password');
   }
 
   backgroundLocation() {
@@ -37,8 +38,8 @@ class App extends Component {
     );
   }
 
-  //Ska lösa problemet med gula varningar om långa timeouts 
-  //(som fö beror på ett problem i firebase)  
+  //Ska lösa problemet med gula varningar om långa timeouts
+  //(som fö beror på ett problem i firebase)
   ignoreLongTimerWarnings() {
     YellowBox.ignoreWarnings(['Setting a timer']);
     YellowBox.ignoreWarnings(['Remote debugger is in a background tab']);
@@ -75,7 +76,8 @@ class App extends Component {
 
 const mapStateToProps = () => { return ({}); };
 
-export default connect(mapStateToProps, { 
-  locationUpdate, 
-  questsFetch
+export default connect(mapStateToProps, {
+  locationUpdate,
+  questsFetch,
+  loginUser
 })(App);

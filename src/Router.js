@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
 import { Scene, Router, Actions } from 'react-native-router-flux';
-import LoginForm from './components/scenes/LoginForm';
+//import LoginForm from './components/scenes/LoginForm';
 import QuestList from './components/scenes/QuestList';
 import QuestCreateName from './components/scenes/QuestCreateName';
 import QuestCreateMarker from './components/scenes/QuestCreateMarker';
 import QuestView from './components/scenes/QuestView';
 import StartScreen from './components/scenes/StartScreen';
+import Intro from './components/scenes/Intro';
 
 class RouterComponent extends Component {
 
@@ -20,7 +20,9 @@ class RouterComponent extends Component {
     rightButtonTextStyle={{ color: 'white' }}
     tintColor='white'
     >
+
       <Scene key="root" hideNavBar>
+      {/*
         <Scene key="auth" hideNavBar>
           <Scene
             key="login"
@@ -28,12 +30,26 @@ class RouterComponent extends Component {
             component={LoginForm}    //LoginForm
           />
         </Scene>
+        <Scene
+        key="intro"
+        component={Intro}
+
+
+        /> */}
         <Scene key="main" initial>
+          <Scene
+          title="Intro"
+          key="intro"
+          component={Intro}
+          rightTitle="  Skip"
+          onRight={() => Actions.start()}
+
+          />
           <Scene
             key="start"
             component={StartScreen}    //StartScreen
-            rightTitle="Log off"
-            onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
+            //rightTitle="Log off"
+            //onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
           />
           <Scene
             title="Pick a quest"

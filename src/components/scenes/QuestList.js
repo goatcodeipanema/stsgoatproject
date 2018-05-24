@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { ListView, View } from 'react-native';
 import QuestListItem from '../QuestListItem';
 import { questsFetch, questsDiscard, selectQuest, searchChange } from '../../actions';
-import { Spinner, SearchBar, Card, CardSection, Button } from '../common';
+import { Spinner, SearchBar, Card, CardSection, ImageButton } from '../common';
+
+const blueButton = require('../../pictures/blueButton.png');
 
 
 class QuestList extends Component {
@@ -82,9 +84,13 @@ class QuestList extends Component {
                   onChangeText={this.onSearchChange.bind(this)}
                   placeholder='Search...'
                   />
+                  {/*
                   <Button onPress={this.reloadList.bind(this)}>
                     Reload
-                  </Button>
+                  </Button>*/}
+                  <ImageButton onPress={this.reloadList.bind(this)} source={blueButton}> Reload </ImageButton>
+
+
                 </CardSection>
 
                 <ListView
@@ -114,7 +120,7 @@ const styles = {
   separator: {
     backgroundColor: 'transparent',
     height: 5,
-    marginTop: 10,
+    marginTop: 5,
   },
 
   backgroundStyle: {

@@ -24,7 +24,7 @@ export const passwordChanged = (text) => {
   };
 };
 
-export const loginUser = ({ email, password }) => {
+export const loginUser = (email, password) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
 
@@ -48,7 +48,7 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
-  /* Keyboard.dismiss trycker bort tangentbordet när vi navigerar bort från startsidan. 
+  /* Keyboard.dismiss trycker bort tangentbordet när vi navigerar bort från startsidan.
   Oklart om tangentbordet fortfarande kan användas för att skriva i textinput */
   Keyboard.dismiss();
   Actions.main();
