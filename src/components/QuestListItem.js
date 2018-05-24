@@ -54,7 +54,6 @@ class QuestListItem extends Component {
 
   renderDescription() {
     const { quest, expanded } = this.props;
-    console.log(quest.allMarkers.length);
     //Det här måste stylas ordentligt sen. har bara lagt in nåt nu
     if (expanded) {
       return (

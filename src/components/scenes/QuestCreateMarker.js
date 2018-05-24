@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import geolib from 'geolib';
 import _ from 'lodash';
 import { Keyboard, Text, View, ImageBackground, Image } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { CardSection, Button, TextArea, FadeOverlay, WindowedModal } from '../common';
+import Map from '../Map';
 
 import {
   questUpdate,
@@ -19,7 +20,6 @@ import {
      } from '../../actions';
 
 const starGif = require('../../pictures/stars.gif');
-const MapStyle = require('../MapStyle.json');
 const pixelMarker = require('../../pictures/marker.png');
 // Det är ganska mycket i den här filen, möjligt att
 //det är snyggare att dela upp det i olika componenter.
@@ -122,7 +122,9 @@ renderButton() {
 
         );
       }
+      return ([]);
   }
+  
   renderInfo() {
     return (
       <CardSection>
@@ -153,20 +155,15 @@ renderButton() {
        <Text style={{ color: 'limegreen' }}> Press and hold to place your locations on the map</Text>
        </CardSection>
 
-         <CardSection>
-               <MapView
-                 style={styles.map}
-                 showsUserLocation
-                 showsMyLocationButton
+         <CardSection style={{ height: 400, width: 400 }}>
+               <Map
                  onLongPress={this.onMapLongPress.bind(this)}
                  onPress={this.onMapPress.bind(this)}
                  onMarkerPress={this.onMarkerPress.bind(this)}
+                 renderMarkers={this.renderMarkers.bind(this)}
                  //onMarkerDragEnd={this.onMarkerDragEnd.bind(this)}
                  //onMarkerDragStart={this.onMarkerDragStart.bind(this)}
-                 customMapStyle={MapStyle}
-               >
-               {this.renderMarkers()}
-               </MapView>
+               />
           </CardSection>
 
           <CardSection>
