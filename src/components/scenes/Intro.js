@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Card, CardSection } from '../common';
 
+
 const Intro = () => {
   return (
     <Card>

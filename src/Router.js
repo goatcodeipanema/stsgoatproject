@@ -21,7 +21,7 @@ class RouterComponent extends Component {
     tintColor='white'
     >
 
-      <Scene key="root" hideNavBar>
+      <Scene key="root" initial>
       {/*
         <Scene key="auth" hideNavBar>
           <Scene
@@ -33,18 +33,16 @@ class RouterComponent extends Component {
         <Scene
         key="intro"
         component={Intro}
-
-
         /> */}
-        <Scene key="main">
+
           <Scene
           title="Intro"
           key="intro"
           component={Intro}
           rightTitle="  Skip"
           onRight={() => Actions.start()}
-
           />
+
           <Scene
             key="start"
             component={StartScreen}    //StartScreen
@@ -70,7 +68,6 @@ class RouterComponent extends Component {
             key="questCreateMarker"
             component={QuestCreateMarker}    //QuestCreateMarker
           />
-        </Scene>
 
       </Scene>
     </Router>

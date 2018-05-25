@@ -51,5 +51,5 @@ const loginUserSuccess = (dispatch, user) => {
   /* Keyboard.dismiss trycker bort tangentbordet när vi navigerar bort från startsidan.
   Oklart om tangentbordet fortfarande kan användas för att skriva i textinput */
   Keyboard.dismiss();
-  Actions.main();
+  //Actions.main();
 };
