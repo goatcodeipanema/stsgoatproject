@@ -1,14 +1,13 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const TextArea = ({ label, value, onChangeText, placeholder, numberOfLines }) => {
+const TextArea = ({ label, value, onChangeText, numberOfLines }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
 
   return (
     <View style={containerStyle}>
       <Text style={labelStyle}>{label}</Text>
       <TextInput
-        placeholder={placeholder}
         autoCorrect
         style={inputStyle}
         value={value}
@@ -17,6 +16,7 @@ const TextArea = ({ label, value, onChangeText, placeholder, numberOfLines }) =>
         numberOfLines={numberOfLines}
         placeholderTextColor='white'
         maxLength={500}
+        selectionColor='limegreen'
       />
     </View>
   );
@@ -25,27 +25,35 @@ const TextArea = ({ label, value, onChangeText, placeholder, numberOfLines }) =>
 const styles = {
   inputStyle: {
     textAlignVertical: 'top',
-    color: 'white',
+    color: 'limegreen',
     paddingRight: 5,
     paddingLeft: 5,
     fontSize: 18,
     lineHeight: 23,
-    flex: 2,
-    fontFamily: 'VCR_OSD_MONO_1.001'
+    //width: 240,
+    //flex: 2,
+    fontFamily: 'VCR_OSD_MONO_1.001',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    //flex: 1
   },
   labelStyle: {
-    fontFamily: 'VCR_OSD_MONO_1.001',
-    fontSize: 18,
-    paddingLeft: 20,
-    flex: 1,
-    color: 'white'
+    fontFamily: 'upheavtt',
+    fontSize: 36,
+    marginBottom: 10,
+    //flex: 1,
+    color: '#FACC2E'
   },
   containerStyle: {
-    height: 100,
+    //height: 100,
+    marginLeft: 20,
+    marginRight: 20,
     flex: 1,
-    flexDirection: 'row',
+    backgroundColor: 'black'
+    //flexDirection: 'row',
     //alignItems: 'center',
-    justifyContent: 'flex-start'
+    //justifyContent: 'flex-start'
   }
 
 };

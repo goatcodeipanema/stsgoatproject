@@ -41,10 +41,11 @@ class QuestCreateName extends Component {
   render() {
     return (
       <ImageBackground source={starGif} style={styles.backgroundStyle}>
-        <CardSection style={{ backgroundColor: 'black' }}>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
           <Input
-            label="Quest"
-            placeholder="My first goat quest"
+            autoFocus
+            label="Quest Name: "
+            //placeholder="My first goat quest"
             value={this.props.title}
             onChangeText={value => this.props.questUpdate({ prop: 'title', value })}
             maxLength={20}
@@ -52,10 +53,11 @@ class QuestCreateName extends Component {
           />
         </CardSection>
 
-        <CardSection style={{ backgroundColor: 'black' }}>
+        <CardSection style={{ backgroundColor: 'transparent' }}>
           <TextArea
-            label="Description"
-            placeholder="pelle svanslös blablablabla.."
+
+            label="Description: "
+            //placeholder="pelle svanslös blablablabla.."
             numberOfLines={5}
             value={this.props.description}
             onChangeText={value => this.props.questUpdate({ prop: 'description', value })}
@@ -63,7 +65,7 @@ class QuestCreateName extends Component {
 
         </CardSection>
 
-        <CardSection>
+        <CardSection style={{ justifyContent: 'center' }}>
           {this.renderButton()}
         </CardSection>
       </ImageBackground>
@@ -79,7 +81,7 @@ const styles = {
 
   backgroundStyle: {
     flex: 1,
-    alignItems: 'center',
+    //alignItems: 'center',
     justifyContent: 'center'
   },
 

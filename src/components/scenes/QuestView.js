@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Marker } from 'react-native-maps';
+import { Actions } from 'react-native-router-flux';
 import {
   View,
   Text,
@@ -27,7 +28,6 @@ const eggFoundGif = require('../../pictures/finishgoathappy.gif');
 const clueGif = require('../../pictures/cluegoat.gif');
 const blueImageButton = require('../../pictures/blueButton.png');
 const mediumButton = require('../../pictures/mediumButton.png');
-
 
 class QuestView extends Component {
 
@@ -169,7 +169,28 @@ class QuestView extends Component {
             <CardSection style={mapWindowStyle}>
               <Map renderMarkers={this.renderMarkers} />
             </CardSection>
-            <CardSection style={progressStyle}>
+            <View style={styles.boxOneStyle}>
+              <View style={styles.boxTwoStyle}>
+                <View style={styles.boxThreeStyle}>
+                  <View style={styles.boxFourStyle}>
+                  <View style={styles.screenStyle}>
+                    <Text style={styles.screenTextStyle}> {this.props.distanceToMarker} m </Text>
+                  </View>
+                  <View style={styles.screenStyle}>
+                    <Text style={styles.screenTextStyle}> {this.props.currentMarker}/{this.props.markerArray.length} </Text>
+
+                  </View>
+                  <Image source={pixelMarker} style={{ width: 27, height: 51 }} />
+                    <View style={{ justifyContent: 'flex-end', flex: 1, alignItems: 'center' }}>
+                      <ImageButton onPress={this.clueModal} source={mediumButton} customImageStyle={{ height: 40, width: 110 }}>
+                        Clue
+                      </ImageButton>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/*<CardSection style={progressStyle}>
               {//Här går det att ploppa in progressgrejer istället för viewsen
               }
               <View style={{ width: 80, height: 50, backgroundColor: 'powderblue' }} />
@@ -179,7 +200,7 @@ class QuestView extends Component {
                   Clue
                 </ImageButton>
               </View>
-            </CardSection>
+            </CardSection>*/}
         </Card>
 
         {/* Clue Modal */}
@@ -293,7 +314,45 @@ const styles = {
   centerContent: {
     justifyContent: 'center',
     flexDirection: 'row'
-  }
+  },
+  boxOneStyle: {
+    flex: 1,
+    borderWidth: 4,
+    borderColor: 'black'
+  },
+  boxTwoStyle: {
+    flex: 1,
+    borderWidth: 8,
+    borderColor: '#7f7f7f'
+  },
+  boxThreeStyle: {
+    flex: 1,
+    borderWidth: 4,
+    borderColor: 'black'
+  },
+  boxFourStyle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderColor: '#666666',
+    flex: 1,
+    borderWidth: 4,
+    backgroundColor: '#7f7f7f',
+  },
+  screenStyle: {
+    margin: 5,
+    padding: 3,
+    alignItems: 'center',
+    backgroundColor: 'black',
+    borderWidth: 1,
+    flexDirection: 'row',
+    borderColor: '#666666'
+  },
+  screenTextStyle: {
+    fontSize: 18,
+    fontFamily: 'VCR_OSD_MONO_1.001',
+    color: 'limegreen'
+  },
+
 };
 
 const mapStateToProps = ({ location, ongoingQuest }) => {
