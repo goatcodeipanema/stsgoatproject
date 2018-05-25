@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Text, Keyboard, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { CardSection, Button, Input, TextArea } from '../common';
+import { CardSection, ImageButton, Input, TextArea } from '../common';
 import { questUpdate } from '../../actions';
 
 const starGif = require('../../pictures/stars.gif');
+const blueButton = require('../../pictures/blueButton.png');
 
 class QuestCreateName extends Component {
 
@@ -28,7 +29,7 @@ class QuestCreateName extends Component {
     if (title && description) {
       //det går inte att gå vidare utan title och description
       return (
-        <Button onPress={this.onButtonPress.bind(this)} >To map</Button>
+        <ImageButton onPress={this.onButtonPress.bind(this)} source={blueButton} >To map</ImageButton>
       );
     }
     return (

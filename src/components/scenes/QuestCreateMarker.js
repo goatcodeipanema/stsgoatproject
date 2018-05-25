@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import geolib from 'geolib';
 import _ from 'lodash';
 import { Keyboard, Text, View, ImageBackground, Image } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { CardSection, Button, TextArea, FadeOverlay, WindowedModal } from '../common';
+import { CardSection, ImageButton, TextArea, FadeOverlay, WindowedModal } from '../common';
+import Map from '../Map';
 
 import {
   questUpdate,
@@ -22,8 +23,9 @@ import {
      } from '../../actions';
 
 const starGif = require('../../pictures/stars.gif');
-const MapStyle = require('../MapStyle.json');
 const pixelMarker = require('../../pictures/marker.png');
+const blueButton = require('../../pictures/blueButton.png');
+const mediumButton = require('../../pictures/mediumButton.png');
 // Det är ganska mycket i den här filen, möjligt att
 //det är snyggare att dela upp det i olika componenter.
 class QuestCreateMarker extends Component {
@@ -96,7 +98,7 @@ class QuestCreateMarker extends Component {
 renderButton() {
   if (this.props.markerArray.length > 0) {
     return (
-      <Button onPress={this.props.toggleDoneModal.bind(this)}> Done </Button>
+      <ImageButton onPress={this.props.toggleDoneModal.bind(this)} source={blueButton}> Done </ImageButton>
     );
   }
 }
@@ -122,7 +124,9 @@ renderButton() {
 
         );
       }
+      return ([]);
   }
+
   renderInfo() {
     return (
       <CardSection>
@@ -156,18 +160,13 @@ renderButton() {
        <Text style={{ color: 'limegreen' }}> Press and hold to place your locations on the map</Text>
        </CardSection>
 
-         <CardSection>
-               <MapView
-                 style={styles.map}
-                 showsUserLocation
-                 showsMyLocationButton
+         <CardSection style={{ height: 400, width: 400 }}>
+               <Map
                  onLongPress={this.onMapLongPress.bind(this)}
                  onPress={this.onMapPress.bind(this)}
                  onMarkerPress={this.onMarkerPress.bind(this)}
-                 customMapStyle={MapStyle}
-               >
-               {this.renderMarkers()}
-               </MapView>
+                 renderMarkers={this.renderMarkers.bind(this)}
+               />
           </CardSection>
 
           <CardSection>
@@ -197,13 +196,13 @@ renderButton() {
                 />
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Button onPress={this.onAccept.bind(this)}>
+                <ImageButton onPress={this.onAccept.bind(this)} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
                   Ok
-                </Button>
+                </ImageButton>
 
-                <Button onPress={toggleDeleteModal.bind(this)}>
+                <ImageButton onPress={toggleDeleteModal.bind(this)} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
                   Delete
-                </Button>
+                </ImageButton>
             </View>
             {/* areYouSure you want to delete? Modal */}
             <WindowedModal
@@ -211,14 +210,14 @@ renderButton() {
             toggleModal={toggleDeleteModal.bind(this)}
             modalStyle={styles.sureModalStyle}
             >
-              <Text style={titleStyle}>Are you sure?</Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Button onPress={this.onDelete.bind(this)}>
+              <Text style={titleStyle}>Sure?</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                <ImageButton onPress={this.onDelete.bind(this)} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
                   Yes
-                </Button>
-                <Button onPress={toggleDeleteModal.bind(this)}>
+                </ImageButton>
+                <ImageButton onPress={toggleDeleteModal.bind(this)} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
                   No
-                </Button>
+                </ImageButton>
               </View>
             </WindowedModal>
           </WindowedModal>
@@ -275,9 +274,9 @@ renderButton() {
               </View>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Button onPress={this.onSubmitButtonPress.bind(this)}>
+              <ImageButton onPress={this.onSubmitButtonPress.bind(this)} source={blueButton}>
                 Submit
-              </Button>
+              </ImageButton>
             </View>
           </WindowedModal>
           {/* Quest succesfully submitted-modal*/}
@@ -287,10 +286,10 @@ renderButton() {
           modalStyle={styles.sureModalStyle}
           >
           <Text style={titleStyle}>Your quest has been succesfully submitted!</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button onPress={this.questSubmitted.bind(this)}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+            <ImageButton onPress={this.questSubmitted.bind(this)} source={blueButton}>
               To startpage
-            </Button>
+            </ImageButton>
           </View>
           </WindowedModal>
        </ImageBackground>

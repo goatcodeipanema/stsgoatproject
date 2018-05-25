@@ -13,8 +13,18 @@ class Map extends Component {
 
   */
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    if (typeof this.props.onLongPress === 'undefined') {
+      this.props.onLongPress = () => {};
+    }
+    if (typeof this.props.onPress === 'undefined') {
+      this.props.onPress = () => {};
+    }
+    if (typeof this.props.onMarkerPress === 'undefined') {
+      this.props.onMarkerPress = () => {};
+    }
+
     const window = Dimensions.get('window');
     const { width, height } = window;
     const latitudeDelta = 0.0922;
@@ -35,8 +45,6 @@ class Map extends Component {
 
   componentDidMount() {
     this.mounted = true;
-    //Det är lite oklart men det här funkar alltså för att rendera showuserlocation-knappen.
-    //Om den inte dyker upp direkt, prova att öka fördröjningen i timern.
     setTimeout(() => this.updateStyle(), 1);
   }
 
@@ -74,6 +82,7 @@ class Map extends Component {
 
   render() {
     const { containerStyle, mapStyle } = this.state;
+    const { onPress, onLongPress, onMarkerPress } = this.props;
     return (
       <View style={containerStyle}>
         <MapView
@@ -82,6 +91,9 @@ class Map extends Component {
         onRegionChangeComplete={this.onRegionChange}
         style={mapStyle}
         customMapStyle={customMap}
+        onLongPress={onLongPress}
+        onPress={onPress}
+        onMarkerPress={onMarkerPress}
         >
           {this.props.renderMarkers()}
         </MapView>
