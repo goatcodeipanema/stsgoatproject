@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Keyboard, Text, View, ImageBackground, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { CardSection, Button, TextArea, FadeOverlay, WindowedModal } from '../common';
 
 import {
@@ -14,8 +15,10 @@ import {
   markerSelect,
   toggleMarkerModal,
   toggleDeleteModal,
+  toggleDoneModal,
   deleteMarker,
-  updateTotalDistance
+  updateTotalDistance,
+  toggleSubmittedModal
      } from '../../actions';
 
 const starGif = require('../../pictures/stars.gif');
@@ -25,9 +28,15 @@ const pixelMarker = require('../../pictures/marker.png');
 //det är snyggare att dela upp det i olika componenter.
 class QuestCreateMarker extends Component {
 
-  onButtonPress() {
+  questSubmitted() {
+    this.props.toggleSubmittedModal();
+    Actions.start();
+  }
+
+  onSubmitButtonPress() {
     const { id, title, description, markers, totalDistance, allMarkers } = this.props;
     this.props.questSave({ id, title, description, markers, totalDistance, allMarkers });
+    setTimeout(() => this.props.toggleSubmittedModal(), 100);
   }
 
   onMarkerPress(e) {
@@ -54,14 +63,6 @@ class QuestCreateMarker extends Component {
   onMapPress() {
     Keyboard.dismiss();
   }
-/*
-  onMarkerDragStart(e) {
-   console.log(e.nativeEvent); // här vill vi ev lägga in nåt sen
-  }
-  onMarkerDragEnd(e) {
-    console.log(e.nativeEvent); //här vill vi ev lägga in nåt sen
-  }
-*/
   onAccept() {
   this.props.toggleMarkerModal();
   }
@@ -93,10 +94,9 @@ class QuestCreateMarker extends Component {
       return;
 }
 renderButton() {
-  console.log(this.props);
   if (this.props.markerArray.length > 0) {
     return (
-      <Button onPress={this.onButtonPress.bind(this)} >Submit quest</Button>
+      <Button onPress={this.props.toggleDoneModal.bind(this)}> Done </Button>
     );
   }
 }
@@ -140,7 +140,10 @@ renderButton() {
        deleteModalVisible,
        toggleDeleteModal,
        allMarkers,
-       selectedMarker
+       selectedMarker,
+       doneModalVisible,
+       toggleDoneModal,
+       submittedModalVisible
      } = this.props;
 
      const { titleStyle } = styles;
@@ -161,8 +164,6 @@ renderButton() {
                  onLongPress={this.onMapLongPress.bind(this)}
                  onPress={this.onMapPress.bind(this)}
                  onMarkerPress={this.onMarkerPress.bind(this)}
-                 //onMarkerDragEnd={this.onMarkerDragEnd.bind(this)}
-                 //onMarkerDragStart={this.onMarkerDragStart.bind(this)}
                  customMapStyle={MapStyle}
                >
                {this.renderMarkers()}
@@ -204,7 +205,7 @@ renderButton() {
                   Delete
                 </Button>
             </View>
-            {/* areYouSure Modal */}
+            {/* areYouSure you want to delete? Modal */}
             <WindowedModal
             visible={deleteModalVisible}
             toggleModal={toggleDeleteModal.bind(this)}
@@ -221,6 +222,77 @@ renderButton() {
               </View>
             </WindowedModal>
           </WindowedModal>
+          {/*  Do you want to submit quest?-modal (overview)*/}
+          <WindowedModal
+          visible={doneModalVisible}
+          toggleModal={toggleDoneModal.bind(this)}
+          modalStyle={{ marginTop: 100 }}
+          >
+            <Text style={styles.titleStyle}>Overview</Text>
+
+
+            <View style={{ marginLeft: 10, flexDirection: 'row', backgroundColor: 'black' }}>
+              <Text style={styles.smallTitleStyle}>
+                Name:
+              </Text>
+              <View style={{ backgroundColor: 'black' }}>
+                <Text style={styles.textStyle}>
+                  {this.props.title}
+                </Text>
+              </View>
+            </View>
+
+            <View style={{ marginLeft: 10, flexDirection: 'row', backgroundColor: 'black' }}>
+              <Text style={styles.smallTitleStyle}>
+                NO. of stops:
+              </Text>
+              <View style={{ backgroundColor: 'black' }}>
+                <Text style={styles.textStyle}>
+                  {this.props.allMarkers.length}
+                </Text>
+              </View>
+            </View>
+
+            <View style={{ marginLeft: 10, flexDirection: 'row', backgroundColor: 'black' }}>
+              <Text style={styles.smallTitleStyle}>
+               Total distance:
+              </Text>
+              <View style={{ backgroundColor: 'black' }}>
+                <Text style={styles.textStyle}>
+                  {this.props.totalDistance} m
+                </Text>
+              </View>
+            </View>
+
+            <View style={{ marginLeft: 10, backgroundColor: 'black' }}>
+              <Text style={styles.smallTitleStyle}>
+               Description:
+              </Text>
+              <View style={{ backgroundColor: 'black' }}>
+                <Text style={styles.descriptionTextStyle}>
+                  {this.props.description}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Button onPress={this.onSubmitButtonPress.bind(this)}>
+                Submit
+              </Button>
+            </View>
+          </WindowedModal>
+          {/* Quest succesfully submitted-modal*/}
+          <WindowedModal
+          visible={submittedModalVisible}
+          toggleModal={this.questSubmitted.bind(this)}
+          modalStyle={styles.sureModalStyle}
+          >
+          <Text style={titleStyle}>Your quest has been succesfully submitted!</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <Button onPress={this.questSubmitted.bind(this)}>
+              To startpage
+            </Button>
+          </View>
+          </WindowedModal>
        </ImageBackground>
      );
    }
@@ -233,13 +305,6 @@ renderButton() {
     },
     cardStyle: {
       alignItems: 'center',
-    },
-    titleStyle: {
-      fontSize: 45,
-      fontFamily: 'VCR_OSD_MONO_1.001',
-      marginTop: 5,
-      marginLeft: 10,
-      color: 'limegreen'
     },
     boxStyle: {
       flexDirection: 'row',
@@ -262,7 +327,34 @@ renderButton() {
       alignItems: 'center',
       justifyContent: 'center'
     },
-  };
+
+    titleStyle: {
+      fontSize: 45,
+      paddingLeft: 20,
+      fontFamily: 'upheavtt',
+      color: 'white'
+    },
+    smallTitleStyle: {
+        fontSize: 30,
+        fontFamily: 'upheavtt',
+        color: '#FACC2E',
+        marginRight: 3
+    },
+    textStyle: {
+      color: 'white',
+      fontSize: 20,
+      fontFamily: 'VCR_OSD_MONO_1.001',
+      marginLeft: 5,
+      marginTop: 4
+  },
+    descriptionTextStyle: {
+      color: 'white',
+      fontSize: 16,
+      fontFamily: 'VCR_OSD_MONO_1.001',
+      marginLeft: 5,
+      marginTop: 4
+  }
+};
 
   const mapStateToProps = ({ createQuest }) => {
     const {
@@ -274,7 +366,9 @@ renderButton() {
       markerModalVisible,
       deleteModalVisible,
       totalDistance,
-      allMarkers
+      allMarkers,
+      doneModalVisible,
+      submittedModalVisible
     } = createQuest;
     //markerArray är en array som innehåller alla markerobjekt och deras nyckel,
     //t.ex [{coordinate: {…}, clue: "clue 1", key: "0"}, {coordinate: {…}, clue: "clue 2", key: "1"} ]
@@ -290,8 +384,10 @@ renderButton() {
       selectedMarker,
       markerModalVisible,
       deleteModalVisible,
+      doneModalVisible,
       totalDistance,
-      allMarkers
+      allMarkers,
+      submittedModalVisible
      };
   };
 
@@ -304,5 +400,7 @@ renderButton() {
     toggleMarkerModal,
     toggleDeleteModal,
     deleteMarker,
-    updateTotalDistance
+    updateTotalDistance,
+    toggleDoneModal,
+    toggleSubmittedModal
    })(QuestCreateMarker);

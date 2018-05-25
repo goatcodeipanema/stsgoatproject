@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import { Actions } from 'react-native-router-flux';
 import {
    QUEST_UPDATE,
    QUEST_SAVE,
@@ -9,7 +8,9 @@ import {
    TOGGLE_MARKER_MODAL,
    TOGGLE_DELETE_MODAL,
    DELETE_MARKER,
-   UPDATE_TOTAL_DISTANCE
+   UPDATE_TOTAL_DISTANCE,
+   TOGGLE_DONE_MODAL,
+   TOGGLE_SUBMITTED_MODAL
  } from './types';
 
 export const questUpdate = ({ prop, value }) => {
@@ -28,7 +29,6 @@ export const questSave = ({ id, title, description, markers, totalDistance, allM
     .push({ id, title, description, markers })
     .then(() => {
         dispatch({ type: QUEST_SAVE });
-        Actions.main();
     });
   };
 };
@@ -63,6 +63,17 @@ export const toggleMarkerModal = () => {
 export const toggleDeleteModal = () => {
     return {
       type: TOGGLE_DELETE_MODAL
+    };
+};
+export const toggleDoneModal = () => {
+    return {
+      type: TOGGLE_DONE_MODAL
+    };
+};
+
+export const toggleSubmittedModal = () => {
+    return {
+      type: TOGGLE_SUBMITTED_MODAL
     };
 };
 export const deleteMarker = () => {

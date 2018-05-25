@@ -28,3 +28,5 @@ export const UPDATE_TOTAL_DISTANCE = 'update_total_distance';
 export const LOAD_NEXT_MARKER = 'load_next_marker';
 export const LOAD_QUEST = 'load_quest';
 export const QUEST_COMPLETE = 'quest_complete';
+export const TOGGLE_DONE_MODAL = 'toggle_done_modal';
+export const TOGGLE_SUBMITTED_MODAL = 'toggle_submitted_modal';

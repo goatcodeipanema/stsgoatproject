@@ -16,6 +16,7 @@ const TextArea = ({ label, value, onChangeText, placeholder, numberOfLines }) =>
         multiline
         numberOfLines={numberOfLines}
         placeholderTextColor='white'
+        maxLength={500}
       />
     </View>
   );

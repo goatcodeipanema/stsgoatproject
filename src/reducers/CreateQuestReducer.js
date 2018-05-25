@@ -7,8 +7,10 @@ import {
   MARKER_SELECT,
   TOGGLE_MARKER_MODAL,
   TOGGLE_DELETE_MODAL,
+  TOGGLE_DONE_MODAL,
   DELETE_MARKER,
-  UPDATE_TOTAL_DISTANCE
+  UPDATE_TOTAL_DISTANCE,
+  TOGGLE_SUBMITTED_MODAL
  } from '../actions/types';
 
 
@@ -21,6 +23,8 @@ const INITIAL_STATE = {
     selectedMarker: null, //selectedmarker har värdet av markerns objektsnyckel
     markerModalVisible: false,
     deleteModalVisible: false,
+    doneModalVisible: false,
+    submittedModalVisible: false,
     totalDistance: 0, //totalt avstånd mellan alla markers
 
 };
@@ -58,12 +62,18 @@ export default (state = INITIAL_STATE, action) => {
       case TOGGLE_MARKER_MODAL:
           return { ...state, markerModalVisible: !state.markerModalVisible };
 
+      case TOGGLE_DONE_MODAL:
+          return { ...state, doneModalVisible: !state.doneModalVisible };
+
+      case TOGGLE_SUBMITTED_MODAL:
+          return { ...state, submittedModalVisible: !state.submittedModalVisible };
+
+
       case TOGGLE_DELETE_MODAL:
           return { ...state, deleteModalVisible: !state.deleteModalVisible };
           //delete_marker tar bort objektet som har key som motsvarar selectedMarker,
           //sätter selectedMarker till null och tar bort objektnyckeln från allMarkers-arrayen
       case DELETE_MARKER:
-      console.log(action);
           return {
             ...state,
             markers: omit(state.markers, state.selectedMarker),
@@ -74,7 +84,6 @@ export default (state = INITIAL_STATE, action) => {
             ]
           };
       case UPDATE_TOTAL_DISTANCE:
-      console.log(action);
           return {
               ...state,
               totalDistance: action.payload

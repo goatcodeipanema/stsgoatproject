@@ -36,7 +36,7 @@ class RouterComponent extends Component {
 
 
         /> */}
-        <Scene key="main" initial>
+        <Scene key="main">
           <Scene
           title="Intro"
           key="intro"

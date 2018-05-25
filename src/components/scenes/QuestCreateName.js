@@ -44,8 +44,9 @@ class QuestCreateName extends Component {
           <Input
             label="Quest"
             placeholder="My first goat quest"
-            value={this.props.name}
+            value={this.props.title}
             onChangeText={value => this.props.questUpdate({ prop: 'title', value })}
+            maxLength={20}
 
           />
         </CardSection>
@@ -84,8 +85,8 @@ const styles = {
 };
 
 const mapStateToProps = ({ createQuest }) => {
-  const { name, description, id } = createQuest;
-  return { name, description, id };
+  const { title, description, id } = createQuest;
+  return { title, description, id };
 };
 
 export default connect(mapStateToProps, { questUpdate })(QuestCreateName);
