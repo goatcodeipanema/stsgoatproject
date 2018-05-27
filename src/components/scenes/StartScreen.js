@@ -5,6 +5,7 @@ import { ImageButton, CardSection } from '../common';
 
 const starGif = require('../../pictures/stars.gif');
 const blueButton = require('../../pictures/blueButton.png');
+//const blueButton = require('../../pictures/mediumButton.png'); Patriks telefon
 const goatImage = require('../../pictures/goat2.png');
 
 const StartScreen = () => {
@@ -77,6 +78,7 @@ const styles = {
     titleStyle: {
       fontFamily: 'upheavtt',
       fontSize: 65,
+      // fontSize: 60, patriks telefon
       color: '#FACC2E',
 
     }

@@ -17,6 +17,8 @@ import com.airbnb.android.react.maps.MapsPackage;
 
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 
+import com.zmxv.RNSound.RNSoundPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -30,7 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new MapsPackage(),
-            new RNFusedLocationPackage()
+            new RNFusedLocationPackage(),
+            new RNSoundPackage()
       );
     }
 
