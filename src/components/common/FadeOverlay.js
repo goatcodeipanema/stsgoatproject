@@ -32,7 +32,7 @@ class FadeOverlay extends Component {
           this.state.fadeValue,
           {
             toValue: 0,
-            duration: 1000,
+            duration: 1500,
             easing: Easing.cubic
           }
         ).start(() => { this.setState({ animating: false }); });
