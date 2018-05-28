@@ -14,6 +14,7 @@ const SPACE_GIF = require('../../pictures/stars.gif');
 const WALK_GOAT = require('../../pictures/walkgoat.gif');
 const CLUE_GOAT = require('../../pictures/cluegoat.gif');
 const EGG_GOAT = require('../../pictures/layegg.gif');
+const GOLDEN_EGG = require('../../pictures/goldenegg.gif');
 
 const FIRST_TEXT = 'No one really knows\n' +
   'when the space goats\n' +
@@ -83,7 +84,7 @@ class Intro extends Component {
         fontSize: 20,
         fontFamily: 'VCR_OSD_MONO_1.001',
         color: 'limegreen',
-        textShadowColor: 'rgba(180, 150, 230, 1)',
+        textShadowColor: 'rgba(120, 50, 255, 1)',
         textShadowOffset: {
           height: new Animated.Value(-1), 
           width: new Animated.Value(0.7)
@@ -302,27 +303,49 @@ class Intro extends Component {
 
   startFourthScene() {
     this.setState({
-      currentGoat: undefined,
+      currentGoat: GOLDEN_EGG,
+      goatStyle: {
+        position: 'absolute',
+        height: WIDTH,
+        width: WIDTH * 0.73,
+        top: 0,
+        left: (WIDTH * 0.15),
+        opacity: new Animated.Value(0),
+        zIndex: 2
+      },
       currentBackground: undefined,
       animatingText: true,
       currentString: FOURTH_TEXT,
       textAnimation: new Animated.Value(0)
     });
     setTimeout(() => {
-      const { textAnimation, textViewStyle } = this.state;
+      const { textAnimation, textViewStyle, goatStyle } = this.state;
       this.playSpaceWriter();
       this.updateString();
-      Animated.timing(textViewStyle.opacity, FADE_IN).start();
+      Animated.sequence([
+        Animated.timing(textViewStyle.opacity, FADE_IN),
+        Animated.timing(goatStyle.opacity, {
+          toValue: 1,
+          duration: 3000,
+          easing: Easing.linear
+        })
+      ]).start();
       Animated.timing(textAnimation, TEXT_SPEED)
       .start(() => {
         this.setState({ animatingText: false });
-        Animated.timing(textViewStyle.opacity, FADE_OUT)
+        Animated.parallel([
+          Animated.timing(goatStyle.opacity, FADE_OUT),
+          Animated.timing(textViewStyle.opacity, FADE_OUT)
+        ])
         .start(() => {
           if (this.props.showingIntro) { 
             this.props.skipIntro();
             this.props.music.release();
             this.props.spaceWriter.release();
-            Actions.appStack();
+            this.props.playBackgroundMusic();
+            setTimeout(() => {
+              Actions.appStack();
+            }, 50);
           }
         });
       });

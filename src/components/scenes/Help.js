@@ -37,7 +37,6 @@ class HelpModal extends Component {
   }
 }
   render() {
-    console.log(this.props);
       return (
       <ImageBackground source={starGif} style={styles.backgroundStyle}>
         <CardSection style={styles.speechBubbleStyle}>

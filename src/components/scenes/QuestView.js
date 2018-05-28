@@ -6,8 +6,9 @@ import {
   Image
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
-import { Card, CardSection, ImageButton, FadeOverlay, WindowedModal } from '../common';
+import { Card, CardSection, ImageButton, FadeOverlay, WindowedModal, SureModal } from '../common';
 import Map from '../Map';
 import {
   locationUpdate,
@@ -31,20 +32,25 @@ const mediumButton = require('../../pictures/mediumButton.png');
 class QuestView extends Component {
 
   constructor(props) {
-    super();
+    super(props);
     this.renderMarkers = this.renderMarkers.bind(this);
     this.clueModal = props.toggleClueModal.bind(this);
     this.sureModal = props.toggleSureModal.bind(this);
     this.foundModal = props.toggleFoundModal.bind(this);
     this.completeModal = props.toggleCompleteModal.bind(this);
+    this.backToStart = this.backToStart.bind(this);
+    this.showNextClue = this.showNextClue.bind(this);
     this.giveUp = this.giveUp.bind(this);
-    this.completeText = {
-      title: "Golden egg found!",
-      text: "WOW, you found the egg! And it's full of CHEESE!! What a day..."
-    };
-    this.foundText = {
-      title: "",
-      text: ""
+    this.state = {
+      completeText: {
+        title: "Egg found!",
+        text: "WOW, you found the golden egg! And it's full of CHEESE!! What a day..."
+      },
+      foundText: {
+        title: "",
+        text: ""
+      },
+      markersFound: props.currentMarker.toString()
     };
   }
 
@@ -100,7 +106,9 @@ class QuestView extends Component {
     } = this.props;
 
     closeQuestViewModals();
-
+    this.setState({ 
+      markersFound: (parseInt(this.state.markersFound) + 1).toString() 
+    });
     markerIsFound(cheated);
     this.setModalTexts(cheated);
     if (currentMarker < markerArray.length - 1) {
@@ -124,21 +132,39 @@ class QuestView extends Component {
 
   setModalTexts(cheated) {
     if (cheated) {
-      this.completeText = {
-        title: "Golden egg found!",
-        text: "WOW, you found the egg! But what's that?" +
-          " It's full of HUEL... That's what happens to cheaters."
-      };
-      this.foundText = {
-        title: "Cheated...",
-        text: "Too hard?? Ok then, here's your next clue."
-      };
+      this.setState({
+        completeText: {
+          title: "Egg found!",
+          text: "WOW, you found the golden egg! But what's that?" +
+            " It's full of HUEL... That's what happens to cheaters."
+        },
+        foundText: {
+          title: "Cheated...",
+          text: "Too hard?? Ok then, here's your next clue."
+        }
+      });
     } else {
-      this.foundText = {
-        title: "Next clue found!",
-        text: "You found another clue, keep going!"
-      };
+      this.setState({
+        foundText: {
+          title: "Next clue found!",
+          text: "You found another clue, keep going!"
+        }
+      });
     }
+  }
+
+  backToStart() {
+    this.props.toggleCompleteModal();
+    setTimeout(() => {
+      Actions.reset('appStack');
+    }, 50);
+  }
+
+  showNextClue() {
+    this.props.toggleFoundModal();
+    setTimeout(() => {
+      this.props.toggleClueModal();
+    }, 50);
   }
 
   renderMarkers() {
@@ -152,6 +178,7 @@ class QuestView extends Component {
           ))
     );
   }
+
 
   render() {
     const { mapWindowStyle, titleStyle, boxStyle } = styles;
@@ -177,13 +204,13 @@ class QuestView extends Component {
                     <Text style={styles.screenTextStyle}> {this.props.distanceToMarker} m </Text>
                   </View>
                   <View style={styles.screenStyle}>
-                    <Text style={styles.screenTextStyle}> {this.props.currentMarker}/{this.props.markerArray.length} </Text>
+                    <Text style={styles.screenTextStyle}> {this.state.markersFound}/{this.props.markerArray.length} </Text>
                     <Image source={pixelMarker} style={{ width: 15, height: 28 }} />
                   </View>
 
 
                   <View style={{ justifyContent: 'flex-end', flex: 1, alignItems: 'center' }}>
-                    <ImageButton onPress={this.clueModal} source={mediumButton} customImageStyle={{ height: 30, width: 80 }}>
+                    <ImageButton onPress={this.clueModal} source={mediumButton} customImageStyle={{ height: 32, width: 80 }}>
                       Clue
                     </ImageButton>
                   </View>
@@ -224,21 +251,14 @@ class QuestView extends Component {
           </View>
 
           {/* areYouSure Modal */}
-          <WindowedModal
+          <SureModal
           visible={sureModalVisible}
           toggleModal={this.sureModal}
           modalStyle={styles.sureModalStyle}
-          >
-            <Text style={titleStyle}>Really?</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 15 }}>
-              <ImageButton onPress={this.giveUp} source={mediumButton} customImageStyle={{ height: 40, width: 100 }} >
-                Yes
-              </ImageButton>
-              <ImageButton onPress={this.sureModal} source={mediumButton} customImageStyle={{ height: 40, width: 100 }}>
-                No
-              </ImageButton>
-            </View>
-          </WindowedModal>
+          complete={this.props.complete}
+          sureModal={this.sureModal}
+          giveUp={this.giveUp}
+          />
 
         </WindowedModal>
 
@@ -248,9 +268,14 @@ class QuestView extends Component {
         toggleModal={this.foundModal}
         modalStyle={{ marginTop: 100 }}
         >
-          <Text style={titleStyle}>{this.foundText.title}</Text>
+          <Text style={titleStyle}>{this.state.foundText.title}</Text>
           <View style={boxStyle}>
-            <Text style={styles.textStyle}>{this.foundText.text}</Text>
+            <Text style={styles.textStyle}>{this.state.foundText.text}</Text>
+          </View>
+          <View style={styles.centerContent}>
+            <ImageButton onPress={this.showNextClue} source={mediumButton} customImageStyle={{ height: 50, width: 200 }}>
+              Show next clue    
+            </ImageButton>
           </View>
         </WindowedModal>
 
@@ -260,12 +285,17 @@ class QuestView extends Component {
         toggleModal={this.completeModal}
         modalStyle={{ marginTop: 100 }}
         >
-          <Text style={titleStyle}>{this.completeText.title}</Text>
+          <Text style={titleStyle}>{this.state.completeText.title}</Text>
           <View style={boxStyle}>
-            <Text style={styles.textStyle}>{this.completeText.text}</Text>
+            <Text style={styles.textStyle}>{this.state.completeText.text}</Text>
           </View>
           <View style={styles.centerContent}>
             <Image source={eggFoundGif} style={{ height: 200, width: 200, marginBottom: 20 }} />
+          </View>
+          <View style={styles.centerContent}> 
+            <ImageButton onPress={this.backToStart} source={mediumButton} customImageStyle={{ height: 50, width: 180 }}>
+                  Back to start
+            </ImageButton>
           </View>
         </WindowedModal>
 
@@ -291,7 +321,7 @@ const styles = {
     flex: 1
   },
   titleStyle: {
-    fontSize: 45,
+    fontSize: 40,
     fontFamily: 'VCR_OSD_MONO_1.001',
     marginTop: 5,
     marginLeft: 10,
@@ -389,7 +419,8 @@ const mapStateToProps = ({ location, ongoingQuest }) => {
     clueModalVisible,
     foundModalVisible,
     sureModalVisible,
-    completeModalVisible
+    completeModalVisible,
+    complete: progress.complete
      };
 };
 

@@ -35,7 +35,6 @@ const styles = {
   imageStyle: {
 
     width: 190,
-    // width: 170, patriks telefon
     height: 50,
     alignItems: 'center',
     justifyContent: 'center'

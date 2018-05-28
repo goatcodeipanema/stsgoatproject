@@ -30,6 +30,14 @@ const spaceWriter = new Sound('spacewriter.waw', Sound.MAIN_BUNDLE, (error) => {
   // loaded successfully
   console.log('loaded sound');
 });
+const backgroundMusic = new Sound('background.waw', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the backgroundmusic', error);
+    return;
+  }
+  // loaded successfully
+  console.log('loaded sound');
+});
 
 class RouterComponent extends Component {
 
@@ -40,6 +48,12 @@ class RouterComponent extends Component {
     spaceWriter.stop();
     spaceWriter.release();
     Actions.appStack();
+    this.playBackgroundMusic();
+  }
+
+  playBackgroundMusic() {
+    backgroundMusic.setNumberOfLoops(-1);
+    backgroundMusic.play();
   }
 
   render() {
@@ -74,6 +88,7 @@ class RouterComponent extends Component {
             onRight={() => this.skipIntro()}
             music={music}
             spaceWriter={spaceWriter}
+            playBackgroundMusic={this.playBackgroundMusic.bind(this)}
             />
           </Scene>
           <Scene key='appStack'>
@@ -134,4 +149,6 @@ class RouterComponent extends Component {
 const mapStateToProps = () => { return {}; };
 
 export default connect(mapStateToProps, {
-  skipIntro, setToInitial })(RouterComponent);
+  skipIntro,
+  setToInitial
+})(RouterComponent);

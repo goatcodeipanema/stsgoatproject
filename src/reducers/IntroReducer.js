@@ -4,7 +4,7 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    showingIntro: false
+    showingIntro: true
 };
 
 export default (state = INITIAL_STATE, action) => {

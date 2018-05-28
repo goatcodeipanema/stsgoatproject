@@ -60,7 +60,7 @@ export const loadNextMarker = () => {
 };
 
 export const loadQuest = (quest) => {
-    const progress = {};
+    const progress = { complete: false };
     let i = 0;
     for (i; i < Object.keys(quest.markers).length; i++) {
         progress[i] = { found: false };

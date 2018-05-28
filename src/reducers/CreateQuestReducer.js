@@ -88,7 +88,6 @@ export default (state = INITIAL_STATE, action) => {
               totalDistance: action.payload
           };
       case SET_TO_INITIAL:
-      console.log(action);
         return INITIAL_STATE;
       default:
         return state;
