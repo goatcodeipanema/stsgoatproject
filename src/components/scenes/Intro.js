@@ -330,7 +330,6 @@ class Intro extends Component {
   }
 
   updateString() {
-    console.log(this.props.showingIntro);
     const { currentString, textAnimation, animatingText, displayedText } = this.state;
     if (currentString == displayedText) {
       this.stopSpaceWriter();
