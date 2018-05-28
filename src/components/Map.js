@@ -45,7 +45,7 @@ class Map extends Component {
 
   componentDidMount() {
     this.mounted = true;
-    setTimeout(() => this.updateStyle(), 1);
+    setTimeout(() => this.updateStyle(), 200);
   }
 
   componentWillUnmount() {

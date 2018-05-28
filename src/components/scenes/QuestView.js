@@ -66,7 +66,7 @@ class QuestView extends Component {
       if (!markerArray[currentMarker].found) {
         this.checkFound();
       }
-      setTimeout(() => this.updateQuestProgress(), 8000);
+      setTimeout(() => this.updateQuestProgress(), 3000);
     }
   }
 
@@ -74,6 +74,7 @@ class QuestView extends Component {
     let distanceToMarker = this.props.distanceToMarker;
     const currentMarker = this.props.currentMarker;
     if (distanceToMarker <= 15 && distanceToMarker > 0) {
+      this.props.locationUpdate();
       setTimeout(
         () => {
           if (!this.props.markerArray[currentMarker].found) {
@@ -182,7 +183,7 @@ class QuestView extends Component {
 
 
                   <View style={{ justifyContent: 'flex-end', flex: 1, alignItems: 'center' }}>
-                    <ImageButton onPress={this.clueModal} source={mediumButton} customImageStyle={{ height: 30, width: 70 }}>
+                    <ImageButton onPress={this.clueModal} source={mediumButton} customImageStyle={{ height: 30, width: 80 }}>
                       Clue
                     </ImageButton>
                   </View>
