@@ -31,7 +31,7 @@ class QuestCreateMarker extends Component {
 
   questSubmitted() {
     this.props.toggleSubmittedModal();
-    Actions.start();
+    setTimeout(() => { Actions.reset('appStack'); }, 50);
   }
 
   onSubmitButtonPress() {
@@ -132,7 +132,7 @@ class QuestCreateMarker extends Component {
         <Text style={styles.screenTextStyle}> {this.props.totalDistance} m </Text>
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ImageButton onPress={this.props.toggleDoneModal.bind(this)} source={mediumButton} customImageStyle={{ height: 30, width: 70 }}> Done </ImageButton>
+        <ImageButton onPress={this.props.toggleDoneModal.bind(this)} source={mediumButton} customImageStyle={{ height: 30, width: 80 }}> Done </ImageButton>
         </View>
         </CardSection>
       );

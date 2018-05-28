@@ -26,6 +26,15 @@ class App extends Component {
 
   componentDidMount() {
     this.props.questsFetch();
+    //Really tries to get an initial background location without spamming later.
+    this.props.locationUpdate();
+    setTimeout(() => {
+      this.props.locationUpdate();
+      setTimeout(() => {
+        this.props.locationUpdate();
+      }, 3000);
+    }, 3000);
+
     this.backgroundLocation();
     this.props.loginUser('test@test.com', 'password');
   }

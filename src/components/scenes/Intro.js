@@ -80,7 +80,7 @@ class Intro extends Component {
         zIndex: 1
       },
       textStyle: {
-        fontSize: 22,
+        fontSize: 20,
         fontFamily: 'VCR_OSD_MONO_1.001',
         color: 'limegreen',
         textShadowColor: 'rgba(180, 150, 230, 1)',
@@ -103,15 +103,15 @@ class Intro extends Component {
       animatingText: false,
       spaceWriterPlaying: false,
       balloonViewStyle: {
-        flex: 4
+        flex: 5
       },
       textViewStyle: {
         flex: 1,
         backgroundColor: 'black',
-        margin: 20,
-        marginBottom: 60,
+        margin: 10,
+        marginBottom: 40,
         padding: 10,
-        paddingTop: 20,
+        paddingTop: 15,
         borderColor: 'white',
         borderWidth: 2,
         opacity: new Animated.Value(0),
