@@ -58,7 +58,7 @@ class RouterComponent extends Component {
           />
           <Scene
             rightButtonTextStyle={{ color: '#FACC2E', fontSize: 40, fontFamily: 'upheavtt' }}
-            title='Can you find the egg?'
+            title='Where is the egg?'
             key="questView"
             component={QuestView}      //QuestView
             rightTitle="?"
