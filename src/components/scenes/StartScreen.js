@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, ImageBackground, Image, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 import { ImageButton, CardSection } from '../common';
 
 const starGif = require('../../pictures/stars.gif');
 const mediumButton = require('../../pictures/mediumButton.png');
 const goatImage = require('../../pictures/goat2.png');
 
-const StartScreen = () => {
-  return (
+class StartScreen extends Component {
+
+  render() {
+    return (
+
     <ImageBackground source={starGif} style={styles.backgroundStyle}>
       <CardSection>
 
@@ -52,7 +56,8 @@ const StartScreen = () => {
 
     </ImageBackground>
   );
-};
+  }
+}
 const styles = {
   buttonStyle: {
     marginTop: 5,
@@ -84,4 +89,8 @@ const styles = {
     }
 };
 
-export default StartScreen;
+const mapStateToProps = ({ createQuest }) => {
+  return { createQuest };
+};
+
+export default connect(mapStateToProps, { })(StartScreen);

@@ -8,7 +8,8 @@ import QuestCreateMarker from './components/scenes/QuestCreateMarker';
 import QuestView from './components/scenes/QuestView';
 import StartScreen from './components/scenes/StartScreen';
 import Intro from './components/scenes/Intro';
-import { skipIntro } from './actions';
+import Help from './components/scenes/Help';
+import { skipIntro, setToInitial } from './actions';
 
 const Sound = require('react-native-sound');
 
@@ -81,7 +82,8 @@ class RouterComponent extends Component {
               key="start"
               component={StartScreen}    //StartScreen
               rightTitle="?"
-              onRight={() => console.log('help startscreen')}
+              onRight={() => Actions.helpText({ scene: 'start' })}
+              onEnter={() => this.props.setToInitial()}
               //onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
             />
             <Scene
@@ -90,7 +92,7 @@ class RouterComponent extends Component {
               key="questList"
               component={QuestList}    //QuestList
               rightTitle="?"
-              onRight={() => console.log('help questlist')}
+              onRight={() => Actions.helpText({ scene: 'questList' })}
             />
             <Scene
               rightButtonTextStyle={{ color: '#FACC2E', fontSize: 40, fontFamily: 'upheavtt' }}
@@ -98,7 +100,7 @@ class RouterComponent extends Component {
               key="questView"
               component={QuestView}      //QuestView
               rightTitle="?"
-              onRight={() => console.log('help questview')}
+              onRight={() => Actions.helpText({ scene: 'questView' })}
             />
             <Scene
               rightButtonTextStyle={{ color: '#FACC2E', fontSize: 40, fontFamily: 'upheavtt' }}
@@ -106,7 +108,8 @@ class RouterComponent extends Component {
               component={QuestCreateName}    //QuestCreateName
               title="Create Quest"
               rightTitle="?"
-              onRight={() => console.log('help create name')}
+              onRight={() => Actions.helpText({ scene: 'questCreateName' })}
+
             />
             <Scene
               rightButtonTextStyle={{ color: '#FACC2E', fontSize: 40, fontFamily: 'upheavtt' }}
@@ -114,7 +117,12 @@ class RouterComponent extends Component {
               key="questCreateMarker"
               component={QuestCreateMarker}    //QuestCreateMarker
               rightTitle="?"
-              onRight={() => console.log('help create marker')}
+              onRight={() => Actions.helpText({ scene: 'questCreateMarker' })}
+            />
+            <Scene
+              title='Confused..?' // skriv nåt vettigt här
+              key="helpText"
+              component={Help}
             />
           </Scene>
       </Scene>
@@ -126,5 +134,4 @@ class RouterComponent extends Component {
 const mapStateToProps = () => { return {}; };
 
 export default connect(mapStateToProps, {
-  skipIntro
-})(RouterComponent);
+  skipIntro, setToInitial })(RouterComponent);

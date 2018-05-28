@@ -10,7 +10,8 @@ import {
   TOGGLE_DONE_MODAL,
   DELETE_MARKER,
   UPDATE_TOTAL_DISTANCE,
-  TOGGLE_SUBMITTED_MODAL
+  TOGGLE_SUBMITTED_MODAL,
+  SET_TO_INITIAL
  } from '../actions/types';
 
 
@@ -86,7 +87,9 @@ export default (state = INITIAL_STATE, action) => {
               ...state,
               totalDistance: action.payload
           };
-
+      case SET_TO_INITIAL:
+      console.log(action);
+        return INITIAL_STATE;
       default:
         return state;
   }

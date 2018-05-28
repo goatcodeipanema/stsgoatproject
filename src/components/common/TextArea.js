@@ -15,7 +15,7 @@ const TextArea = ({ label, value, onChangeText, numberOfLines }) => {
         multiline
         numberOfLines={numberOfLines}
         placeholderTextColor='white'
-        maxLength={500}
+        maxLength={450}
         selectionColor='limegreen'
       />
     </View>

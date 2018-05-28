@@ -63,6 +63,7 @@ class QuestCreateMarker extends Component {
 
   onMapPress() {
     Keyboard.dismiss();
+    this.renderMarkers();
   }
   onAccept() {
   this.props.toggleMarkerModal();
@@ -297,7 +298,7 @@ class QuestCreateMarker extends Component {
           toggleModal={this.questSubmitted.bind(this)}
           modalStyle={styles.sureModalStyle}
           >
-          <CardSection style={{ backgroundColor: 'black', marginTop: 30 }}>
+          <CardSection style={{ backgroundColor: 'black', marginTop: 40 }}>
           <Text style={styles.successTitleStyle}>Your quest has been submitted!</Text>
           </CardSection>
           <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>

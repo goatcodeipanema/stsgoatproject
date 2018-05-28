@@ -10,7 +10,8 @@ import {
    DELETE_MARKER,
    UPDATE_TOTAL_DISTANCE,
    TOGGLE_DONE_MODAL,
-   TOGGLE_SUBMITTED_MODAL
+   TOGGLE_SUBMITTED_MODAL,
+   SET_TO_INITIAL
  } from './types';
 
 export const questUpdate = ({ prop, value }) => {
@@ -86,5 +87,11 @@ export const updateTotalDistance = (distance) => {
   return {
     type: UPDATE_TOTAL_DISTANCE,
     payload: distance
+  };
+};
+
+export const setToInitial = () => {
+  return {
+    type: SET_TO_INITIAL
   };
 };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableWithoutFeedback, View, Keyboard, ImageBackground } from 'react-native';
+import { Text, TouchableWithoutFeedback, View, Keyboard, ImageBackground, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { CardSection, ImageButton } from './common';
@@ -7,6 +7,7 @@ import { selectQuest, questsFetch, deselectQuest, loadQuest } from '../actions';
 
 const starGif = require('../pictures/space.png');
 const blueButton = require('../pictures/blueButton.png');
+const pixelMarker = require('../pictures/marker.png');
 
 class QuestListItem extends Component {
 
@@ -68,10 +69,11 @@ class QuestListItem extends Component {
             <Text style={styles.smallTitleStyle}>
               NO. of stops:
             </Text>
-            <View style={{ backgroundColor: 'black' }}>
+            <View style={{ backgroundColor: 'black', flexDirection: 'row' }}>
               <Text style={styles.textStyle}>
                 {quest.allMarkers.length}
               </Text>
+              <Image source={pixelMarker} style={{ width: 15, height: 28, marginLeft: 5 }} />
             </View>
           </View>
 
