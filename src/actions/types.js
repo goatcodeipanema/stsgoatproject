@@ -30,3 +30,5 @@ export const LOAD_QUEST = 'load_quest';
 export const QUEST_COMPLETE = 'quest_complete';
 export const TOGGLE_DONE_MODAL = 'toggle_done_modal';
 export const TOGGLE_SUBMITTED_MODAL = 'toggle_submitted_modal';
+export const SHOW_INTRO = 'show_intro';
+export const SKIP_INTRO = 'skip_intro';

@@ -34,7 +34,7 @@ class App extends Component {
     this.props.locationUpdate();
     setTimeout(() => {
       this.backgroundLocation();
-    }, 10000
+    }, 30000
     );
   }
 

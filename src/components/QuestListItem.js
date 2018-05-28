@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { CardSection, ImageButton } from './common';
 import { selectQuest, questsFetch, deselectQuest, loadQuest } from '../actions';
 
-const starGif = require('../pictures/stars.gif');
+const starGif = require('../pictures/space.png');
 const blueButton = require('../pictures/blueButton.png');
 
 class QuestListItem extends Component {

@@ -3,7 +3,7 @@ import Modal from 'react-native-modal';
 import { Text, ImageBackground } from 'react-native';
 import { ImageButton } from './';
 
-const starGif = require('../../pictures/stars.gif');
+const starGif = require('../../pictures/space.png');
 const smallButton = require('../../pictures/smallButton.png');
 
 class WindowedModal extends Component {

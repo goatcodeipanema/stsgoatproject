@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 //import LoginForm from './components/scenes/LoginForm';
 import QuestList from './components/scenes/QuestList';
 import QuestCreateName from './components/scenes/QuestCreateName';
@@ -7,6 +8,7 @@ import QuestCreateMarker from './components/scenes/QuestCreateMarker';
 import QuestView from './components/scenes/QuestView';
 import StartScreen from './components/scenes/StartScreen';
 import Intro from './components/scenes/Intro';
+import { skipIntro } from './actions';
 
 const Sound = require('react-native-sound');
 
@@ -31,6 +33,7 @@ const spaceWriter = new Sound('spacewriter.waw', Sound.MAIN_BUNDLE, (error) => {
 class RouterComponent extends Component {
 
   skipIntro() {
+    this.props.skipIntro();
     music.stop();
     music.release();
     spaceWriter.stop();
@@ -120,4 +123,8 @@ class RouterComponent extends Component {
   }
 }
 
-export default RouterComponent;
+const mapStateToProps = () => { return {}; };
+
+export default connect(mapStateToProps, {
+  skipIntro
+})(RouterComponent);

@@ -5,7 +5,9 @@ import {
   Easing,
   Dimensions
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { showIntro, skipIntro } from '../../actions';
 
 const UFO_GIF = require('../../pictures/ufo.gif');
 const SPACE_GIF = require('../../pictures/stars.gif');
@@ -48,7 +50,7 @@ const window = Dimensions.get('window');
 const HEIGHT = window.height;
 const WIDTH = window.width;
 
-export default class App extends Component {
+class Intro extends Component {
   constructor() {
     super();
     this.state = {
@@ -80,11 +82,11 @@ export default class App extends Component {
       textStyle: {
         fontSize: 22,
         fontFamily: 'VCR_OSD_MONO_1.001',
-        color: 'rgba(150, 255, 200, 1)',
-        textShadowColor: 'rgba(230, 0, 255, 1)',
+        color: 'limegreen',
+        textShadowColor: 'rgba(180, 150, 230, 1)',
         textShadowOffset: {
           height: new Animated.Value(-1), 
-          width: new Animated.Value(1)
+          width: new Animated.Value(0.7)
         },
         textShadowRadius: 1,
         zIndex: 15,
@@ -119,6 +121,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    this.props.showIntro();
     setTimeout(() => {
       this.props.music.play();
     }, 1000);
@@ -156,7 +159,7 @@ export default class App extends Component {
           Animated.stagger(2000, [
             Animated.timing(backgroundGifStyle.opacity, FADE_OUT),
             Animated.timing(textViewStyle.opacity, FADE_OUT)
-          ]).start(() => { this.startSecondScene(); });
+          ]).start(() => { if (this.props.showingIntro) { this.startSecondScene(); } });
         }, 100);
       }); 
     }, 100);
@@ -230,7 +233,7 @@ export default class App extends Component {
         this.playSpaceWriter();
         this.setState({ animatingText: false });
         Animated.timing(textViewStyle.opacity, FADE_OUT)
-        .start(() => { this.startThirdScene(); });
+        .start(() => { if (this.props.showingIntro) { this.startThirdScene(); } });
       });
     }, 100);
   }
@@ -292,7 +295,7 @@ export default class App extends Component {
           Animated.timing(goatStyle.opacity, FADE_OUT),
           Animated.timing(backgroundGifStyle.opacity, FADE_OUT),
           Animated.timing(textViewStyle.opacity, FADE_OUT)
-        ]).start(() => { this.startFourthScene(); });
+        ]).start(() => { if (this.props.showingIntro) { this.startFourthScene(); } });
       });
     }, 100);
   }
@@ -315,18 +318,21 @@ export default class App extends Component {
         this.setState({ animatingText: false });
         Animated.timing(textViewStyle.opacity, FADE_OUT)
         .start(() => {
-          this.props.music.release();
-          this.props.spaceWriter.release();
-          Actions.appStack();
+          if (this.props.showingIntro) { 
+            this.props.skipIntro();
+            this.props.music.release();
+            this.props.spaceWriter.release();
+            Actions.appStack();
+          }
         });
       });
     }, 100);
   }
 
   updateString() {
+    console.log(this.props.showingIntro);
     const { currentString, textAnimation, animatingText, displayedText } = this.state;
     if (currentString == displayedText) {
-      console.log('stop, currentstring');
       this.stopSpaceWriter();
     }
     if (animatingText) {
@@ -337,12 +343,10 @@ export default class App extends Component {
       });
       if (displayedText.length > 2) {
         if (displayedText.substr(displayedText.length - 2, displayedText.length) === '  ') {
-          console.log('stop, 2 spaces');
           this.stopSpaceWriter();
         }
       }
       if ((displayedText === 'and all there is,      ') || (displayedText === 'and all there is,      \nYOU    ')) {
-        console.log('play, time to go again');
         this.playSpaceWriter();
       }
       setTimeout(() => this.updateString(), 30);
@@ -409,3 +413,13 @@ const styles = {
   }
 };
 
+const mapStateToProps = ({ intro }) => {
+ return {
+    showingIntro: intro.showingIntro
+ };
+};
+
+export default connect(mapStateToProps, {
+  showIntro,
+  skipIntro
+})(Intro);

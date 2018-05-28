@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Marker } from 'react-native-maps';
-import { Actions } from 'react-native-router-flux';
 import {
   View,
   Text,
@@ -67,7 +66,7 @@ class QuestView extends Component {
       if (!markerArray[currentMarker].found) {
         this.checkFound();
       }
-      setTimeout(() => this.updateQuestProgress(), 300);
+      setTimeout(() => this.updateQuestProgress(), 8000);
     }
   }
 
@@ -83,7 +82,7 @@ class QuestView extends Component {
               this.advanceQuest(false);
             }
           }
-        }, 5000);
+        }, 2000);
     }
   }
 
