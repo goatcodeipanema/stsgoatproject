@@ -67,8 +67,6 @@ export default (state = INITIAL_STATE, action) => {
 
       case TOGGLE_SUBMITTED_MODAL:
           return { ...state, submittedModalVisible: !state.submittedModalVisible };
-
-
       case TOGGLE_DELETE_MODAL:
           return { ...state, deleteModalVisible: !state.deleteModalVisible };
           //delete_marker tar bort objektet som har key som motsvarar selectedMarker,

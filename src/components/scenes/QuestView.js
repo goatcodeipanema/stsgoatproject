@@ -153,7 +153,7 @@ class QuestView extends Component {
   }
 
   render() {
-    const { mapWindowStyle, progressStyle, titleStyle, boxStyle } = styles;
+    const { mapWindowStyle, titleStyle, boxStyle } = styles;
     const {
       clueModalVisible,
       foundModalVisible,
@@ -177,14 +177,15 @@ class QuestView extends Component {
                   </View>
                   <View style={styles.screenStyle}>
                     <Text style={styles.screenTextStyle}> {this.props.currentMarker}/{this.props.markerArray.length} </Text>
-
+                    <Image source={pixelMarker} style={{ width: 15, height: 28 }} />
                   </View>
-                  <Image source={pixelMarker} style={{ width: 27, height: 51 }} />
-                    <View style={{ justifyContent: 'flex-end', flex: 1, alignItems: 'center' }}>
-                      <ImageButton onPress={this.clueModal} source={mediumButton} customImageStyle={{ height: 40, width: 110 }}>
-                        Clue
-                      </ImageButton>
-                    </View>
+
+
+                  <View style={{ justifyContent: 'flex-end', flex: 1, alignItems: 'center' }}>
+                    <ImageButton onPress={this.clueModal} source={mediumButton} customImageStyle={{ height: 30, width: 70 }}>
+                      Clue
+                    </ImageButton>
+                  </View>
                   </View>
                 </View>
               </View>
@@ -229,10 +230,10 @@ class QuestView extends Component {
           >
             <Text style={titleStyle}>Really?</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 15 }}>
-              <ImageButton onPress={this.giveUp} source={mediumButton} customImageStyle={{ height: 50, width: 150 }} >
+              <ImageButton onPress={this.giveUp} source={mediumButton} customImageStyle={{ height: 40, width: 100 }} >
                 Yes
               </ImageButton>
-              <ImageButton onPress={this.sureModal} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
+              <ImageButton onPress={this.sureModal} source={mediumButton} customImageStyle={{ height: 40, width: 100 }}>
                 No
               </ImageButton>
             </View>
@@ -263,7 +264,7 @@ class QuestView extends Component {
             <Text style={styles.textStyle}>{this.completeText.text}</Text>
           </View>
           <View style={styles.centerContent}>
-            <Image source={eggFoundGif} style={{ height: 300, width: 300, marginBottom: 20 }} />
+            <Image source={eggFoundGif} style={{ height: 200, width: 200, marginBottom: 20 }} />
           </View>
         </WindowedModal>
 
@@ -344,10 +345,12 @@ const styles = {
     backgroundColor: 'black',
     borderWidth: 1,
     flexDirection: 'row',
-    borderColor: '#666666'
+    borderColor: '#666666',
+    flex: 1,
+    height: 40
   },
   screenTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'VCR_OSD_MONO_1.001',
     color: 'limegreen'
   },

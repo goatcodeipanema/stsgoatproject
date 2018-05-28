@@ -34,7 +34,6 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case TOGGLE_CLUE_MODAL:
-        console.log(state);
             return { ...state, clueModalVisible: !state.clueModalVisible };
         case TOGGLE_FOUND_MODAL:
             return { ...state, foundModalVisible: !state.foundModalVisible };
@@ -43,28 +42,28 @@ export default (state = INITIAL_STATE, action) => {
         case TOGGLE_COMPLETE_MODAL:
             return { ...state, completeModalVisible: !state.completeModalVisible };
         case CLOSE_QVIEW_MODALS:
-            return { 
-                ...state, 
-                clueModalVisible: false, 
+            return {
+                ...state,
+                clueModalVisible: false,
                 foundModalVisible: false,
                 sureModalVisible: false,
                 completeModalVisible: false
             };
         case MARKER_FOUND:
-            return { 
-                ...state, 
-                progress: { 
-                    ...state.progress, 
-                    [state.currentMarker]: { found: true, cheated: action.payload } 
-                } 
+            return {
+                ...state,
+                progress: {
+                    ...state.progress,
+                    [state.currentMarker]: { found: true, cheated: action.payload }
+                }
             };
         case LOAD_NEXT_MARKER:
             return { ...state, currentMarker: parseInt(state.currentMarker) + 1 };
         case LOAD_QUEST:
-            return { 
-                ...INITIAL_STATE, 
-                quest: action.payload.quest, 
-                progress: action.payload.progress 
+            return {
+                ...INITIAL_STATE,
+                quest: action.payload.quest,
+                progress: action.payload.progress
             };
         case QUEST_COMPLETE:
             return { ...state, progress: { ...state.progress, complete: true } };

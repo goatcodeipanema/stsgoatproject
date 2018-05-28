@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Keyboard, ImageBackground } from 'react-native';
+import { Keyboard, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { CardSection, ImageButton, Input, TextArea } from '../common';
@@ -31,11 +31,11 @@ class QuestCreateName extends Component {
       return (
         <ImageButton onPress={this.onButtonPress.bind(this)} source={blueButton} >To map</ImageButton>
       );
-    }
+    } /*
     return (
       <Text style={{ color: 'yellow' }}>
         Give your quest a name and add a description to continue
-      </Text>);
+      </Text>);*/
   }
 
   render() {
@@ -43,7 +43,7 @@ class QuestCreateName extends Component {
       <ImageBackground source={starGif} style={styles.backgroundStyle}>
         <CardSection style={{ backgroundColor: 'transparent' }}>
           <Input
-            autoFocus
+            //autoFocus
             label="Quest Name: "
             //placeholder="My first goat quest"
             value={this.props.title}
@@ -53,7 +53,7 @@ class QuestCreateName extends Component {
           />
         </CardSection>
 
-        <CardSection style={{ backgroundColor: 'transparent' }}>
+        <CardSection style={{ backgroundColor: 'black' }}>
           <TextArea
 
             label="Description: "

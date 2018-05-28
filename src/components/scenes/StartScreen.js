@@ -4,8 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { ImageButton, CardSection } from '../common';
 
 const starGif = require('../../pictures/stars.gif');
-const blueButton = require('../../pictures/blueButton.png');
-//const blueButton = require('../../pictures/mediumButton.png'); Patriks telefon
+const mediumButton = require('../../pictures/mediumButton.png');
 const goatImage = require('../../pictures/goat2.png');
 
 const StartScreen = () => {
@@ -32,7 +31,8 @@ const StartScreen = () => {
               Actions.questList();
             }
           }}
-          source={blueButton}
+          source={mediumButton}
+          customImageStyle={{ height: 65, width: 170 }}
         >
           JOIN QUEST
         </ImageButton>
@@ -43,7 +43,8 @@ const StartScreen = () => {
               Actions.questCreateName();
             }
           }}
-          source={blueButton}
+          source={mediumButton}
+          customImageStyle={{ height: 65, width: 170 }}
         >
           CREATE QUEST
         </ImageButton>
@@ -77,8 +78,7 @@ const styles = {
     },
     titleStyle: {
       fontFamily: 'upheavtt',
-      fontSize: 65,
-      // fontSize: 60, patriks telefon
+      fontSize: 55,
       color: '#FACC2E',
 
     }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import geolib from 'geolib';
 import _ from 'lodash';
-import { Keyboard, Text, View, ImageBackground, Image } from 'react-native';
+import { Keyboard, Text, View, Image } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { CardSection, ImageButton, TextArea, FadeOverlay, WindowedModal } from '../common';
+import { CardSection, ImageButton, TextArea, FadeOverlay, WindowedModal, Card } from '../common';
 import Map from '../Map';
 
 import {
@@ -22,7 +22,6 @@ import {
   toggleSubmittedModal
      } from '../../actions';
 
-const starGif = require('../../pictures/stars.gif');
 const pixelMarker = require('../../pictures/marker.png');
 const blueButton = require('../../pictures/blueButton.png');
 const mediumButton = require('../../pictures/mediumButton.png');
@@ -38,7 +37,7 @@ class QuestCreateMarker extends Component {
   onSubmitButtonPress() {
     const { id, title, description, markers, totalDistance, allMarkers } = this.props;
     this.props.questSave({ id, title, description, markers, totalDistance, allMarkers });
-    setTimeout(() => this.props.toggleSubmittedModal(), 100);
+    setTimeout(() => this.props.toggleSubmittedModal(), 500);
   }
 
   onMarkerPress(e) {
@@ -95,13 +94,6 @@ class QuestCreateMarker extends Component {
     }
       return;
 }
-renderButton() {
-  if (this.props.markerArray.length > 0) {
-    return (
-      <ImageButton onPress={this.props.toggleDoneModal.bind(this)} source={blueButton}> Done </ImageButton>
-    );
-  }
-}
 
   renderMarkers() {
       if (this.props.markers) {
@@ -127,12 +119,28 @@ renderButton() {
       return ([]);
   }
 
-  renderInfo() {
+  renderBoardContent() {
+    if (this.props.markerArray.length > 0) {
+      return (
+        <CardSection>
+        <View style={styles.screenStyle}>
+          <Text style={styles.screenTextStyle}> {this.props.markerArray.length} </Text>
+          <Image source={pixelMarker} style={{ width: 15, height: 28 }} />
+        </View>
+        <View style={styles.screenStyle}>
+        <Text style={styles.screenTextStyle}> {this.props.totalDistance} m </Text>
+        </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ImageButton onPress={this.props.toggleDoneModal.bind(this)} source={mediumButton} customImageStyle={{ height: 30, width: 70 }}> Done </ImageButton>
+        </View>
+        </CardSection>
+      );
+    }
     return (
-      <CardSection>
-      <Text style={{ color: 'yellow' }}> Number of locations: {this.props.markerArray.length} </Text>
-      <Text style={{ color: 'yellow' }}> Total Distance: {this.props.totalDistance} m </Text>
-      </CardSection>
+
+      <View style={styles.screenStyle}>
+      <Text style={{ fontSize: 18, color: 'limegreen', fontFamily: 'upheavtt', marginLeft: 10, marginRight: 10 }}>Press and hold on the map to place your first location </Text>
+      </View>
     );
   }
 
@@ -153,14 +161,14 @@ renderButton() {
      const { titleStyle } = styles;
      return (
 
-       <ImageBackground source={starGif} style={styles.backgroundStyle}>
+       <Card>
        <FadeOverlay />
-
+        {/*
        <CardSection>
        <Text style={{ color: 'limegreen' }}> Press and hold to place your locations on the map</Text>
-       </CardSection>
+       </CardSection> */}
 
-         <CardSection style={{ height: 400, width: 400 }}>
+         <CardSection style={{ flex: 5 }}>
                <Map
                  onLongPress={this.onMapLongPress.bind(this)}
                  onPress={this.onMapPress.bind(this)}
@@ -168,16 +176,20 @@ renderButton() {
                  renderMarkers={this.renderMarkers.bind(this)}
                />
           </CardSection>
-
+          <View style={styles.boxOneStyle}>
+            <View style={styles.boxTwoStyle}>
+              <View style={styles.boxThreeStyle}>
+                <View style={styles.boxFourStyle}>
+                {this.renderBoardContent()}
+                </View>
+              </View>
+            </View>
+            </View>
+            {/*
           <CardSection>
             {this.renderInfo()}
           </CardSection>
-
-          <CardSection>
-            {this.renderButton()}
-          </CardSection>
-
-
+          */}
           <WindowedModal
           visible={markerModalVisible}
           toggleModal={toggleMarkerModal.bind(this)}
@@ -195,12 +207,12 @@ renderButton() {
                 })}
                 />
               </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <ImageButton onPress={this.onAccept.bind(this)} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                <ImageButton onPress={this.onAccept.bind(this)} source={mediumButton} customImageStyle={{ height: 45, width: 120 }}>
                   Ok
                 </ImageButton>
 
-                <ImageButton onPress={toggleDeleteModal.bind(this)} source={mediumButton} customImageStyle={{ height: 50, width: 150 }}>
+                <ImageButton onPress={toggleDeleteModal.bind(this)} source={mediumButton} customImageStyle={{ height: 45, width: 120 }}>
                   Delete
                 </ImageButton>
             </View>
@@ -254,7 +266,7 @@ renderButton() {
 
             <View style={{ marginLeft: 10, flexDirection: 'row', backgroundColor: 'black' }}>
               <Text style={styles.smallTitleStyle}>
-               Total distance:
+               Distance:
               </Text>
               <View style={{ backgroundColor: 'black' }}>
                 <Text style={styles.textStyle}>
@@ -273,7 +285,7 @@ renderButton() {
                 </Text>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
               <ImageButton onPress={this.onSubmitButtonPress.bind(this)} source={blueButton}>
                 Submit
               </ImageButton>
@@ -285,14 +297,16 @@ renderButton() {
           toggleModal={this.questSubmitted.bind(this)}
           modalStyle={styles.sureModalStyle}
           >
-          <Text style={titleStyle}>Your quest has been succesfully submitted!</Text>
+          <CardSection style={{ backgroundColor: 'black', marginTop: 30 }}>
+          <Text style={styles.successTitleStyle}>Your quest has been submitted!</Text>
+          </CardSection>
           <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
             <ImageButton onPress={this.questSubmitted.bind(this)} source={blueButton}>
               To startpage
             </ImageButton>
           </View>
           </WindowedModal>
-       </ImageBackground>
+       </Card>
      );
    }
   }
@@ -324,17 +338,25 @@ renderButton() {
     backgroundStyle: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center'
+      //justifyContent: 'center'
     },
 
     titleStyle: {
       fontSize: 45,
       paddingLeft: 20,
       fontFamily: 'upheavtt',
-      color: 'white'
+      color: 'white',
+
+    },
+    successTitleStyle: {
+      fontSize: 30,
+      paddingLeft: 20,
+      fontFamily: 'upheavtt',
+      color: 'white',
+
     },
     smallTitleStyle: {
-        fontSize: 30,
+        fontSize: 28,
         fontFamily: 'upheavtt',
         color: '#FACC2E',
         marginRight: 3
@@ -352,7 +374,47 @@ renderButton() {
       fontFamily: 'VCR_OSD_MONO_1.001',
       marginLeft: 5,
       marginTop: 4
-  }
+  },
+  boxOneStyle: {
+    flex: 1,
+    borderWidth: 4,
+    borderColor: 'black'
+  },
+  boxTwoStyle: {
+    flex: 1,
+    borderWidth: 8,
+    borderColor: '#7f7f7f'
+  },
+  boxThreeStyle: {
+    flex: 1,
+    borderWidth: 4,
+    borderColor: 'black'
+  },
+  boxFourStyle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderColor: '#666666',
+    flex: 1,
+    borderWidth: 4,
+    backgroundColor: '#7f7f7f',
+  },
+  screenStyle: {
+    margin: 5,
+    padding: 3,
+    alignItems: 'center',
+    backgroundColor: 'black',
+    borderWidth: 1,
+    flexDirection: 'row',
+    borderColor: '#666666',
+    flex: 1,
+    height: 40
+  },
+  screenTextStyle: {
+    fontSize: 16,
+    fontFamily: 'VCR_OSD_MONO_1.001',
+    color: 'limegreen'
+  },
+
 };
 
   const mapStateToProps = ({ createQuest }) => {
