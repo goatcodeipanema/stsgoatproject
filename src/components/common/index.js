@@ -10,4 +10,5 @@ export * from './ImageButton';
 export * from './FadeOverlay';
 export * from './WindowedModal';
 export * from './SureModal';
+export * from './PixelMarker';
 

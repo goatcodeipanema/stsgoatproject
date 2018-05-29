@@ -5,7 +5,7 @@ import { Keyboard, Text, View, Image } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { CardSection, ImageButton, TextArea, FadeOverlay, WindowedModal, Card } from '../common';
+import { CardSection, ImageButton, TextArea, FadeOverlay, WindowedModal, Card, PixelMarker } from '../common';
 import Map from '../Map';
 
 import {
@@ -100,19 +100,11 @@ class QuestCreateMarker extends Component {
       if (this.props.markers) {
         return (
           this.props.markerArray.map((eachMarker, i) => (
-            <Marker
+            <PixelMarker
                coordinate={eachMarker.coordinate}
-               //draggable
-               identifier={eachMarker.key.toString()}
+               index={i}
                key={i}
-               title={this.getNumber(i).toString()}
-               pinColor='#FACC2E'
-               //onDragStart={this.onMarkerDragStart.bind(this)}
-               //onDragEnd={this.onMarkerDragEnd.bind(this)}
-            >
-            <Image source={pixelMarker} style={{ width: 33, height: 60 }} />
-            </Marker>
-
+            />
           ))
 
         );

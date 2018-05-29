@@ -5,9 +5,8 @@ import ReduxThunk from 'redux-thunk';
 import Reducers from './src/reducers';
 import App from './src/App';
 
-/* Nu skapar vi storen här istället eftersom 
-react native inspector inte fungerar om vi gör det i App.js.
-Den obegripliga syntaxen med funktion i funktion är hämtat från 
+/* To get React Native Inspector working the Redux store is created all the way up here.
+The weird syntax with double fat arrows just works and was suggested in this thread:
 https://github.com/jhen0409/react-native-debugger/issues/112 */
 
 const store = createStore(Reducers, {}, applyMiddleware(ReduxThunk));
