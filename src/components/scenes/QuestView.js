@@ -157,7 +157,7 @@ class QuestView extends Component {
     this.props.toggleCompleteModal();
     setTimeout(() => {
       Actions.reset('appStack');
-    }, 50);
+    }, 300);
   }
 
   showNextClue() {

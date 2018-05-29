@@ -30,7 +30,7 @@ class QuestCreateMarker extends Component {
 
   questSubmitted() {
     this.props.toggleSubmittedModal();
-    setTimeout(() => { Actions.reset('appStack'); }, 50);
+    setTimeout(() => { Actions.reset('appStack'); }, 300);
   }
 
   onSubmitButtonPress() {
@@ -161,14 +161,14 @@ class QuestCreateMarker extends Component {
        <Text style={{ color: 'limegreen' }}> Press and hold to place your locations on the map</Text>
        </CardSection> */}
 
-         <CardSection style={{ flex: 5 }}>
+         <View style={{ flex: 5 }}>
                <Map
                  onLongPress={this.onMapLongPress.bind(this)}
                  onPress={this.onMapPress.bind(this)}
                  onMarkerPress={this.onMarkerPress.bind(this)}
                  renderMarkers={this.renderMarkers.bind(this)}
                />
-          </CardSection>
+          </View>
           <View style={styles.boxOneStyle}>
             <View style={styles.boxTwoStyle}>
               <View style={styles.boxThreeStyle}>

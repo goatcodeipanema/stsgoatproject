@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { PermissionsAndroid, YellowBox } from 'react-native';
+import { PermissionsAndroid, YellowBox, StatusBar } from 'react-native';
 import _ from 'lodash';
 import firebase from 'firebase';
 import { connect, Provider } from 'react-redux';
@@ -15,7 +15,7 @@ class App extends Component {
 
   componentWillMount() {
     this.requestLocationPermission();
-
+    
     const config = {
     apiKey: 'AIzaSyCTDwncFx89wVwR18wVRW4aO_dLy2olzBM',
     authDomain: 'stsgoatcodeipanema.firebaseapp.com',
@@ -29,6 +29,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    StatusBar.setHidden(true, "fade");
     this.props.questsFetch();
     //Really tries to get an initial background location without spamming later.
     this.props.locationUpdate();

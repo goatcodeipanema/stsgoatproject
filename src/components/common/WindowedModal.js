@@ -16,7 +16,6 @@ class WindowedModal extends Component {
   -toggleModal ska ha funktionen som togglar modalen i parentkomponenten
   -stängningskrysset kan i framtiden se lite roligare ut kanske
   */
-
   render() {
    const { visible, modalStyle, containerStyle, toggleModal } = this.props;
     return (
