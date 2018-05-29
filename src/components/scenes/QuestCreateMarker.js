@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import geolib from 'geolib';
 import _ from 'lodash';
 import { Keyboard, Text, View, Image } from 'react-native';
-import { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { CardSection, ImageButton, TextArea, FadeOverlay, WindowedModal, Card, PixelMarker } from '../common';
@@ -104,6 +103,7 @@ class QuestCreateMarker extends Component {
                coordinate={eachMarker.coordinate}
                index={i}
                key={i}
+               identifier={eachMarker.key}
             />
           ))
 

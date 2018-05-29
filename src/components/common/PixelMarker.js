@@ -10,12 +10,12 @@ class PixelMarker extends Component {
     }
 
     render() {
-        const { coordinate, index } = this.props;
+        const { coordinate, index, identifier } = this.props;
         return (
-            <Marker 
+            <Marker
             coordinate={coordinate}
             title={(index + 1).toString()}
-            identifier={index.toString()}
+            identifier={identifier}
             key={index}
             >
                 <Image
