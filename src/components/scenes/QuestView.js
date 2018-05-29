@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
-import { Card, CardSection, ImageButton, FadeOverlay, WindowedModal, SureModal } from '../common';
+import { Card, ImageButton, FadeOverlay, WindowedModal, SureModal } from '../common';
 import Map from '../Map';
 import {
   locationUpdate,

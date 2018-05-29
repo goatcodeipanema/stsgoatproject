@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BackHandler, Keyboard } from 'react-native'; 
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 //import LoginForm from './components/scenes/LoginForm'; Not used in the presentation version. 
@@ -45,6 +46,15 @@ const backgroundMusic = new Sound('background.waw', Sound.MAIN_BUNDLE, (error) =
 });
 
 class RouterComponent extends Component {
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress.bind(this));
+  }
+
+  handleBackPress() {
+    Keyboard.dismiss();
+    return true;
+  }
 
   skipIntro() {
     //The props.skipIntro() is from Redux.
