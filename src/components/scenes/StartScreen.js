@@ -9,10 +9,8 @@ const mediumButton = require('../../pictures/mediumButton.png');
 const goatImage = require('../../pictures/goat2.png');
 
 class StartScreen extends Component {
-
   render() {
     return (
-
     <ImageBackground source={starGif} style={styles.backgroundStyle}>
       <CardSection>
 

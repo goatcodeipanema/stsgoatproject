@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, ImageBackground } from 'react-native';
-import { Card, CardSection } from '../common';
+import { CardSection } from '../common';
 
 const friendlyGoat = require('../../pictures/friendlyGoat.png');
 const starGif = require('../../pictures/stars.gif');
@@ -32,7 +32,7 @@ class HelpModal extends Component {
     );
   } else if (this.props.scene === 'questView') {
     return (
-      <Text style={styles.textStyle}>Hooman!{"\n"}{"\n"}This is where the magic happens.{"\n"}{"\n"}Get those hooves movin! (Yes, you will have to physically move to find the hidden spots){"\n"}{"\n"}Feeling lost? Press CLUE for some help. The control board below the map shows how many hidden locations you have found and how far away the next location is. You have to find all locations to get to the golden egg.{"\n"}{"\n"}[Cheating is possible but not encouraged] {"\n"}{"\n"}Bäähst wishes,{"\n"} The Space Goat </Text>
+      <Text style={{ ...styles.textStyle, fontSize: 10 }}>Hooman!{"\n"}{"\n"}Get those hooves movin! (Yes, you will have to physically move to find the hidden spots){"\n"}{"\n"}Feeling lost? Press CLUE for some help. The control board below the map shows how many hidden locations you have found and how far away the next location is. You have to find all locations to get to the golden egg.{"\n"}{"\n"}[Cheating is possible but not encouraged] {"\n"}{"\n"}Bäähst wishes,{"\n"} The Space Goat </Text>
     );
   }
 }
@@ -55,14 +55,16 @@ class HelpModal extends Component {
 }
 export const styles = {
   textStyle: {
-    fontSize: 20,
+    fontSize: 12,
     color: 'white',
-    fontFamily: 'VCR_OSD_MONO_1.001'
+    fontFamily: 'PressStart2P',
+    lineHeight: 14
   },
   speechBubbleStyle: {
     borderWidth: 1,
     borderColor: 'yellow',
     borderRadius: 10,
+    margin: 10,
     backgroundColor: 'black'
   },
   backgroundStyle: {

@@ -356,15 +356,17 @@ class QuestCreateMarker extends Component {
     },
     textStyle: {
       color: 'white',
-      fontSize: 20,
-      fontFamily: 'VCR_OSD_MONO_1.001',
+      fontSize: 14,
+      fontFamily: 'PressStart2P',
+      lineHeight: 18,
       marginLeft: 5,
       marginTop: 4
   },
     descriptionTextStyle: {
       color: 'white',
-      fontSize: 16,
-      fontFamily: 'VCR_OSD_MONO_1.001',
+      fontSize: 12,
+      fontFamily: 'PressStart2P',
+      lineHeight: 16,
       marginLeft: 5,
       marginTop: 4
   },
@@ -403,8 +405,9 @@ class QuestCreateMarker extends Component {
     height: 40
   },
   screenTextStyle: {
-    fontSize: 16,
-    fontFamily: 'VCR_OSD_MONO_1.001',
+    fontSize: 10,
+    fontFamily: 'PressStart2P',
+    lineHeight: 14,
     color: 'limegreen'
   },
 

@@ -17,6 +17,9 @@ class SureModal extends Component {
               modalStyle={this.props.modalStyle}
               >
                 <Text style={styles.titleStyle}>Really?</Text>
+                <View style={styles.boxStyle}>
+                  <Text style={styles.textStyle}>This will reveal the spot you are currently looking for, and if it ain't the last you will also get the next clue.</Text>
+                </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 15 }}>
                   <ImageButton onPress={this.props.giveUp} source={mediumButton} customImageStyle={{ height: 40, width: 100 }} >
                     Yes
@@ -46,13 +49,15 @@ class SureModal extends Component {
 
   const styles = {
     textStyle: {
-      fontSize: 18,
-      fontFamily: 'VCR_OSD_MONO_1.001',
-      color: 'white'
+      fontSize: 12,
+      fontFamily: 'PressStart2P',
+      lineHeight: 18,
+      color: 'limegreen'
     },
     titleStyle: {
-      fontSize: 40,
-      fontFamily: 'VCR_OSD_MONO_1.001',
+      fontSize: 34,
+      lineHeight: 50,
+      fontFamily: 'PressStart2P',
       marginTop: 5,
       marginLeft: 10,
       color: 'white'

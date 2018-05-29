@@ -30,13 +30,14 @@ const styles = {
     height: 40,
     flex: 1,
     paddingHorizontal: 8,
-    fontSize: 15,
+    fontSize: 10,
     //backgroundColor: '#FFFFFF',
     backgroundColor: 'transparent',
     borderRadius: 10,
     borderColor: 'white',
     borderWidth: 1,
-    fontFamily: 'VCR_OSD_MONO_1.001'
+    fontFamily: 'PressStart2P',
+    lineHeight: 14
   }
 };
 

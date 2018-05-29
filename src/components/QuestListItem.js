@@ -11,11 +11,6 @@ const pixelMarker = require('../pictures/marker.png');
 
 class QuestListItem extends Component {
 
-  /*
-   Om raden redan är expanded fälls den ihop och deselectQuest är en action
-   som sätter selectedQuest till en tom sträng. selectQuest är an action som sätter
-   selectedQuest till this.props.quest
-  */
   onRowPress() {
     Keyboard.dismiss();
     if (this.props.quest.id === this.props.selectedQuest.id) {
@@ -25,7 +20,6 @@ class QuestListItem extends Component {
     }
   }
 
-  //Hoppar till questview och ger den questen som prop.
   goToQuest() {
     this.props.loadQuest(this.props.quest);
     Actions.questView();
@@ -55,7 +49,6 @@ class QuestListItem extends Component {
 
   renderDescription() {
     const { quest, expanded } = this.props;
-    //Det här måste stylas ordentligt sen. har bara lagt in nåt nu
     if (expanded) {
       return (
         <ImageBackground source={starGif} style={styles.backgroundStyle}>
@@ -70,8 +63,8 @@ class QuestListItem extends Component {
               NO. of stops:
             </Text>
             <View style={{ backgroundColor: 'black', flexDirection: 'row' }}>
-              <Text style={styles.textStyle}>
-                {quest.allMarkers.length}
+              <Text style={styles.textStyle}> 
+                {quest.allMarkers.length} 
               </Text>
               <Image source={pixelMarker} style={{ width: 15, height: 28, marginLeft: 5 }} />
             </View>
@@ -131,17 +124,17 @@ const styles = {
     color: 'white'
   },
   smallTitleStyle: {
-      fontSize: 30,
+      fontSize: 28,
       fontFamily: 'upheavtt',
       color: '#FACC2E',
       marginRight: 3
   },
   textStyle: {
-    //fontWeight: 'bold',
     color: 'white',
-    fontSize: 20,
-    fontFamily: 'VCR_OSD_MONO_1.001',
-    marginLeft: 5,
+    fontSize: 12,
+    fontFamily: 'PressStart2P',
+    lineHeight: 16,
+    marginLeft: 2,
     marginTop: 4
 
   },

@@ -4,10 +4,14 @@ import { PermissionsAndroid, YellowBox } from 'react-native';
 import _ from 'lodash';
 import firebase from 'firebase';
 import { connect, Provider } from 'react-redux';
-import RouterComponent from './Router';
+import RouterComponent from './RouterComponent';
 import { locationUpdate, questsFetch, loginUser } from './actions';
 
 class App extends Component {
+
+  /* The top level React component. 
+  Connects with firebase, gets location permission 
+  starts reading location and wraps the RouterComponent */
 
   componentWillMount() {
     this.requestLocationPermission();
@@ -47,8 +51,7 @@ class App extends Component {
     );
   }
 
-  //Ska lösa problemet med gula varningar om långa timeouts
-  //(som fö beror på ett problem i firebase)
+  //Firebase sets long timers and the warnings are so annoying...
   ignoreLongTimerWarnings() {
     YellowBox.ignoreWarnings(['Setting a timer']);
     YellowBox.ignoreWarnings(['Remote debugger is in a background tab']);

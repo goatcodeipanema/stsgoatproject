@@ -9,6 +9,15 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { showIntro, skipIntro } from '../../actions';
 
+/*
+The Intro component renders the intro sequence once and is then navigated away from. 
+The current "scene" in the intro is not stopped when the intro is skipped, but the
+next scene does not load. So far this has not caused any problems.
+
+The spacewriter is just a typing machine sound that should play when the text renders.
+This did not make it in time, but the code remains in place as comments. 
+*/
+
 const UFO_GIF = require('../../pictures/ufo.gif');
 const SPACE_GIF = require('../../pictures/stars.gif');
 const WALK_GOAT = require('../../pictures/walkgoat.gif');
@@ -81,16 +90,11 @@ class Intro extends Component {
         zIndex: 1
       },
       textStyle: {
-        fontSize: 20,
-        fontFamily: 'VCR_OSD_MONO_1.001',
+        fontSize: 12,
+        fontFamily: 'PressStart2P',
         color: 'limegreen',
-        textShadowColor: 'rgba(120, 50, 255, 1)',
-        textShadowOffset: {
-          height: new Animated.Value(-1), 
-          width: new Animated.Value(0.7)
-        },
-        textShadowRadius: 1,
         zIndex: 15,
+        lineHeight: 18,
         opacity: new Animated.Value(1)
       },
       currentBackground: undefined,

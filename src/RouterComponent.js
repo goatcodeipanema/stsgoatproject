@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-//import LoginForm from './components/scenes/LoginForm';
+//import LoginForm from './components/scenes/LoginForm'; Not used in the presentation version. 
 import QuestList from './components/scenes/QuestList';
 import QuestCreateName from './components/scenes/QuestCreateName';
 import QuestCreateMarker from './components/scenes/QuestCreateMarker';
@@ -11,6 +11,14 @@ import Intro from './components/scenes/Intro';
 import Help from './components/scenes/Help';
 import { skipIntro, setToInitial } from './actions';
 
+
+/* 
+The RouterComponent handles navigation with the help of the <Router /> 
+in react-native-router-flux. It also loads and plays the sounds. 
+Background music plays when intro is navigated away from.
+The LoginForm is not used in this version, 
+but the code remains in place as comments.
+*/
 const Sound = require('react-native-sound');
 
 Sound.setCategory('Playback');
@@ -19,7 +27,6 @@ const music = new Sound('spagoat.waw', Sound.MAIN_BUNDLE, (error) => {
     console.log('failed to load the sound', error);
     return;
   }
-  // loaded successfully
   console.log('loaded sound');
 });
 const spaceWriter = new Sound('spacewriter.waw', Sound.MAIN_BUNDLE, (error) => {
@@ -27,7 +34,6 @@ const spaceWriter = new Sound('spacewriter.waw', Sound.MAIN_BUNDLE, (error) => {
     console.log('failed to load the writer', error);
     return;
   }
-  // loaded successfully
   console.log('loaded sound');
 });
 const backgroundMusic = new Sound('background.waw', Sound.MAIN_BUNDLE, (error) => {
@@ -35,13 +41,13 @@ const backgroundMusic = new Sound('background.waw', Sound.MAIN_BUNDLE, (error) =
     console.log('failed to load the backgroundmusic', error);
     return;
   }
-  // loaded successfully
   console.log('loaded sound');
 });
 
 class RouterComponent extends Component {
 
   skipIntro() {
+    //The props.skipIntro() is from Redux.
     this.props.skipIntro();
     music.stop();
     music.release();
@@ -61,12 +67,13 @@ class RouterComponent extends Component {
     <Router
     navigationBarStyle={{ backgroundColor: 'black' }}
     titleStyle={{ color: 'white', fontWeight: '100', fontFamily: 'upheavtt' }}
-    tintColor='white' //Funkar den här utan måsvingar?
+    tintColor='white'
     sceneStyle={{ backgroundColor: 'black' }}
     >
 
       <Scene key="root" initial hideNavBar>
       {/*
+        -The scene for the login screen is not used
         <Scene key="auth" hideNavBar>
           <Scene
             key="login"
@@ -77,7 +84,8 @@ class RouterComponent extends Component {
         <Scene
         key="intro"
         component={Intro}
-        /> */}
+        /> */
+      }
 
           <Scene key='introStack'>
             <Scene
@@ -99,7 +107,7 @@ class RouterComponent extends Component {
               rightTitle="?"
               onRight={() => Actions.helpText({ scene: 'start' })}
               onEnter={() => this.props.setToInitial()}
-              //onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }}
+              //onRight={() => { firebase.auth().signOut().then(() => { Actions.auth(); }); }} Logout button
             />
             <Scene
               rightButtonTextStyle={{ color: '#FACC2E', fontSize: 40, fontFamily: 'upheavtt' }}
@@ -111,7 +119,7 @@ class RouterComponent extends Component {
             />
             <Scene
               rightButtonTextStyle={{ color: '#FACC2E', fontSize: 40, fontFamily: 'upheavtt' }}
-              title='Can you find the egg?'
+              title='Find the egg!'
               key="questView"
               component={QuestView}      //QuestView
               rightTitle="?"
@@ -135,9 +143,9 @@ class RouterComponent extends Component {
               onRight={() => Actions.helpText({ scene: 'questCreateMarker' })}
             />
             <Scene
-              title='Confused..?' // skriv nåt vettigt här
+              title='Confused..?'
               key="helpText"
-              component={Help}
+              component={Help}  //The help texts
             />
           </Scene>
       </Scene>

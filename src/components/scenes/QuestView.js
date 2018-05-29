@@ -43,7 +43,7 @@ class QuestView extends Component {
     this.giveUp = this.giveUp.bind(this);
     this.state = {
       completeText: {
-        title: "Egg found!",
+        title: "Egg found",
         text: "WOW, you found the golden egg! And it's full of CHEESE!! What a day..."
       },
       foundText: {
@@ -139,7 +139,7 @@ class QuestView extends Component {
             " It's full of HUEL... That's what happens to cheaters."
         },
         foundText: {
-          title: "Cheated...",
+          title: "Cheated",
           text: "Too hard?? Ok then, here's your next clue."
         }
       });
@@ -193,15 +193,15 @@ class QuestView extends Component {
       <View style={{ flex: 1 }}>
         <FadeOverlay />
         <Card>
-            <CardSection style={mapWindowStyle}>
+            <View style={mapWindowStyle}>
               <Map renderMarkers={this.renderMarkers} />
-            </CardSection>
+            </View>
             <View style={styles.boxOneStyle}>
               <View style={styles.boxTwoStyle}>
                 <View style={styles.boxThreeStyle}>
                   <View style={styles.boxFourStyle}>
                   <View style={styles.screenStyle}>
-                    <Text style={styles.screenTextStyle}> {this.props.distanceToMarker} m </Text>
+                    <Text style={{ ...styles.screenTextStyle, paddingLeft: 4 }}>{this.props.distanceToMarker}m</Text>
                   </View>
                   <View style={styles.screenStyle}>
                     <Text style={styles.screenTextStyle}> {this.state.markersFound}/{this.props.markerArray.length} </Text>
@@ -290,7 +290,7 @@ class QuestView extends Component {
             <Text style={styles.textStyle}>{this.state.completeText.text}</Text>
           </View>
           <View style={styles.centerContent}>
-            <Image source={eggFoundGif} style={{ height: 200, width: 200, marginBottom: 20 }} />
+            <Image source={eggFoundGif} style={{ height: 200, width: 200, marginBottom: 0 }} />
           </View>
           <View style={styles.centerContent}> 
             <ImageButton onPress={this.backToStart} source={mediumButton} customImageStyle={{ height: 50, width: 180 }}>
@@ -307,9 +307,12 @@ class QuestView extends Component {
 
 const styles = {
   textStyle: {
-    fontSize: 18,
-    fontFamily: 'VCR_OSD_MONO_1.001',
-    color: 'white'
+    fontSize: 12,
+    fontFamily: 'PressStart2P',
+    lineHeight: 18,
+    color: 'limegreen',
+    paddingTop: 4,
+    paddingBottom: 4
   },
   mapWindowStyle: {
     flex: 5
@@ -321,8 +324,9 @@ const styles = {
     flex: 1
   },
   titleStyle: {
-    fontSize: 40,
-    fontFamily: 'VCR_OSD_MONO_1.001',
+    fontSize: 28,
+    fontFamily: 'PressStart2P',
+    lineHeight: 44,
     marginTop: 5,
     marginLeft: 10,
     color: 'white'
@@ -381,8 +385,9 @@ const styles = {
     height: 40
   },
   screenTextStyle: {
-    fontSize: 16,
-    fontFamily: 'VCR_OSD_MONO_1.001',
+    fontSize: 10,
+    fontFamily: 'PressStart2P',
+    lineHeight: 14,
     color: 'limegreen'
   },
 
